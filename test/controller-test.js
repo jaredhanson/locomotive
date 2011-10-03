@@ -35,8 +35,6 @@ MockResponse.prototype.end = function() {
 }
 
 
-
-
 vows.describe('Controller').addBatch({
   
   'controller': {
@@ -50,11 +48,25 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  'controller initialization': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._init('CoolThingsController');
+      return TestController;
+    },
+    
+    'should assign controller name property': function(controller) {
+      assert.equal(controller.__name, 'CoolThingsController');
+    },
+    'should assign controller viewDir property': function(controller) {
+      assert.equal(controller.__viewDir, 'cool_things');
+    },
+  },
+  
   'controller instance': {
     topic: function() {
       var TestController = new Controller();
-      // TODO: Refactor controller naming.
-      TestController._name = 'test';
+      TestController._init('TestController');
       
       TestController.setProperties = function() {
         this.title = 'The Foo Is Barred';

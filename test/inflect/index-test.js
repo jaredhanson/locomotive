@@ -23,4 +23,31 @@ vows.describe('Module').addBatch({
     },
   },
   
+  'controllerize': {
+    'should append Controller to string': function () {
+      assert.equal(inflect.controllerize('Foo'), 'FooController');
+    },
+    'should not append Controller to string if it exists': function () {
+      assert.equal(inflect.controllerize('FooController'), 'FooController');
+    },
+  },
+  
+  'decontrollerize': {
+    'should remove Controller from string': function () {
+      assert.equal(inflect.decontrollerize('FooController'), 'Foo');
+    },
+    'should not remove Controller from string if it does not exists': function () {
+      assert.equal(inflect.decontrollerize('Foo'), 'Foo');
+    },
+  },
+  
+  'underscore': {
+    'should underscore camelcase words': function () {
+      assert.equal(inflect.underscore('FooBar'), 'foo_bar');
+    },
+    'should underscore camelcase words with consequtive capital letters': function () {
+      assert.equal(inflect.underscore('SSLError'), 'ssl_error');
+    },
+  },
+  
 }).export(module);
