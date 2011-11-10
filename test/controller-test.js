@@ -20,10 +20,11 @@ MockRequest.prototype.param = function(name, defaultValue) {
 
 function MockResponse(fn) {
   this._locals = [];
-  this._endFn = fn;
+  this.done = fn;
 }
 
-MockResponse.prototype.render = function() {
+MockResponse.prototype.render = function(view) {
+  this._view = view;
   this.end();
 }
 
@@ -32,7 +33,7 @@ MockResponse.prototype.local = function(name, val) {
 }
 
 MockResponse.prototype.end = function() {
-  this._endFn();
+  this.done();
 }
 
 
@@ -81,6 +82,14 @@ vows.describe('Controller').addBatch({
         this.render();
       }
       
+      TestController.renderFormat = function() {
+        this.render({ format: 'xml' });
+      }
+      
+      TestController.renderEngine = function() {
+        this.render({ engine: 'haml' });
+      }
+      
       TestController.redirectHome = function() {
         this.redirect('/home');
       }
@@ -117,6 +126,9 @@ vows.describe('Controller').addBatch({
         assert.equal(res._locals[1].name, 'author');
         assert.equal(res._locals[1].val, 'Jack Kerouac');
       },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/show_on_the_road.html.ejs');
+      },
     },
     
     'invoking an action which checks params, sets properties, and renders': {
@@ -139,6 +151,47 @@ vows.describe('Controller').addBatch({
         assert.equal(res._locals[0].val, '123456');
         assert.equal(res._locals[1].name, 'fullText');
         assert.equal(res._locals[1].val, 'true');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/show_book_by_id.html.ejs');
+      },
+    },
+    
+    'invoking an action which renders with format option': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderFormat');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_format.xml.ejs');
+      },
+    },
+    
+    'invoking an action which renders with engine option': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderEngine');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_engine.html.haml');
       },
     },
     
