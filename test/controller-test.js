@@ -82,11 +82,23 @@ vows.describe('Controller').addBatch({
         this.render();
       }
       
-      TestController.renderFormat = function() {
+      TestController.renderTemplate = function() {
+        this.render('show');
+      }
+      
+      TestController.renderTemplatePath = function() {
+        this.render('other/show');
+      }
+      
+      TestController.renderTemplateWithFormat = function() {
+        this.render('show', { format: 'json' });
+      }
+      
+      TestController.renderWithFormat = function() {
         this.render({ format: 'xml' });
       }
       
-      TestController.renderEngine = function() {
+      TestController.renderWithEngine = function() {
         this.render({ engine: 'haml' });
       }
       
@@ -157,6 +169,63 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    'invoking an action which renders template': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderTemplate');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/show.html.ejs');
+      },
+    },
+    
+    'invoking an action which renders template path': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderTemplatePath');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'other/show.html.ejs');
+      },
+    },
+    
+    'invoking an action which renders template with format option': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderTemplateWithFormat');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/show.json.ejs');
+      },
+    },
+    
     'invoking an action which renders with format option': {
       topic: function(controller) {
         var self = this;
@@ -168,11 +237,11 @@ vows.describe('Controller').addBatch({
         });
         
         controller._prepare(req, res);
-        controller._invoke('renderFormat');
+        controller._invoke('renderWithFormat');
       },
       
       'should render view': function(err, req, res) {
-        assert.equal(res._view, 'test/render_format.xml.ejs');
+        assert.equal(res._view, 'test/render_with_format.xml.ejs');
       },
     },
     
@@ -187,11 +256,11 @@ vows.describe('Controller').addBatch({
         });
         
         controller._prepare(req, res);
-        controller._invoke('renderEngine');
+        controller._invoke('renderWithEngine');
       },
       
       'should render view': function(err, req, res) {
-        assert.equal(res._view, 'test/render_engine.html.haml');
+        assert.equal(res._view, 'test/render_with_engine.html.haml');
       },
     },
     
