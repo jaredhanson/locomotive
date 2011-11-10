@@ -14,5 +14,5 @@
     "lingo": ">= 0.0.4"
   },
   "engines": { "node": ">= 0.4.0" },
-  "keywords": ["web", "mvc", "express", "connect", "rails"]
+  "keywords": ["express", "connect", "web", "mvc", "rails"]
 }
