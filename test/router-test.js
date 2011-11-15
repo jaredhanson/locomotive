@@ -114,6 +114,17 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'create');
       router._http.reset();
     },
+    
+    'should not prepend slash when route begins with slash': function (router) {
+      router.match('/songs/:title', 'songs#show');
+      
+      assert.length(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/songs/:title');
+      assert.equal(router._http._routes[0].fn().controller, 'SongsController');
+      assert.equal(router._http._routes[0].fn().action, 'show');
+      router._http.reset();
+    },
   },
   
   'router for resource': {
@@ -183,7 +194,6 @@ vows.describe('Router').addBatch({
     
     'should build RESTful routes': function (router) {
       router.resources('bands');
-      
       
       assert.length(router._http._routes, 7);
       
