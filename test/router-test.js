@@ -6,6 +6,7 @@ var Router = require('locomotive/router');
 
 function MockExpress() {
   this._routes = [];
+  this._helpers = {};
 }
 
 MockExpress.prototype.get = function(path, fn) {
@@ -24,8 +25,19 @@ MockExpress.prototype.del = function(path, fn) {
   this._routes.push({ method: 'DELETE', path: path, fn: fn });
 }
 
+MockExpress.prototype.del = function(path, fn) {
+  this._routes.push({ method: 'DELETE', path: path, fn: fn });
+}
+
+MockExpress.prototype.helpers = function(obj) {
+  for (var method in obj) {
+    this._helpers[method] = obj[method];
+  }
+}
+
 MockExpress.prototype.reset = function() {
   this._routes = [];
+  this._helpers = {};
 }
 
 
@@ -123,6 +135,19 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].path, '/songs/:title');
       assert.equal(router._http._routes[0].fn().controller, 'SongsController');
       assert.equal(router._http._routes[0].fn().action, 'show');
+      router._http.reset();
+    },
+    
+    'should add helpers when as option is set': function (router) {
+      router.match('songs', 'songs#list', { as: 'songs' });
+      
+      assert.isFunction(router._express._helpers.songsPath);
+      assert.equal(router._express._helpers.songsPath(), '/songs');
+      assert.equal(router._express._helpers.songsPath(10), '/songs/10');
+      assert.equal(router._express._helpers.songsPath('slug'), '/songs/slug');
+      assert.equal(router._express._helpers.songsPath({}), '/songs');
+      assert.equal(router._express._helpers.songsPath({ id: 101 }), '/songs/101');
+      
       router._http.reset();
     },
   },
