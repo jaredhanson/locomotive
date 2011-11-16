@@ -7,6 +7,7 @@ var Router = require('locomotive/router');
 function MockExpress() {
   this._routes = [];
   this._helpers = {};
+  this._dynamicHelpers = {};
 }
 
 MockExpress.prototype.get = function(path, fn) {
@@ -35,9 +36,16 @@ MockExpress.prototype.helpers = function(obj) {
   }
 }
 
+MockExpress.prototype.dynamicHelpers = function(obj) {
+  for (var method in obj) {
+    this._dynamicHelpers[method] = obj[method];
+  }
+}
+
 MockExpress.prototype.reset = function() {
   this._routes = [];
   this._helpers = {};
+  this._dynamicHelpers = {};
 }
 
 
@@ -147,6 +155,15 @@ vows.describe('Router').addBatch({
       assert.equal(router._express._helpers.songsPath('slug'), '/songs/slug');
       assert.equal(router._express._helpers.songsPath({}), '/songs');
       assert.equal(router._express._helpers.songsPath({ id: 101 }), '/songs/101');
+      
+      assert.isFunction(router._express._dynamicHelpers.songsURL);
+      var songsURL = router._express._dynamicHelpers.songsURL({}, {});
+      assert.isFunction(songsURL);
+      assert.equal(songsURL(), '/songs');
+      assert.equal(songsURL(10), '/songs/10');
+      assert.equal(songsURL('slug'), '/songs/slug');
+      assert.equal(songsURL({}), '/songs');
+      assert.equal(songsURL({ id: 101 }), '/songs/101');
       
       router._http.reset();
     },
