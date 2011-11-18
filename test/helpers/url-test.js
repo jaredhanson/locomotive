@@ -12,4 +12,10 @@ vows.describe('URLHelpers').addBatch({
     },
   },
   
+  'urlFor': {
+    'should build correct tag with name and url': function () {
+      assert.equal(helpers.linkTo('My Account', '/account'), '<a href="/account">My Account</a>');
+    },
+  },
+  
 }).export(module);
