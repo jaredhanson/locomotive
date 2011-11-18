@@ -53,10 +53,14 @@ vows.describe('Controller').addBatch({
   'controller initialization': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init('CoolThingsController');
+      TestController._init({ name: 'foo' }, 'CoolThingsController');
       return TestController;
     },
     
+    'should assign controller app property': function(controller) {
+      assert.isObject(controller.__app);
+      assert.equal(controller.__app.name, 'foo');
+    },
     'should assign controller name property': function(controller) {
       assert.equal(controller.__name, 'CoolThingsController');
     },
@@ -68,7 +72,11 @@ vows.describe('Controller').addBatch({
   'controller instance': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init('TestController');
+      TestController._init({ name: 'foo' }, 'TestController');
+      
+      TestController.home = function() {
+        this.render();
+      }
       
       TestController.showOnTheRoad = function() {
         this.title = 'On The Road';
@@ -116,6 +124,27 @@ vows.describe('Controller').addBatch({
       
       var instance = Object.create(TestController);
       return instance;
+    },
+    
+    'invoking an action': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._prepare(req, res);
+        controller._invoke('home');
+      },
+      
+      'should assign properties to req': function(err, c, req, res) {
+        assert.isObject(req.locomotive);
+        assert.equal(req.locomotive.name, 'foo');
+        assert.equal(req.controller, 'TestController');
+        assert.equal(req.action, 'home');
+      },
     },
     
     'invoking an action which sets properties and renders': {

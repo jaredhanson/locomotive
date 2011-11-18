@@ -4,7 +4,7 @@ var util = require('util');
 var helpers = require('locomotive/helpers');
 
 
-vows.describe('Helpers').addBatch({
+vows.describe('helpers').addBatch({
   
   'url helpers': {
     'should be exported': function () {
