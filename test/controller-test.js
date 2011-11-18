@@ -76,10 +76,18 @@ vows.describe('Controller').addBatch({
         this.render();
       }
       
-      TestController.showBookById = function() {
+      TestController.showBook = function() {
         this.id = this.param('id');
         this.fullText = this.param('full_text', 'true');
         this.render();
+      }
+      
+      TestController.renderWithFormat = function() {
+        this.render({ format: 'xml' });
+      }
+      
+      TestController.renderWithEngine = function() {
+        this.render({ engine: 'haml' });
       }
       
       TestController.renderTemplate = function() {
@@ -94,24 +102,16 @@ vows.describe('Controller').addBatch({
         this.render('show', { format: 'json' });
       }
       
-      TestController.renderWithFormat = function() {
-        this.render({ format: 'xml' });
-      }
-      
-      TestController.renderWithEngine = function() {
-        this.render({ engine: 'haml' });
-      }
-      
       TestController.redirectHome = function() {
         this.redirect('/home');
       }
       
-      TestController.redirectHome303 = function() {
+      TestController.redirectHomeWithStatus = function() {
         this.redirect('/home', 303);
       }
       
-      TestController.somethingGoesWrong = function() {
-        this.error(new Error('something goes wrong'));
+      TestController.internalError = function() {
+        this.error(new Error('something went wrong'));
       }
       
       var instance = Object.create(TestController);
@@ -154,7 +154,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         });
         controller._prepare(req, res);
-        controller._invoke('showBookById');
+        controller._invoke('showBook');
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
@@ -165,7 +165,45 @@ vows.describe('Controller').addBatch({
         assert.equal(res._locals[1].val, 'true');
       },
       'should render view': function(err, c, req, res) {
-        assert.equal(res._view, 'test/show_book_by_id.html.ejs');
+        assert.equal(res._view, 'test/show_book.html.ejs');
+      },
+    },
+    
+    'invoking an action which renders with format option': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderWithFormat');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_with_format.xml.ejs');
+      },
+    },
+    
+    'invoking an action which renders with engine option': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderWithEngine');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_with_engine.html.haml');
       },
     },
     
@@ -226,44 +264,6 @@ vows.describe('Controller').addBatch({
       },
     },
     
-    'invoking an action which renders with format option': {
-      topic: function(controller) {
-        var self = this;
-        var req, res;
-        
-        req = new MockRequest();
-        res = new MockResponse(function() {
-          self.callback(null, req, res);
-        });
-        
-        controller._prepare(req, res);
-        controller._invoke('renderWithFormat');
-      },
-      
-      'should render view': function(err, req, res) {
-        assert.equal(res._view, 'test/render_with_format.xml.ejs');
-      },
-    },
-    
-    'invoking an action which renders with engine option': {
-      topic: function(controller) {
-        var self = this;
-        var req, res;
-        
-        req = new MockRequest();
-        res = new MockResponse(function() {
-          self.callback(null, req, res);
-        });
-        
-        controller._prepare(req, res);
-        controller._invoke('renderWithEngine');
-      },
-      
-      'should render view': function(err, req, res) {
-        assert.equal(res._view, 'test/render_with_engine.html.haml');
-      },
-    },
-    
     'invoking an action which redirects': {
       topic: function(controller) {
         var self = this;
@@ -301,7 +301,7 @@ vows.describe('Controller').addBatch({
         }
         
         controller._prepare(req, res);
-        controller._invoke('redirectHome303');
+        controller._invoke('redirectHomeWithStatus');
       },
       
       'should redirect': function(err, url, status) {
@@ -324,7 +324,7 @@ vows.describe('Controller').addBatch({
         }
         
         controller._prepare(req, res, next);
-        controller._invoke('somethingGoesWrong');
+        controller._invoke('internalError');
       },
       
       'should not send response' : function(err, e) {
