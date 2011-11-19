@@ -75,4 +75,19 @@ vows.describe('Module').addBatch({
     },
   },
   
+  'helperize': {
+    'should lowercase capitalized first letter': function () {
+      assert.equal(inflect._helperize('FooBar', 'URL'), 'fooBarURL');
+    },
+    'should leave already camelized strings unmodified': function () {
+      assert.equal(inflect._helperize('fooBar', 'URL'), 'fooBarURL');
+    },
+    'should camelize underscored strings': function () {
+      assert.equal(inflect._helperize('foo_bar', 'URL'), 'fooBarURL');
+    },
+    'should return null if argument is undefined': function () {
+      assert.isNull(inflect._helperize());
+    },
+  },
+  
 }).export(module);
