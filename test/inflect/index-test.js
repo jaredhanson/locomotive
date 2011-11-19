@@ -43,6 +43,9 @@ vows.describe('Module').addBatch({
     'should camelize string': function () {
       assert.equal(inflect._controllerize('foo_bar_baz'), 'FooBarBazController');
     },
+    'should return null if argument is undefined': function () {
+      assert.isNull(inflect._controllerize());
+    },
   },
   
   'decontrollerize': {
@@ -54,6 +57,9 @@ vows.describe('Module').addBatch({
     },
     'should underscore string': function () {
       assert.equal(inflect._decontrollerize('FooBarBazController'), 'foo_bar_baz');
+    },
+    'should return null if argument is undefined': function () {
+      assert.isNull(inflect._decontrollerize());
     },
   },
   
