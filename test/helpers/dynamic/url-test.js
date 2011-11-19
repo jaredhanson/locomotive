@@ -40,7 +40,51 @@ function augment(a, b) {
 
 vows.describe('URLDynamicHelpers').addBatch({
   
-  'helpers': {
+  'request handling': {
+    topic: function() {
+      var app = new MockLocomotive();
+      var req = new MockRequest();
+      req.headers = { 'host': 'www.example.com' };
+      req.locomotive = app;
+      req.controller = 'TestController';
+      req.action = 'show';
+      var res = new MockResponse();
+      var view = new Object();
+      var dynHelpers = {};
+      for (var key in dynamicHelpers) {
+        dynHelpers[key] = dynamicHelpers[key].call(this, req, res);
+      }
+      
+      augment(view, helpers);
+      augment(view, dynHelpers);
+      return view;
+    },
+    
+    'urlFor': {
+      topic: function(view) {
+        return view;
+      },
+    
+      'should build correct url for request controller': function (view) {
+        assert.isFunction(view.urlFor);
+        assert.equal(view.urlFor({ action: 'index' }), 'http://www.example.com/test');
+      },
+      'should build correct path-only url for request controller': function (view) {
+        assert.isFunction(view.urlFor);
+        assert.equal(view.urlFor({ action: 'index', onlyPath: true }), '/test');
+      },
+      'should build correct url for request controller and protocol and host options': function (view) {
+        assert.isFunction(view.urlFor);
+        assert.equal(view.urlFor({ action: 'index', protocol: 'https', host: 'www.example.net' }), 'https://www.example.net/test');
+      },
+      'should build correct url for request controller and protocol, host, and pathname options': function (view) {
+        assert.isFunction(view.urlFor);
+        assert.equal(view.urlFor({ protocol: 'https', host: 'www.example.net', pathname: 'welcome' }), 'https://www.example.net/welcome');
+      },
+    },
+  },
+  
+  'request handling without Host header': {
     topic: function() {
       var app = new MockLocomotive();
       var req = new MockRequest();
@@ -64,17 +108,9 @@ vows.describe('URLDynamicHelpers').addBatch({
         return view;
       },
     
-      'should build correct url for request controller': function (view) {
+      'should build correct path-only url for request controller': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ action: 'index' }), '/test');
-      },
-      'should build correct url for request controller and protocol and host options': function (view) {
-        assert.isFunction(view.urlFor);
-        assert.equal(view.urlFor({ action: 'index', protocol: 'https', host: 'www.example.net' }), 'https://www.example.net/test');
-      },
-      'should build correct url for request controller and protocol, host, and pathname options': function (view) {
-        assert.isFunction(view.urlFor);
-        assert.equal(view.urlFor({ protocol: 'https', host: 'www.example.net', pathname: 'welcome' }), 'https://www.example.net/welcome');
       },
     },
   },
