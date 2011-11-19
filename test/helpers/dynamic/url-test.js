@@ -81,6 +81,9 @@ vows.describe('URLDynamicHelpers').addBatch({
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ protocol: 'https', host: 'www.example.net', pathname: 'welcome' }), 'https://www.example.net/welcome');
       },
+      'should throw error with unknown controller and action': function (view) {
+        assert.throws(function() { view.urlFor({ controller: 'unknown', action: 'unknown' }) });
+      },
     },
   },
   

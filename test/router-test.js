@@ -2,7 +2,22 @@ var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
 var Router = require('locomotive/router');
+var Route = require('locomotive/route');
+var dynamicHelpers = require('locomotive/helpers/dynamic');
 
+
+/* MockLocomotive */
+
+function MockLocomotive() {
+  var self = this;
+  this._routes = {};
+  this._routes._find = function(controller, action) {
+    var key = controller + '#' + action;
+    return self._routes[key];
+  }
+}
+
+/* MockExpress */
 
 function MockExpress() {
   this._routes = [];
@@ -46,6 +61,16 @@ MockExpress.prototype.reset = function() {
   this._routes = [];
   this._helpers = {};
   this._dynamicHelpers = {};
+}
+
+/* MockRequest */
+
+function MockRequest() {
+}
+
+/* MockResponse */
+
+function MockResponse() {
 }
 
 
@@ -176,20 +201,9 @@ vows.describe('Router').addBatch({
       router.match('songs', 'songs#list', { as: 'songs' });
       
       assert.isFunction(router._express._helpers.songsPath);
-      assert.equal(router._express._helpers.songsPath(), '/songs');
-      assert.equal(router._express._helpers.songsPath(10), '/songs/10');
-      assert.equal(router._express._helpers.songsPath('slug'), '/songs/slug');
-      assert.equal(router._express._helpers.songsPath({}), '/songs');
-      assert.equal(router._express._helpers.songsPath({ id: 101 }), '/songs/101');
-      
       assert.isFunction(router._express._dynamicHelpers.songsURL);
       var songsURL = router._express._dynamicHelpers.songsURL({}, {});
       assert.isFunction(songsURL);
-      assert.equal(songsURL(), '/songs');
-      assert.equal(songsURL(10), '/songs/10');
-      assert.equal(songsURL('slug'), '/songs/slug');
-      assert.equal(songsURL({}), '/songs');
-      assert.equal(songsURL({ id: 101 }), '/songs/101');
       
       router._http.reset();
     },
@@ -340,6 +354,83 @@ vows.describe('Router').addBatch({
       route = router._find('BandsController', 'destroy');
       assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/bands/:id');
+    },
+  },
+  
+  'router for helper functions': {
+    topic: function() {
+      var router = new Router();
+      var http = new MockExpress();
+      function handle(controller, action, options) {
+        return function() {
+          return { controller: controller, action: action, options: options };
+        };
+      }
+      
+      router.init(http, { handle: handle });
+      return router;
+    },
+    
+    'helpers without placeholders behave correctly': function (router) {
+      router.match('songs', 'songs#index', { as: 'songs' });
+      
+      // setup app and urlFor helper
+      var app = new MockLocomotive();
+      app._routes['SongsController#index'] = new Route('get', '/songs');
+      var req = new MockRequest();
+      req.headers = { 'host': 'www.example.com' };
+      req.locomotive = app;
+      var res = new MockResponse();
+      
+      var dynHelpers = {};
+      for (var key in dynamicHelpers) {
+        dynHelpers.urlFor = dynamicHelpers.urlFor.call(this, req, res);
+      }
+      // end setup
+      
+      assert.isFunction(router._express._helpers.songsPath);
+      var songsPath = router._express._helpers.songsPath.bind(dynHelpers)
+      assert.equal(songsPath(), '/songs');
+      
+      assert.isFunction(router._express._dynamicHelpers.songsURL);
+      var songsURL = router._express._dynamicHelpers.songsURL(req, res).bind(dynHelpers);
+      assert.isFunction(songsURL);
+      assert.equal(songsURL(), 'http://www.example.com/songs');
+      
+      router._http.reset();
+    },
+    
+    'helpers with placeholders behave correctly': function (router) {
+      router.match('songs', 'songs#show', { as: 'showSong' });
+      
+      // setup app and urlFor helper
+      var app = new MockLocomotive();
+      app._routes['SongsController#show'] = new Route('get', '/songs/:id');
+      var req = new MockRequest();
+      req.headers = { 'host': 'www.example.com' };
+      req.locomotive = app;
+      var res = new MockResponse();
+      
+      var dynHelpers = {};
+      for (var key in dynamicHelpers) {
+        dynHelpers.urlFor = dynamicHelpers.urlFor.call(this, req, res);
+      }
+      // end setup
+      
+      assert.isFunction(router._express._helpers.showSongPath);
+      var showSongPath = router._express._helpers.showSongPath.bind(dynHelpers)
+      assert.equal(showSongPath(7), '/songs/7');
+      assert.equal(showSongPath('slug'), '/songs/slug');
+      assert.equal(showSongPath({ id: 101 }), '/songs/101');
+      
+      assert.isFunction(router._express._dynamicHelpers.showSongURL);
+      var showSongURL = router._express._dynamicHelpers.showSongURL(req, res).bind(dynHelpers);
+      assert.isFunction(showSongURL);
+      assert.equal(showSongURL(7), 'http://www.example.com/songs/7');
+      assert.equal(showSongURL('slug'), 'http://www.example.com/songs/slug');
+      assert.equal(showSongURL({ id: 101 }), 'http://www.example.com/songs/101');
+      
+      router._http.reset();
     },
   },
   
