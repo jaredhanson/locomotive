@@ -401,7 +401,7 @@ vows.describe('Router').addBatch({
     },
     
     'helpers with placeholders behave correctly': function (router) {
-      router.match('songs', 'songs#show', { as: 'showSong' });
+      router.match('songs/:id', 'songs#show', { as: 'showSong' });
       
       // setup app and urlFor helper
       var app = new MockLocomotive();
