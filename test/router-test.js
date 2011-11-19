@@ -73,6 +73,11 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].path, '/');
       assert.equal(router._http._routes[0].fn().controller, 'PagesController');
       assert.equal(router._http._routes[0].fn().action, 'main');
+      
+      var route = router._find('PagesController', 'main');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/');
+      
       router._http.reset();
     },
   },
