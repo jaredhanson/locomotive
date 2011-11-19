@@ -63,4 +63,16 @@ vows.describe('Module').addBatch({
     },
   },
   
+  'actionize': {
+    'should camelize underscored strings': function () {
+      assert.equal(inflect._actionize('foo_bar'), 'fooBar');
+    },
+    'should leave already camelized strings unmodified': function () {
+      assert.equal(inflect._actionize('fooBar'), 'fooBar');
+    },
+    'should return null if argument is undefined': function () {
+      assert.isNull(inflect._actionize());
+    },
+  },
+  
 }).export(module);
