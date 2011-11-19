@@ -12,11 +12,22 @@ function MockLocomotive() {
   var self = this;
   this._routes = {};
   this._routes['TestController#index'] = new Route('get', '/test');
+  this._routes['AnimalController#show'] = new Route('get', '/animals/:id');
   
   this._routes._find = function(controller, action) {
     var key = controller + '#' + action;
     return self._routes[key];
   }
+  
+  function animalURL(obj) {
+    return this.urlFor({ controller: 'AnimalController', action: 'show', id: obj.id });
+  }
+  this.routingHelpers = { animalURL: animalURL };
+}
+
+MockLocomotive.prototype._recordOf = function(obj) {
+  if (typeof obj === 'object') { return obj.constructor.name; }
+  return null;
 }
 
 /* MockRequest */
@@ -54,9 +65,14 @@ vows.describe('URLDynamicHelpers').addBatch({
       for (var key in dynamicHelpers) {
         dynHelpers[key] = dynamicHelpers[key].call(this, req, res);
       }
+      var routingHelpers = {};
+      for (var key in app.routingHelpers) {
+        routingHelpers[key] = app.routingHelpers[key].bind(view);
+      }
       
       augment(view, helpers);
       augment(view, dynHelpers);
+      augment(view, routingHelpers);
       return view;
     },
     
@@ -64,7 +80,7 @@ vows.describe('URLDynamicHelpers').addBatch({
       topic: function(view) {
         return view;
       },
-    
+      
       'should build correct url for request controller': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ action: 'index' }), 'http://www.example.com/test');
@@ -83,6 +99,20 @@ vows.describe('URLDynamicHelpers').addBatch({
       },
       'should throw error with unknown controller and action': function (view) {
         assert.throws(function() { view.urlFor({ controller: 'unknown', action: 'unknown' }) });
+      },
+      'should invoke routing helper methods when given an object argument': function (view) {
+        function Animal() {};
+        var animal = new Animal();
+        animal.id = '123';
+        assert.equal(view.urlFor(animal), 'http://www.example.com/animals/123');
+      },
+      'should throw error when unable to find routing helper for object': function (view) {
+        function Dog() {};
+        var dog = new Dog();
+        assert.throws(function() { view.urlFor(dog) });
+      },
+      'should throw error when unable to determine record of object': function (view) {
+        assert.throws(function() { view.urlFor('invalid-record') });
       },
     },
   },
