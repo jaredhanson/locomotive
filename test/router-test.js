@@ -104,6 +104,11 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].path, '/songs/:title');
       assert.equal(router._http._routes[0].fn().controller, 'SongsController');
       assert.equal(router._http._routes[0].fn().action, 'show');
+      
+      var route = router._find('SongsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/songs/:title');
+      
       router._http.reset();
     },
     
@@ -115,6 +120,11 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].path, '/bands');
       assert.equal(router._http._routes[0].fn().controller, 'BandsController');
       assert.equal(router._http._routes[0].fn().action, 'list');
+      
+      var route = router._find('BandsController', 'list');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands');
+      
       router._http.reset();
     },
     
@@ -126,6 +136,11 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].path, '/bands');
       assert.equal(router._http._routes[0].fn().controller, 'BandsController');
       assert.equal(router._http._routes[0].fn().action, 'create');
+      
+      var route = router._find('BandsController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/bands');
+      
       router._http.reset();
     },
     
@@ -137,6 +152,11 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].path, '/bands');
       assert.equal(router._http._routes[0].fn().controller, 'BandsController');
       assert.equal(router._http._routes[0].fn().action, 'create');
+      
+      var route = router._find('BandsController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/bands');
+      
       router._http.reset();
     },
     
@@ -148,6 +168,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].path, '/songs/:title');
       assert.equal(router._http._routes[0].fn().controller, 'SongsController');
       assert.equal(router._http._routes[0].fn().action, 'show');
+      
       router._http.reset();
     },
     
@@ -190,6 +211,7 @@ vows.describe('Router').addBatch({
     
     'should build RESTful routes': function (router) {
       router.resource('profile');
+      var route;
       
       assert.length(router._http._routes, 6);
       
@@ -197,31 +219,49 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].path, '/profile/new');
       assert.equal(router._http._routes[0].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[0].fn().action, 'new');
+      route = router._find('ProfileController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/profile/new');
       
       assert.equal(router._http._routes[1].method, 'POST');
       assert.equal(router._http._routes[1].path, '/profile');
       assert.equal(router._http._routes[1].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[1].fn().action, 'create');
+      route = router._find('ProfileController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/profile');
       
       assert.equal(router._http._routes[2].method, 'GET');
-      assert.equal(router._http._routes[2].path, '/profile:format?');
+      assert.equal(router._http._routes[2].path, '/profile.:format?');
       assert.equal(router._http._routes[2].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[2].fn().action, 'show');
+      route = router._find('ProfileController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/profile.:format?');
       
       assert.equal(router._http._routes[3].method, 'GET');
       assert.equal(router._http._routes[3].path, '/profile/edit');
       assert.equal(router._http._routes[3].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[3].fn().action, 'edit');
+      route = router._find('ProfileController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/profile/edit');
       
       assert.equal(router._http._routes[4].method, 'PUT');
       assert.equal(router._http._routes[4].path, '/profile');
       assert.equal(router._http._routes[4].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[4].fn().action, 'update');
+      route = router._find('ProfileController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/profile');
       
       assert.equal(router._http._routes[5].method, 'DELETE');
       assert.equal(router._http._routes[5].path, '/profile');
       assert.equal(router._http._routes[5].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[5].fn().action, 'destroy');
+      route = router._find('ProfileController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/profile');
     },
   },
   
@@ -241,6 +281,7 @@ vows.describe('Router').addBatch({
     
     'should build RESTful routes': function (router) {
       router.resources('bands');
+      var route;
       
       assert.length(router._http._routes, 7);
       
@@ -248,36 +289,57 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].path, '/bands');
       assert.equal(router._http._routes[0].fn().controller, 'BandsController');
       assert.equal(router._http._routes[0].fn().action, 'index');
+      route = router._find('BandsController', 'index');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands');
       
       assert.equal(router._http._routes[1].method, 'GET');
       assert.equal(router._http._routes[1].path, '/bands/new');
       assert.equal(router._http._routes[1].fn().controller, 'BandsController');
       assert.equal(router._http._routes[1].fn().action, 'new');
+      route = router._find('BandsController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/new');
       
       assert.equal(router._http._routes[2].method, 'POST');
       assert.equal(router._http._routes[2].path, '/bands');
       assert.equal(router._http._routes[2].fn().controller, 'BandsController');
       assert.equal(router._http._routes[2].fn().action, 'create');
+      route = router._find('BandsController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/bands');
       
       assert.equal(router._http._routes[3].method, 'GET');
       assert.equal(router._http._routes[3].path, '/bands/:id.:format?');
       assert.equal(router._http._routes[3].fn().controller, 'BandsController');
       assert.equal(router._http._routes[3].fn().action, 'show');
+      route = router._find('BandsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:id.:format?');
       
       assert.equal(router._http._routes[4].method, 'GET');
       assert.equal(router._http._routes[4].path, '/bands/:id/edit');
       assert.equal(router._http._routes[4].fn().controller, 'BandsController');
       assert.equal(router._http._routes[4].fn().action, 'edit');
+      route = router._find('BandsController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:id/edit');
       
       assert.equal(router._http._routes[5].method, 'PUT');
       assert.equal(router._http._routes[5].path, '/bands/:id');
       assert.equal(router._http._routes[5].fn().controller, 'BandsController');
       assert.equal(router._http._routes[5].fn().action, 'update');
+      route = router._find('BandsController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/bands/:id');
       
       assert.equal(router._http._routes[6].method, 'DELETE');
       assert.equal(router._http._routes[6].path, '/bands/:id');
       assert.equal(router._http._routes[6].fn().controller, 'BandsController');
       assert.equal(router._http._routes[6].fn().action, 'destroy');
+      route = router._find('BandsController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/bands/:id');
     },
   },
   
