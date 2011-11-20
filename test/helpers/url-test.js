@@ -98,4 +98,19 @@ vows.describe('URLHelpers').addBatch({
     },
   },
   
+  'mailTo': {
+    'should build correct tag with email': function () {
+      assert.equal(helpers.mailTo('johndoe@example.com'), '<a href="mailto:johndoe@example.com">johndoe@example.com</a>');
+    },
+    'should build correct tag with email and options': function () {
+      assert.equal(helpers.mailTo('johndoe@example.com', { class: 'email' }), '<a class="email" href="mailto:johndoe@example.com">johndoe@example.com</a>');
+    },
+    'should build correct tag with email and text': function () {
+      assert.equal(helpers.mailTo('johndoe@example.com', 'John Doe'), '<a href="mailto:johndoe@example.com">John Doe</a>');
+    },
+    'should build correct tag with email, text, and options': function () {
+      assert.equal(helpers.mailTo('johndoe@example.com', 'John Doe', { class: 'email' }), '<a class="email" href="mailto:johndoe@example.com">John Doe</a>');
+    },
+  },
+  
 }).export(module);

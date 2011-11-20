@@ -17,6 +17,7 @@ vows.describe('helpers').addBatch({
   'url helpers': {
     'should be exported': function () {
       assert.isFunction(helpers.linkTo);
+      assert.isFunction(helpers.mailTo);
     },
   },
   
