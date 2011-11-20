@@ -13,7 +13,7 @@ vows.describe('Module').addBatch({
     },
   },
   
-  'locomotive': {
+  'controller registration': {
     topic: function() {
       return new locomotive.Locomotive();
     },
