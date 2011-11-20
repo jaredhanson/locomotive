@@ -8,7 +8,9 @@
     "url": "http://github.com/jaredhanson/locomotive.git"
   },
   "main": "./lib/locomotive",
+  "bin" : { "lcm" : "./bin/lcm.js" },
   "dependencies": {
+    "commander": ">= 0.4.1",
     "express": ">= 2.4.6",
     "hooks": ">= 0.1.9",
     "lingo": ">= 0.0.4"
