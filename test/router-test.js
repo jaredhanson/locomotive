@@ -276,6 +276,14 @@ vows.describe('Router').addBatch({
       route = router._find('ProfileController', 'destroy');
       assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/profile');
+      
+      
+      assert.isFunction(router._express._helpers.profilePath);
+      assert.isFunction(router._express._helpers.newProfilePath);
+      assert.isFunction(router._express._helpers.editProfilePath);
+      assert.isFunction(router._express._dynamicHelpers.profileURL);
+      assert.isFunction(router._express._dynamicHelpers.newProfileURL);
+      assert.isFunction(router._express._dynamicHelpers.editProfileURL);
     },
   },
   
@@ -354,6 +362,16 @@ vows.describe('Router').addBatch({
       route = router._find('BandsController', 'destroy');
       assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/bands/:id');
+      
+      
+      assert.isFunction(router._express._helpers.bandsPath);
+      assert.isFunction(router._express._helpers.bandPath);
+      assert.isFunction(router._express._helpers.newBandPath);
+      assert.isFunction(router._express._helpers.editBandPath);
+      assert.isFunction(router._express._dynamicHelpers.bandsURL);
+      assert.isFunction(router._express._dynamicHelpers.bandURL);
+      assert.isFunction(router._express._dynamicHelpers.newBandURL);
+      assert.isFunction(router._express._dynamicHelpers.editBandURL);
     },
   },
   
