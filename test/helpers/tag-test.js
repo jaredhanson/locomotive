@@ -33,4 +33,19 @@ vows.describe('TagHelpers').addBatch({
     },
   },
   
+  'openTag': {
+    'should build correct tag': function () {
+      assert.equal(helpers.openTag('br'), '<br>');
+    },
+    'should build correct tag with options': function () {
+      assert.equal(helpers.openTag('img', { src: '/image.png', width: 100, height: 60 }), '<img src="/image.png" width="100" height="60">');
+    },
+  },
+  
+  'closeTag': {
+    'should build correct tag': function () {
+      assert.equal(helpers.closeTag('p'), '</p>');
+    },
+  },
+  
 }).export(module);
