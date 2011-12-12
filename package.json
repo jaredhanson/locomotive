@@ -1,6 +1,6 @@
 {
   "name": "locomotive",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Easy web development for Node.js.",
   "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
   "repository": {
