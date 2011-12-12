@@ -26,6 +26,12 @@ Start the server.
 
 The application is available at [localhost:3000](http://localhost:3000).
 
+## Guide
+
+Refer to the [Locomotive Guide](http://locomotivejs.org/guide/) for
+documentation and examples regarding the functionality Locomotive provides for
+developing web applications.
+
 ## License
 
 (The MIT License)
