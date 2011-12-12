@@ -7,6 +7,25 @@ applications using [Node](http://nodejs.org) and [Express](http://expressjs.com/
 
     $ npm install locomotive
 
+## Quick Start
+
+`lcm`, the command line interface to Locomotive, can be used to generate a
+starter application.  To use it, install Locomotive globally.
+
+    $ npm install locomotive -g
+    
+Next, create an application and install dependencies.
+
+    $ lcm create foo
+    $ cd foo
+    $ npm install
+    
+Start the server.
+
+    $ lcm server
+
+The application is available at [localhost:3000](http://localhost:3000).
+
 ## License
 
 (The MIT License)

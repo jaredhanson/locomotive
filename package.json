@@ -1,7 +1,7 @@
 {
   "name": "locomotive",
   "version": "0.1.1",
-  "description": "Web MVC framework built on Express.",
+  "description": "Easy web development for Node.js.",
   "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
   "repository": {
     "type": "git",
@@ -17,5 +17,5 @@
     "lingo": ">= 0.0.4"
   },
   "engines": { "node": ">= 0.4.0" },
-  "keywords": ["express", "connect", "web", "mvc", "rails"]
+  "keywords": ["express", "connect", "web", "mvc", "rails", "django"]
 }
