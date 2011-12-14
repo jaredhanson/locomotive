@@ -375,6 +375,222 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router for resource nested under resource': {
+    topic: function() {
+      var router = new Router();
+      var http = new MockExpress();
+      function handle(controller, action, options) {
+        return function() {
+          return { controller: controller, action: action, options: options };
+        };
+      }
+      
+      router.init(http, { handle: handle });
+      return router;
+    },
+    
+    'should build RESTful routes': function (router) {
+      router.resource('account', function() {
+        this.resource('password');
+      });
+      
+      var route;
+      
+      assert.length(router._http._routes, 12);
+      
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/account/new');
+      assert.equal(router._http._routes[0].fn().controller, 'AccountController');
+      assert.equal(router._http._routes[0].fn().action, 'new');
+      
+      assert.equal(router._http._routes[1].method, 'POST');
+      assert.equal(router._http._routes[1].path, '/account');
+      assert.equal(router._http._routes[1].fn().controller, 'AccountController');
+      assert.equal(router._http._routes[1].fn().action, 'create');
+      
+      assert.equal(router._http._routes[2].method, 'GET');
+      assert.equal(router._http._routes[2].path, '/account.:format?');
+      assert.equal(router._http._routes[2].fn().controller, 'AccountController');
+      assert.equal(router._http._routes[2].fn().action, 'show');
+      
+      assert.equal(router._http._routes[3].method, 'GET');
+      assert.equal(router._http._routes[3].path, '/account/edit');
+      assert.equal(router._http._routes[3].fn().controller, 'AccountController');
+      assert.equal(router._http._routes[3].fn().action, 'edit');
+      
+      assert.equal(router._http._routes[4].method, 'PUT');
+      assert.equal(router._http._routes[4].path, '/account');
+      assert.equal(router._http._routes[4].fn().controller, 'AccountController');
+      assert.equal(router._http._routes[4].fn().action, 'update');
+      
+      assert.equal(router._http._routes[5].method, 'DELETE');
+      assert.equal(router._http._routes[5].path, '/account');
+      assert.equal(router._http._routes[5].fn().controller, 'AccountController');
+      assert.equal(router._http._routes[5].fn().action, 'destroy');
+      
+      assert.equal(router._http._routes[6].method, 'GET');
+      assert.equal(router._http._routes[6].path, '/account/password/new');
+      assert.equal(router._http._routes[6].fn().controller, 'PasswordController');
+      assert.equal(router._http._routes[6].fn().action, 'new');
+      
+      assert.equal(router._http._routes[7].method, 'POST');
+      assert.equal(router._http._routes[7].path, '/account/password');
+      assert.equal(router._http._routes[7].fn().controller, 'PasswordController');
+      assert.equal(router._http._routes[7].fn().action, 'create');
+      
+      assert.equal(router._http._routes[8].method, 'GET');
+      assert.equal(router._http._routes[8].path, '/account/password.:format?');
+      assert.equal(router._http._routes[8].fn().controller, 'PasswordController');
+      assert.equal(router._http._routes[8].fn().action, 'show');
+      
+      assert.equal(router._http._routes[9].method, 'GET');
+      assert.equal(router._http._routes[9].path, '/account/password/edit');
+      assert.equal(router._http._routes[9].fn().controller, 'PasswordController');
+      assert.equal(router._http._routes[9].fn().action, 'edit');
+      
+      assert.equal(router._http._routes[10].method, 'PUT');
+      assert.equal(router._http._routes[10].path, '/account/password');
+      assert.equal(router._http._routes[10].fn().controller, 'PasswordController');
+      assert.equal(router._http._routes[10].fn().action, 'update');
+      
+      assert.equal(router._http._routes[11].method, 'DELETE');
+      assert.equal(router._http._routes[11].path, '/account/password');
+      assert.equal(router._http._routes[11].fn().controller, 'PasswordController');
+      assert.equal(router._http._routes[11].fn().action, 'destroy');
+      
+      
+      assert.isFunction(router._express._helpers.accountPath);
+      assert.isFunction(router._express._helpers.newAccountPath);
+      assert.isFunction(router._express._helpers.editAccountPath);
+      assert.isFunction(router._express._dynamicHelpers.accountURL);
+      assert.isFunction(router._express._dynamicHelpers.newAccountURL);
+      assert.isFunction(router._express._dynamicHelpers.editAccountURL);
+      
+      assert.isUndefined(router._express._helpers.passwordPath);
+      assert.isUndefined(router._express._helpers.newPasswordPath);
+      assert.isUndefined(router._express._helpers.editPasswordPath);
+      assert.isUndefined(router._express._dynamicHelpers.passwordURL);
+      assert.isUndefined(router._express._dynamicHelpers.newPasswordURL);
+      assert.isUndefined(router._express._dynamicHelpers.editPasswordURL);
+    },
+  },
+  
+  'router for resources nested under resources': {
+    topic: function() {
+      var router = new Router();
+      var http = new MockExpress();
+      function handle(controller, action, options) {
+        return function() {
+          return { controller: controller, action: action, options: options };
+        };
+      }
+      
+      router.init(http, { handle: handle });
+      return router;
+    },
+    
+    'should build RESTful routes': function (router) {
+      router.resources('bands', function() {
+        this.resources('albums');
+      });
+      
+      var route;
+      
+      assert.length(router._http._routes, 14);
+      
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/bands');
+      assert.equal(router._http._routes[0].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[0].fn().action, 'index');
+      
+      assert.equal(router._http._routes[1].method, 'GET');
+      assert.equal(router._http._routes[1].path, '/bands/new');
+      assert.equal(router._http._routes[1].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[1].fn().action, 'new');
+      
+      assert.equal(router._http._routes[2].method, 'POST');
+      assert.equal(router._http._routes[2].path, '/bands');
+      assert.equal(router._http._routes[2].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[2].fn().action, 'create');
+      
+      assert.equal(router._http._routes[3].method, 'GET');
+      assert.equal(router._http._routes[3].path, '/bands/:id.:format?');
+      assert.equal(router._http._routes[3].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[3].fn().action, 'show');
+      
+      assert.equal(router._http._routes[4].method, 'GET');
+      assert.equal(router._http._routes[4].path, '/bands/:id/edit');
+      assert.equal(router._http._routes[4].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[4].fn().action, 'edit');
+      
+      assert.equal(router._http._routes[5].method, 'PUT');
+      assert.equal(router._http._routes[5].path, '/bands/:id');
+      assert.equal(router._http._routes[5].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[5].fn().action, 'update');
+      
+      assert.equal(router._http._routes[6].method, 'DELETE');
+      assert.equal(router._http._routes[6].path, '/bands/:id');
+      assert.equal(router._http._routes[6].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[6].fn().action, 'destroy');
+      
+      assert.equal(router._http._routes[7].method, 'GET');
+      assert.equal(router._http._routes[7].path, '/bands/:bandID/albums');
+      assert.equal(router._http._routes[7].fn().controller, 'AlbumsController');
+      assert.equal(router._http._routes[7].fn().action, 'index');
+      
+      assert.equal(router._http._routes[8].method, 'GET');
+      assert.equal(router._http._routes[8].path, '/bands/:bandID/albums/new');
+      assert.equal(router._http._routes[8].fn().controller, 'AlbumsController');
+      assert.equal(router._http._routes[8].fn().action, 'new');
+      
+      assert.equal(router._http._routes[9].method, 'POST');
+      assert.equal(router._http._routes[9].path, '/bands/:bandID/albums');
+      assert.equal(router._http._routes[9].fn().controller, 'AlbumsController');
+      assert.equal(router._http._routes[9].fn().action, 'create');
+      
+      assert.equal(router._http._routes[10].method, 'GET');
+      assert.equal(router._http._routes[10].path, '/bands/:bandID/albums/:id.:format?');
+      assert.equal(router._http._routes[10].fn().controller, 'AlbumsController');
+      assert.equal(router._http._routes[10].fn().action, 'show');
+      
+      assert.equal(router._http._routes[11].method, 'GET');
+      assert.equal(router._http._routes[11].path, '/bands/:bandID/albums/:id/edit');
+      assert.equal(router._http._routes[11].fn().controller, 'AlbumsController');
+      assert.equal(router._http._routes[11].fn().action, 'edit');
+      
+      assert.equal(router._http._routes[12].method, 'PUT');
+      assert.equal(router._http._routes[12].path, '/bands/:bandID/albums/:id');
+      assert.equal(router._http._routes[12].fn().controller, 'AlbumsController');
+      assert.equal(router._http._routes[12].fn().action, 'update');
+      
+      assert.equal(router._http._routes[13].method, 'DELETE');
+      assert.equal(router._http._routes[13].path, '/bands/:bandID/albums/:id');
+      assert.equal(router._http._routes[13].fn().controller, 'AlbumsController');
+      assert.equal(router._http._routes[13].fn().action, 'destroy');
+      
+      
+      assert.isFunction(router._express._helpers.bandsPath);
+      assert.isFunction(router._express._helpers.bandPath);
+      assert.isFunction(router._express._helpers.newBandPath);
+      assert.isFunction(router._express._helpers.editBandPath);
+      assert.isFunction(router._express._dynamicHelpers.bandsURL);
+      assert.isFunction(router._express._dynamicHelpers.bandURL);
+      assert.isFunction(router._express._dynamicHelpers.newBandURL);
+      assert.isFunction(router._express._dynamicHelpers.editBandURL);
+      
+      assert.isUndefined(router._express._helpers.albumsPath);
+      assert.isUndefined(router._express._helpers.albumPath);
+      assert.isUndefined(router._express._helpers.newAlbumPath);
+      assert.isUndefined(router._express._helpers.editAlbumPath);
+      assert.isUndefined(router._express._dynamicHelpers.albumsURL);
+      assert.isUndefined(router._express._dynamicHelpers.albumURL);
+      assert.isUndefined(router._express._dynamicHelpers.newAlbumURL);
+      assert.isUndefined(router._express._dynamicHelpers.editAlbumURL);
+    },
+  },
+  
+  // TODO: Ensure test coverage for resource nested under resources and vice-versa.
+  
   'router for helper functions': {
     topic: function() {
       var router = new Router();
