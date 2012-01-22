@@ -2,10 +2,13 @@
   "name": "locomotive",
   "version": "0.1.2",
   "description": "Easy web development for Node.js.",
-  "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
+  "author": { "name": "Jared Hanson", "email": "jaredhanson@gmail.com", "url": "http://www.jaredhanson.net/" },
   "repository": {
     "type": "git",
-    "url": "http://github.com/jaredhanson/locomotive.git"
+    "url": "git://github.com/jaredhanson/locomotive.git"
+  },
+  "bugs": {
+    "url": "http://github.com/jaredhanson/locomotive/issues"
   },
   "main": "./lib/locomotive",
   "bin" : { "lcm" : "./bin/lcm.js" },
@@ -16,6 +19,13 @@
     "hooks": ">= 0.1.9",
     "lingo": ">= 0.0.4"
   },
+  "devDependencies": {
+    "vows": "0.6.x"
+  },
   "engines": { "node": ">= 0.4.0" },
-  "keywords": ["express", "connect", "web", "mvc", "rails", "django"]
+  "licenses": [ {
+    "type": "MIT",
+    "url": "http://www.opensource.org/licenses/MIT" 
+  } ],
+  "keywords": ["express", "connect", "web", "mvc", "rails"]
 }

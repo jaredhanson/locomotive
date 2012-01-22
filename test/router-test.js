@@ -93,7 +93,7 @@ vows.describe('Router').addBatch({
     'should build route when given hash shorthand': function (router) {
       router.root('pages#main');
       
-      assert.length(router._http._routes, 1);
+      assert.lengthOf(router._http._routes, 1);
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/');
       assert.equal(router._http._routes[0].fn().controller, 'PagesController');
@@ -124,7 +124,7 @@ vows.describe('Router').addBatch({
     'should build route when given hash shorthand': function (router) {
       router.match('songs/:title', 'songs#show');
       
-      assert.length(router._http._routes, 1);
+      assert.lengthOf(router._http._routes, 1);
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/songs/:title');
       assert.equal(router._http._routes[0].fn().controller, 'SongsController');
@@ -140,7 +140,7 @@ vows.describe('Router').addBatch({
     'should build route when given controller and action options': function (router) {
       router.match('bands', { controller: 'bands', action: 'list' });
       
-      assert.length(router._http._routes, 1);
+      assert.lengthOf(router._http._routes, 1);
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/bands');
       assert.equal(router._http._routes[0].fn().controller, 'BandsController');
@@ -156,7 +156,7 @@ vows.describe('Router').addBatch({
     'should build route when given hash shorthand and via in options': function (router) {
       router.match('bands', 'bands#create', { via: 'post' });
       
-      assert.length(router._http._routes, 1);
+      assert.lengthOf(router._http._routes, 1);
       assert.equal(router._http._routes[0].method, 'POST');
       assert.equal(router._http._routes[0].path, '/bands');
       assert.equal(router._http._routes[0].fn().controller, 'BandsController');
@@ -172,7 +172,7 @@ vows.describe('Router').addBatch({
     'should build route when given controller, action, and via in options': function (router) {
       router.match('bands', { controller: 'bands', action: 'create', via: 'post' });
       
-      assert.length(router._http._routes, 1);
+      assert.lengthOf(router._http._routes, 1);
       assert.equal(router._http._routes[0].method, 'POST');
       assert.equal(router._http._routes[0].path, '/bands');
       assert.equal(router._http._routes[0].fn().controller, 'BandsController');
@@ -188,7 +188,7 @@ vows.describe('Router').addBatch({
     'should not prepend slash when route begins with slash': function (router) {
       router.match('/songs/:title', 'songs#show');
       
-      assert.length(router._http._routes, 1);
+      assert.lengthOf(router._http._routes, 1);
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/songs/:title');
       assert.equal(router._http._routes[0].fn().controller, 'SongsController');
@@ -227,7 +227,7 @@ vows.describe('Router').addBatch({
       router.resource('profile');
       var route;
       
-      assert.length(router._http._routes, 6);
+      assert.lengthOf(router._http._routes, 6);
       
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/profile/new');
@@ -305,7 +305,7 @@ vows.describe('Router').addBatch({
       router.resources('bands');
       var route;
       
-      assert.length(router._http._routes, 7);
+      assert.lengthOf(router._http._routes, 7);
       
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/bands');
@@ -396,7 +396,7 @@ vows.describe('Router').addBatch({
       
       var route;
       
-      assert.length(router._http._routes, 12);
+      assert.lengthOf(router._http._routes, 12);
       
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/account/new');
@@ -496,7 +496,7 @@ vows.describe('Router').addBatch({
       
       var route;
       
-      assert.length(router._http._routes, 14);
+      assert.lengthOf(router._http._routes, 14);
       
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/bands');

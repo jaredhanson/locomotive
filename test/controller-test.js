@@ -161,7 +161,7 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
-        assert.length(res._locals, 2);
+        assert.lengthOf(res._locals, 2);
         assert.equal(res._locals[0].name, 'title');
         assert.equal(res._locals[0].val, 'On The Road');
         assert.equal(res._locals[1].name, 'author');
@@ -187,7 +187,7 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
-        assert.length(res._locals, 2);
+        assert.lengthOf(res._locals, 2);
         assert.equal(res._locals[0].name, 'id');
         assert.equal(res._locals[0].val, '123456');
         assert.equal(res._locals[1].name, 'fullText');
