@@ -8,7 +8,7 @@ vows.describe('Route').addBatch({
   
   'route without placeholders': {
     topic: function() {
-      return new Route('get', '/account');
+      return new Route('get', '/account', 'AccountController', 'show');
     },
     
     'should have method property': function (route) {
@@ -17,8 +17,17 @@ vows.describe('Route').addBatch({
     'should have pattern property': function (route) {
       assert.equal(route.pattern, '/account');
     },
+    'should have controller property': function (route) {
+      assert.equal(route.controller, 'AccountController');
+    },
+    'should have action property': function (route) {
+      assert.equal(route.action, 'show');
+    },
     'should build correct path': function (route) {
       assert.equal(route.path(), '/account');
+    },
+    'should build correct reverse key': function (route) {
+      assert.equal(route.reverseKey(), 'AccountController#show');
     },
   },
   
@@ -52,7 +61,7 @@ vows.describe('Route').addBatch({
     },
   },
   
-  'route with an optional placeholder led by dot': {
+  'route with an optional placeholder preceeded by dot': {
     topic: function() {
       return new Route('get', '/products.:format?');
     },
@@ -65,7 +74,7 @@ vows.describe('Route').addBatch({
     },
   },
   
-  'route with an optional placeholder led by slash': {
+  'route with an optional placeholder preceeded by slash': {
     topic: function() {
       return new Route('get', '/service/:op?');
     },
