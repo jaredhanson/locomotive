@@ -596,8 +596,8 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[13].fn().action, 'destroy');
     },
     'should declare routing helpers': function (router) {
-      assert.lengthOf(Object.keys(router._express._helpers), 4);
-      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 4);
+      assert.lengthOf(Object.keys(router._express._helpers), 8);
+      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 8);
       
       assert.isFunction(router._express._helpers.bandsPath);
       assert.isFunction(router._express._helpers.bandPath);
@@ -608,10 +608,50 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._express._dynamicHelpers.bandURL);
       assert.isFunction(router._express._dynamicHelpers.newBandURL);
       assert.isFunction(router._express._dynamicHelpers.editBandURL);
+      
+      // FIXME: Sub-resource routing helpers need to be declared properly and return correct paths.
     },
   },
   
   // TODO: Ensure test coverage for resource nested under resources and vice-versa.
+  
+  'router with resources route in a namespace': {
+    topic: function() {
+      var router = intializedRouter();
+      router.namespace('admin', function() {
+        router.resources('posts');
+      });
+      return router;
+    },
+    
+    'should mount seven routes': function (router) {
+      assert.lengthOf(router._http._routes, 7);
+    },
+    'should create route to index action': function (router) {
+      var route = router._find('Admin::PostsController', 'index');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/admin/posts');
+    },
+    'should mount route to index action at GET /resources': function (router) {
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/admin/posts');
+      assert.equal(router._http._routes[0].fn().controller, 'Admin::PostsController');
+      assert.equal(router._http._routes[0].fn().action, 'index');
+    },
+    'should declare routing helpers': function (router) {
+      // FIXME: Namespaced routing helpers need to be declared properly and return correct paths.
+      
+      assert.isFunction(router._express._helpers.postsPath);
+      assert.isFunction(router._express._helpers.postPath);
+      assert.isFunction(router._express._helpers.newPostPath);
+      assert.isFunction(router._express._helpers.editPostPath);
+      
+      assert.isFunction(router._express._dynamicHelpers.postsURL);
+      assert.isFunction(router._express._dynamicHelpers.postURL);
+      assert.isFunction(router._express._dynamicHelpers.newPostURL);
+      assert.isFunction(router._express._dynamicHelpers.editPostURL);
+    },
+  },
   
   'routing helpers for patterns without a placeholder': {
     topic: function() {
