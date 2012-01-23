@@ -302,7 +302,6 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[5].path, '/profile');
       assert.equal(router._http._routes[5].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[5].fn().action, 'destroy');
-      route = router._find('ProfileController', 'destroy');
     },
     'should declare routing helpers': function (router) {
       assert.isFunction(router._express._helpers.profilePath);
@@ -315,87 +314,99 @@ vows.describe('Router').addBatch({
     },
   },
   
-  'router for resources': {
+  'router with resources route': {
     topic: function() {
-      var router = new Router();
-      var http = new MockExpress();
-      function handle(controller, action, options) {
-        return function() {
-          return { controller: controller, action: action, options: options };
-        };
-      }
-      
-      router.init(http, { handle: handle });
+      var router = intializedRouter()
+      router.resources('bands');
       return router;
     },
     
-    'should build RESTful routes': function (router) {
-      router.resources('bands');
-      var route;
-      
+    'should mount seven routes': function (router) {
       assert.lengthOf(router._http._routes, 7);
-      
+    },
+    'should create route to index action': function (router) {
+      var route = router._find('BandsController', 'index');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands');
+    },
+    'should mount route to index action at GET /resources': function (router) {
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/bands');
       assert.equal(router._http._routes[0].fn().controller, 'BandsController');
       assert.equal(router._http._routes[0].fn().action, 'index');
-      route = router._find('BandsController', 'index');
+    },
+    'should create route to new action': function (router) {
+      var route = router._find('BandsController', 'new');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands');
-      
+      assert.equal(route.pattern, '/bands/new');
+    },
+    'should mount route to new action at GET /resources/new': function (router) {
       assert.equal(router._http._routes[1].method, 'GET');
       assert.equal(router._http._routes[1].path, '/bands/new');
       assert.equal(router._http._routes[1].fn().controller, 'BandsController');
       assert.equal(router._http._routes[1].fn().action, 'new');
-      route = router._find('BandsController', 'new');
-      assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/new');
-      
+    },
+    'should create route to create action': function (router) {
+      var route = router._find('BandsController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/bands');
+    },
+    'should mount route to create action at POST /resources': function (router) {
       assert.equal(router._http._routes[2].method, 'POST');
       assert.equal(router._http._routes[2].path, '/bands');
       assert.equal(router._http._routes[2].fn().controller, 'BandsController');
       assert.equal(router._http._routes[2].fn().action, 'create');
-      route = router._find('BandsController', 'create');
-      assert.equal(route.method, 'post');
-      assert.equal(route.pattern, '/bands');
-      
+    },
+    'should create route to show action': function (router) {
+      var route = router._find('BandsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:id.:format?');
+    },
+    'should mount route to show action at GET /resources/1234': function (router) {
       assert.equal(router._http._routes[3].method, 'GET');
       assert.equal(router._http._routes[3].path, '/bands/:id.:format?');
       assert.equal(router._http._routes[3].fn().controller, 'BandsController');
       assert.equal(router._http._routes[3].fn().action, 'show');
-      route = router._find('BandsController', 'show');
+    },
+    'should create route to edit action': function (router) {
+      var route = router._find('BandsController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:id.:format?');
-      
+      assert.equal(route.pattern, '/bands/:id/edit');
+    },
+    'should mount route to edit action at GET /resources/1234/edit': function (router) {
       assert.equal(router._http._routes[4].method, 'GET');
       assert.equal(router._http._routes[4].path, '/bands/:id/edit');
       assert.equal(router._http._routes[4].fn().controller, 'BandsController');
       assert.equal(router._http._routes[4].fn().action, 'edit');
-      route = router._find('BandsController', 'edit');
-      assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:id/edit');
-      
+    },
+    'should create route to update action': function (router) {
+      var route = router._find('BandsController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/bands/:id');
+    },
+    'should mount route to update action at PUT /resources/1234': function (router) {
       assert.equal(router._http._routes[5].method, 'PUT');
       assert.equal(router._http._routes[5].path, '/bands/:id');
       assert.equal(router._http._routes[5].fn().controller, 'BandsController');
       assert.equal(router._http._routes[5].fn().action, 'update');
-      route = router._find('BandsController', 'update');
-      assert.equal(route.method, 'put');
+    },
+    'should create route to destroy action': function (router) {
+      var route = router._find('BandsController', 'destroy');
+      assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/bands/:id');
-      
+    },
+    'should mount route to destroy action at DELETE /resources/1234': function (router) {
       assert.equal(router._http._routes[6].method, 'DELETE');
       assert.equal(router._http._routes[6].path, '/bands/:id');
       assert.equal(router._http._routes[6].fn().controller, 'BandsController');
       assert.equal(router._http._routes[6].fn().action, 'destroy');
-      route = router._find('BandsController', 'destroy');
-      assert.equal(route.method, 'del');
-      assert.equal(route.pattern, '/bands/:id');
-      
-      
+    },
+    'should declare routing helpers': function (router) {
       assert.isFunction(router._express._helpers.bandsPath);
       assert.isFunction(router._express._helpers.bandPath);
       assert.isFunction(router._express._helpers.newBandPath);
       assert.isFunction(router._express._helpers.editBandPath);
+      
       assert.isFunction(router._express._dynamicHelpers.bandsURL);
       assert.isFunction(router._express._dynamicHelpers.bandURL);
       assert.isFunction(router._express._dynamicHelpers.newBandURL);
