@@ -493,8 +493,8 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[11].fn().action, 'destroy');
     },
     'should declare routing helpers': function (router) {
-      assert.lengthOf(Object.keys(router._express._helpers), 3);
-      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 3);
+      assert.lengthOf(Object.keys(router._express._helpers), 6);
+      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 6);
       
       assert.isFunction(router._express._helpers.accountPath);
       assert.isFunction(router._express._helpers.newAccountPath);
@@ -503,6 +503,8 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._express._dynamicHelpers.accountURL);
       assert.isFunction(router._express._dynamicHelpers.newAccountURL);
       assert.isFunction(router._express._dynamicHelpers.editAccountURL);
+      
+      // FIXME: Sub-resource routing helpers need to be declared properly and return correct paths.
     },
   },
   
