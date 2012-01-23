@@ -219,7 +219,7 @@ vows.describe('Router').addBatch({
       return router;
     },
     
-    'should declare helpers': function (router) {
+    'should declare routing helpers': function (router) {
       assert.isFunction(router._express._helpers.songsPath);
       assert.isFunction(router._express._dynamicHelpers.songsURL);
       var songsURL = router._express._dynamicHelpers.songsURL({}, {});
@@ -227,78 +227,88 @@ vows.describe('Router').addBatch({
     },
   },
   
-  'router for resource': {
+  'router with resource route': {
     topic: function() {
-      var router = new Router();
-      var http = new MockExpress();
-      function handle(controller, action, options) {
-        return function() {
-          return { controller: controller, action: action, options: options };
-        };
-      }
-      
-      router.init(http, { handle: handle });
+      var router = intializedRouter()
+      router.resource('profile');
       return router;
     },
     
-    'should build RESTful routes': function (router) {
-      router.resource('profile');
-      var route;
-      
+    'should mount six routes': function (router) {
       assert.lengthOf(router._http._routes, 6);
-      
+    },
+    'should create route to new action': function (router) {
+      var route = router._find('ProfileController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/profile/new');
+    },
+    'should mount route to new action at GET /resource/new': function (router) {
       assert.equal(router._http._routes[0].method, 'GET');
       assert.equal(router._http._routes[0].path, '/profile/new');
       assert.equal(router._http._routes[0].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[0].fn().action, 'new');
-      route = router._find('ProfileController', 'new');
-      assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/profile/new');
-      
+    },
+    'should create route to create action': function (router) {
+      var route = router._find('ProfileController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/profile');
+    },
+    'should mount route to create action at POST /resource': function (router) {
       assert.equal(router._http._routes[1].method, 'POST');
       assert.equal(router._http._routes[1].path, '/profile');
       assert.equal(router._http._routes[1].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[1].fn().action, 'create');
-      route = router._find('ProfileController', 'create');
-      assert.equal(route.method, 'post');
-      assert.equal(route.pattern, '/profile');
-      
+    },
+    'should create route to show action': function (router) {
+      var route = router._find('ProfileController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/profile.:format?');
+    },
+    'should mount route to show action at GET /resource': function (router) {
       assert.equal(router._http._routes[2].method, 'GET');
       assert.equal(router._http._routes[2].path, '/profile.:format?');
       assert.equal(router._http._routes[2].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[2].fn().action, 'show');
-      route = router._find('ProfileController', 'show');
+    },
+    'should create route to edit action': function (router) {
+      var route = router._find('ProfileController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/profile.:format?');
-      
+      assert.equal(route.pattern, '/profile/edit');
+    },
+    'should mount route to edit action at GET /resource/edit': function (router) {
       assert.equal(router._http._routes[3].method, 'GET');
       assert.equal(router._http._routes[3].path, '/profile/edit');
       assert.equal(router._http._routes[3].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[3].fn().action, 'edit');
-      route = router._find('ProfileController', 'edit');
-      assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/profile/edit');
-      
+    },
+    'should create route to update action': function (router) {
+      var route = router._find('ProfileController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/profile');
+    },
+    'should mount route to update action at PUT /resource': function (router) {
       assert.equal(router._http._routes[4].method, 'PUT');
       assert.equal(router._http._routes[4].path, '/profile');
       assert.equal(router._http._routes[4].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[4].fn().action, 'update');
-      route = router._find('ProfileController', 'update');
-      assert.equal(route.method, 'put');
+    },
+    'should create route to destroy action': function (router) {
+      var route = router._find('ProfileController', 'destroy');
+      assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/profile');
-      
+    },
+    'should mount route to destroy action at DELETE /resource': function (router) {
       assert.equal(router._http._routes[5].method, 'DELETE');
       assert.equal(router._http._routes[5].path, '/profile');
       assert.equal(router._http._routes[5].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[5].fn().action, 'destroy');
       route = router._find('ProfileController', 'destroy');
-      assert.equal(route.method, 'del');
-      assert.equal(route.pattern, '/profile');
-      
-      
+    },
+    'should declare routing helpers': function (router) {
       assert.isFunction(router._express._helpers.profilePath);
       assert.isFunction(router._express._helpers.newProfilePath);
       assert.isFunction(router._express._helpers.editProfilePath);
+      
       assert.isFunction(router._express._dynamicHelpers.profileURL);
       assert.isFunction(router._express._dynamicHelpers.newProfileURL);
       assert.isFunction(router._express._dynamicHelpers.editProfileURL);
