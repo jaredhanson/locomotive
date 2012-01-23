@@ -506,139 +506,121 @@ vows.describe('Router').addBatch({
     },
   },
   
-  'router for resources nested under resources': {
+  'router with resources nested under resources': {
     topic: function() {
-      var router = new Router();
-      var http = new MockExpress();
-      function handle(controller, action, options) {
-        return function() {
-          return { controller: controller, action: action, options: options };
-        };
-      }
-      
-      router.init(http, { handle: handle });
-      return router;
-    },
-    
-    'should build RESTful routes': function (router) {
+      var router = intializedRouter()
       router.resources('bands', function() {
         this.resources('albums');
       });
-      
-      var route;
-      
+      return router;
+    },
+    
+    'should mount fourteen routes': function (router) {
       assert.lengthOf(router._http._routes, 14);
-      
-      assert.equal(router._http._routes[0].method, 'GET');
-      assert.equal(router._http._routes[0].path, '/bands');
-      assert.equal(router._http._routes[0].fn().controller, 'BandsController');
-      assert.equal(router._http._routes[0].fn().action, 'index');
-      
-      assert.equal(router._http._routes[1].method, 'GET');
-      assert.equal(router._http._routes[1].path, '/bands/new');
-      assert.equal(router._http._routes[1].fn().controller, 'BandsController');
-      assert.equal(router._http._routes[1].fn().action, 'new');
-      
-      assert.equal(router._http._routes[2].method, 'POST');
-      assert.equal(router._http._routes[2].path, '/bands');
-      assert.equal(router._http._routes[2].fn().controller, 'BandsController');
-      assert.equal(router._http._routes[2].fn().action, 'create');
-      
-      assert.equal(router._http._routes[3].method, 'GET');
-      assert.equal(router._http._routes[3].path, '/bands/:id.:format?');
-      assert.equal(router._http._routes[3].fn().controller, 'BandsController');
-      assert.equal(router._http._routes[3].fn().action, 'show');
-      
-      assert.equal(router._http._routes[4].method, 'GET');
-      assert.equal(router._http._routes[4].path, '/bands/:id/edit');
-      assert.equal(router._http._routes[4].fn().controller, 'BandsController');
-      assert.equal(router._http._routes[4].fn().action, 'edit');
-      
-      assert.equal(router._http._routes[5].method, 'PUT');
-      assert.equal(router._http._routes[5].path, '/bands/:id');
-      assert.equal(router._http._routes[5].fn().controller, 'BandsController');
-      assert.equal(router._http._routes[5].fn().action, 'update');
-      
-      assert.equal(router._http._routes[6].method, 'DELETE');
-      assert.equal(router._http._routes[6].path, '/bands/:id');
-      assert.equal(router._http._routes[6].fn().controller, 'BandsController');
-      assert.equal(router._http._routes[6].fn().action, 'destroy');
-      
+    },
+    'should create route to sub-resources index action': function (router) {
+      var route = router._find('AlbumsController', 'index');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:bandID/albums');
+    },
+    'should mount route to sub-resources index action at GET /resources/1234/sub-resources': function (router) {
       assert.equal(router._http._routes[7].method, 'GET');
       assert.equal(router._http._routes[7].path, '/bands/:bandID/albums');
       assert.equal(router._http._routes[7].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[7].fn().action, 'index');
-      
+    },
+    'should create route to sub-resources new action': function (router) {
+      var route = router._find('AlbumsController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:bandID/albums/new');
+    },
+    'should mount route to sub-resources new action at GET /resources/1234/sub-resources/new': function (router) {
       assert.equal(router._http._routes[8].method, 'GET');
       assert.equal(router._http._routes[8].path, '/bands/:bandID/albums/new');
       assert.equal(router._http._routes[8].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[8].fn().action, 'new');
-      
+    },
+    'should create route to sub-resources create action': function (router) {
+      var route = router._find('AlbumsController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/bands/:bandID/albums');
+    },
+    'should mount route to sub-resources create action at POST /resources/1234/sub-resources': function (router) {
       assert.equal(router._http._routes[9].method, 'POST');
       assert.equal(router._http._routes[9].path, '/bands/:bandID/albums');
       assert.equal(router._http._routes[9].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[9].fn().action, 'create');
-      
+    },
+    'should create route to sub-resources show action': function (router) {
+      var route = router._find('AlbumsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:bandID/albums/:id.:format?');
+    },
+    'should mount route to sub-resources show action at GET /resources/1234/sub-resources/5678': function (router) {
       assert.equal(router._http._routes[10].method, 'GET');
       assert.equal(router._http._routes[10].path, '/bands/:bandID/albums/:id.:format?');
       assert.equal(router._http._routes[10].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[10].fn().action, 'show');
-      
+    },
+    'should create route to sub-resources edit action': function (router) {
+      var route = router._find('AlbumsController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:bandID/albums/:id/edit');
+    },
+    'should mount route to sub-resources edit action at GET /resources/1234/sub-resources/5678/edit': function (router) {
       assert.equal(router._http._routes[11].method, 'GET');
       assert.equal(router._http._routes[11].path, '/bands/:bandID/albums/:id/edit');
       assert.equal(router._http._routes[11].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[11].fn().action, 'edit');
-      
+    },
+    'should create route to sub-resources update action': function (router) {
+      var route = router._find('AlbumsController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/bands/:bandID/albums/:id');
+    },
+    'should mount route to sub-resources update action at PUT /resources/1234/sub-resources/5678': function (router) {
       assert.equal(router._http._routes[12].method, 'PUT');
       assert.equal(router._http._routes[12].path, '/bands/:bandID/albums/:id');
       assert.equal(router._http._routes[12].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[12].fn().action, 'update');
-      
+    },
+    'should create route to destroy action': function (router) {
+      var route = router._find('AlbumsController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/bands/:bandID/albums/:id');
+    },
+    'should mount route to destroy action at DELETE /resources/1234/sub-resources/1234': function (router) {
       assert.equal(router._http._routes[13].method, 'DELETE');
       assert.equal(router._http._routes[13].path, '/bands/:bandID/albums/:id');
       assert.equal(router._http._routes[13].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[13].fn().action, 'destroy');
-      
+    },
+    'should declare routing helpers': function (router) {
+      assert.lengthOf(Object.keys(router._express._helpers), 4);
+      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 4);
       
       assert.isFunction(router._express._helpers.bandsPath);
       assert.isFunction(router._express._helpers.bandPath);
       assert.isFunction(router._express._helpers.newBandPath);
       assert.isFunction(router._express._helpers.editBandPath);
+      
       assert.isFunction(router._express._dynamicHelpers.bandsURL);
       assert.isFunction(router._express._dynamicHelpers.bandURL);
       assert.isFunction(router._express._dynamicHelpers.newBandURL);
       assert.isFunction(router._express._dynamicHelpers.editBandURL);
-      
-      assert.isUndefined(router._express._helpers.albumsPath);
-      assert.isUndefined(router._express._helpers.albumPath);
-      assert.isUndefined(router._express._helpers.newAlbumPath);
-      assert.isUndefined(router._express._helpers.editAlbumPath);
-      assert.isUndefined(router._express._dynamicHelpers.albumsURL);
-      assert.isUndefined(router._express._dynamicHelpers.albumURL);
-      assert.isUndefined(router._express._dynamicHelpers.newAlbumURL);
-      assert.isUndefined(router._express._dynamicHelpers.editAlbumURL);
     },
   },
   
   // TODO: Ensure test coverage for resource nested under resources and vice-versa.
   
-  'router for helper functions': {
+  'routing helpers for patterns without a placeholder': {
     topic: function() {
-      var router = new Router();
-      var http = new MockExpress();
-      function handle(controller, action, options) {
-        return function() {
-          return { controller: controller, action: action, options: options };
-        };
-      }
-      
-      router.init(http, { handle: handle });
+      var router = intializedRouter()
+      router.match('songs', 'songs#index', { as: 'songs' });
       return router;
     },
     
-    'helpers without placeholders behave correctly': function (router) {
-      router.match('songs', 'songs#index', { as: 'songs' });
-      
+    'should generate correct paths': function (router) {
       // setup app and urlFor helper
       var app = new MockLocomotive();
       app._routes['SongsController#index'] = new Route('get', '/songs');
@@ -647,27 +629,31 @@ vows.describe('Router').addBatch({
       req.locomotive = app;
       var res = new MockResponse();
       
-      var dynHelpers = {};
+      var context = {};
       for (var key in dynamicHelpers) {
-        dynHelpers.urlFor = dynamicHelpers.urlFor.call(this, req, res);
+        context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
       }
       // end setup
       
       assert.isFunction(router._express._helpers.songsPath);
-      var songsPath = router._express._helpers.songsPath.bind(dynHelpers)
+      var songsPath = router._express._helpers.songsPath.bind(context)
       assert.equal(songsPath(), '/songs');
       
       assert.isFunction(router._express._dynamicHelpers.songsURL);
-      var songsURL = router._express._dynamicHelpers.songsURL(req, res).bind(dynHelpers);
+      var songsURL = router._express._dynamicHelpers.songsURL(req, res).bind(context);
       assert.isFunction(songsURL);
       assert.equal(songsURL(), 'http://www.example.com/songs');
-      
-      router._http.reset();
+    },
+  },
+  
+  'routing helpers for patterns with a placeholder': {
+    topic: function() {
+      var router = intializedRouter()
+      router.match('songs/:id', 'songs#show', { as: 'song' });
+      return router;
     },
     
-    'helpers with placeholders behave correctly': function (router) {
-      router.match('songs/:id', 'songs#show', { as: 'showSong' });
-      
+    'should generate correct paths': function (router) {
       // setup app and urlFor helper
       var app = new MockLocomotive();
       app._routes['SongsController#show'] = new Route('get', '/songs/:id');
@@ -676,26 +662,24 @@ vows.describe('Router').addBatch({
       req.locomotive = app;
       var res = new MockResponse();
       
-      var dynHelpers = {};
+      var context = {};
       for (var key in dynamicHelpers) {
-        dynHelpers.urlFor = dynamicHelpers.urlFor.call(this, req, res);
+        context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
       }
       // end setup
       
-      assert.isFunction(router._express._helpers.showSongPath);
-      var showSongPath = router._express._helpers.showSongPath.bind(dynHelpers)
-      assert.equal(showSongPath(7), '/songs/7');
-      assert.equal(showSongPath('slug'), '/songs/slug');
-      assert.equal(showSongPath({ id: 101 }), '/songs/101');
+      assert.isFunction(router._express._helpers.songPath);
+      var songPath = router._express._helpers.songPath.bind(context)
+      assert.equal(songPath(7), '/songs/7');
+      assert.equal(songPath('mr-jones'), '/songs/mr-jones');
+      assert.equal(songPath({ id: 101 }), '/songs/101');
       
-      assert.isFunction(router._express._dynamicHelpers.showSongURL);
-      var showSongURL = router._express._dynamicHelpers.showSongURL(req, res).bind(dynHelpers);
-      assert.isFunction(showSongURL);
-      assert.equal(showSongURL(7), 'http://www.example.com/songs/7');
-      assert.equal(showSongURL('slug'), 'http://www.example.com/songs/slug');
-      assert.equal(showSongURL({ id: 101 }), 'http://www.example.com/songs/101');
-      
-      router._http.reset();
+      assert.isFunction(router._express._dynamicHelpers.songURL);
+      var songURL = router._express._dynamicHelpers.songURL(req, res).bind(context);
+      assert.isFunction(songURL);
+      assert.equal(songURL(7), 'http://www.example.com/songs/7');
+      assert.equal(songURL('mr-jones'), 'http://www.example.com/songs/mr-jones');
+      assert.equal(songURL({ id: 101 }), 'http://www.example.com/songs/101');
     },
   },
   
