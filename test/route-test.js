@@ -61,7 +61,7 @@ vows.describe('Route').addBatch({
     },
   },
   
-  'route with an optional placeholder preceeded by dot': {
+  'route with an optional placeholder preceded by dot': {
     topic: function() {
       return new Route('get', '/products.:format?');
     },
@@ -74,7 +74,7 @@ vows.describe('Route').addBatch({
     },
   },
   
-  'route with an optional placeholder preceeded by slash': {
+  'route with an optional placeholder preceded by slash': {
     topic: function() {
       return new Route('get', '/service/:op?');
     },
