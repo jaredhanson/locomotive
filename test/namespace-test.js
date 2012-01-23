@@ -75,6 +75,29 @@ vows.describe('Namespace').addBatch({
     },
   },
   
+  'namespace constructed with name and null module option': {
+    topic: function() {
+      return new Namespace('foo', { module: null });
+    },
+    
+    'should have name property': function (ns) {
+      assert.equal(ns.name, 'foo');
+    },
+    'should have module property': function (ns) {
+      assert.equal(ns.module, '');
+    },
+    'should not have parent property': function (ns) {
+      assert.isNull(ns.parent);
+    },
+    'should qualify controllers': function (ns) {
+      assert.equal(ns.qcontroller('PhotosController'), 'PhotosController');
+    },
+    'should qualify paths': function (ns) {
+      assert.equal(ns.qpath('photos'), '/foo/photos');
+      assert.equal(ns.qpath('/photos'), '/foo/photos');
+    },
+  },
+  
   'namespace with parent': {
     topic: function() {
       var admin = new Namespace('net');
