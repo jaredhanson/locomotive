@@ -414,103 +414,95 @@ vows.describe('Router').addBatch({
     },
   },
   
-  'router for resource nested under resource': {
+  'router with resource nested under resource': {
     topic: function() {
-      var router = new Router();
-      var http = new MockExpress();
-      function handle(controller, action, options) {
-        return function() {
-          return { controller: controller, action: action, options: options };
-        };
-      }
-      
-      router.init(http, { handle: handle });
-      return router;
-    },
-    
-    'should build RESTful routes': function (router) {
+      var router = intializedRouter()
       router.resource('account', function() {
         this.resource('password');
       });
-      
-      var route;
-      
+      return router;
+    },
+    
+    'should mount twelve routes': function (router) {
       assert.lengthOf(router._http._routes, 12);
-      
-      assert.equal(router._http._routes[0].method, 'GET');
-      assert.equal(router._http._routes[0].path, '/account/new');
-      assert.equal(router._http._routes[0].fn().controller, 'AccountController');
-      assert.equal(router._http._routes[0].fn().action, 'new');
-      
-      assert.equal(router._http._routes[1].method, 'POST');
-      assert.equal(router._http._routes[1].path, '/account');
-      assert.equal(router._http._routes[1].fn().controller, 'AccountController');
-      assert.equal(router._http._routes[1].fn().action, 'create');
-      
-      assert.equal(router._http._routes[2].method, 'GET');
-      assert.equal(router._http._routes[2].path, '/account.:format?');
-      assert.equal(router._http._routes[2].fn().controller, 'AccountController');
-      assert.equal(router._http._routes[2].fn().action, 'show');
-      
-      assert.equal(router._http._routes[3].method, 'GET');
-      assert.equal(router._http._routes[3].path, '/account/edit');
-      assert.equal(router._http._routes[3].fn().controller, 'AccountController');
-      assert.equal(router._http._routes[3].fn().action, 'edit');
-      
-      assert.equal(router._http._routes[4].method, 'PUT');
-      assert.equal(router._http._routes[4].path, '/account');
-      assert.equal(router._http._routes[4].fn().controller, 'AccountController');
-      assert.equal(router._http._routes[4].fn().action, 'update');
-      
-      assert.equal(router._http._routes[5].method, 'DELETE');
-      assert.equal(router._http._routes[5].path, '/account');
-      assert.equal(router._http._routes[5].fn().controller, 'AccountController');
-      assert.equal(router._http._routes[5].fn().action, 'destroy');
-      
+    },
+    'should create route to sub-resource new action': function (router) {
+      var route = router._find('PasswordController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/account/password/new');
+    },
+    'should mount route to sub-resource new action at GET /resource/sub-resource/new': function (router) {
       assert.equal(router._http._routes[6].method, 'GET');
       assert.equal(router._http._routes[6].path, '/account/password/new');
       assert.equal(router._http._routes[6].fn().controller, 'PasswordController');
       assert.equal(router._http._routes[6].fn().action, 'new');
-      
+    },
+    'should create route to sub-resource create action': function (router) {
+      var route = router._find('PasswordController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/account/password');
+    },
+    'should mount route to sub-resource create action at POST /resource/sub-resource': function (router) {
       assert.equal(router._http._routes[7].method, 'POST');
       assert.equal(router._http._routes[7].path, '/account/password');
       assert.equal(router._http._routes[7].fn().controller, 'PasswordController');
       assert.equal(router._http._routes[7].fn().action, 'create');
-      
+    },
+    'should create route to sub-resource show action': function (router) {
+      var route = router._find('PasswordController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/account/password.:format?');
+    },
+    'should mount route to sub-resource show action at GET /resource/sub-resource': function (router) {
       assert.equal(router._http._routes[8].method, 'GET');
       assert.equal(router._http._routes[8].path, '/account/password.:format?');
       assert.equal(router._http._routes[8].fn().controller, 'PasswordController');
       assert.equal(router._http._routes[8].fn().action, 'show');
-      
+    },
+    'should create route to sub-resource edit action': function (router) {
+      var route = router._find('PasswordController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/account/password/edit');
+    },
+    'should mount route to sub-resource edit action at GET /resource/sub-resource/edit': function (router) {
       assert.equal(router._http._routes[9].method, 'GET');
       assert.equal(router._http._routes[9].path, '/account/password/edit');
       assert.equal(router._http._routes[9].fn().controller, 'PasswordController');
       assert.equal(router._http._routes[9].fn().action, 'edit');
-      
+    },
+    'should create route to sub-resource update action': function (router) {
+      var route = router._find('PasswordController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/account/password');
+    },
+    'should mount route to sub-resource update action at PUT /resource/sub-resource': function (router) {
       assert.equal(router._http._routes[10].method, 'PUT');
       assert.equal(router._http._routes[10].path, '/account/password');
       assert.equal(router._http._routes[10].fn().controller, 'PasswordController');
       assert.equal(router._http._routes[10].fn().action, 'update');
-      
+    },
+    'should create route to sub-resource destroy action': function (router) {
+      var route = router._find('PasswordController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/account/password');
+    },
+    'should mount route to sub-resource destroy action at DELETE /resource/sub-resource': function (router) {
       assert.equal(router._http._routes[11].method, 'DELETE');
       assert.equal(router._http._routes[11].path, '/account/password');
       assert.equal(router._http._routes[11].fn().controller, 'PasswordController');
       assert.equal(router._http._routes[11].fn().action, 'destroy');
-      
+    },
+    'should declare routing helpers': function (router) {
+      assert.lengthOf(Object.keys(router._express._helpers), 3);
+      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 3);
       
       assert.isFunction(router._express._helpers.accountPath);
       assert.isFunction(router._express._helpers.newAccountPath);
       assert.isFunction(router._express._helpers.editAccountPath);
+      
       assert.isFunction(router._express._dynamicHelpers.accountURL);
       assert.isFunction(router._express._dynamicHelpers.newAccountURL);
       assert.isFunction(router._express._dynamicHelpers.editAccountURL);
-      
-      assert.isUndefined(router._express._helpers.passwordPath);
-      assert.isUndefined(router._express._helpers.newPasswordPath);
-      assert.isUndefined(router._express._helpers.editPasswordPath);
-      assert.isUndefined(router._express._dynamicHelpers.passwordURL);
-      assert.isUndefined(router._express._dynamicHelpers.newPasswordURL);
-      assert.isUndefined(router._express._dynamicHelpers.editPasswordURL);
     },
   },
   
