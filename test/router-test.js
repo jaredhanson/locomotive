@@ -615,6 +615,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // TODO: Ensure test coverage of match declared under namespace.
   // TODO: Ensure test coverage for resource nested under resources and vice-versa.
   
   'router with resources route in a namespace': {
@@ -641,17 +642,17 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'index');
     },
     'should declare routing helpers': function (router) {
-      // FIXME: Namespaced routing helpers need to be declared properly and return correct paths.
+      // FIXME: Ensure that namespaced routing return correct paths.
       
-      assert.isFunction(router._express._helpers.postsPath);
-      assert.isFunction(router._express._helpers.postPath);
-      assert.isFunction(router._express._helpers.newPostPath);
-      assert.isFunction(router._express._helpers.editPostPath);
+      assert.isFunction(router._express._helpers.adminPostsPath);
+      assert.isFunction(router._express._helpers.adminPostPath);
+      assert.isFunction(router._express._helpers.newAdminPostPath);
+      assert.isFunction(router._express._helpers.editAdminPostPath);
       
-      assert.isFunction(router._express._dynamicHelpers.postsURL);
-      assert.isFunction(router._express._dynamicHelpers.postURL);
-      assert.isFunction(router._express._dynamicHelpers.newPostURL);
-      assert.isFunction(router._express._dynamicHelpers.editPostURL);
+      assert.isFunction(router._express._dynamicHelpers.adminPostsURL);
+      assert.isFunction(router._express._dynamicHelpers.adminPostURL);
+      assert.isFunction(router._express._dynamicHelpers.newAdminPostURL);
+      assert.isFunction(router._express._dynamicHelpers.editAdminPostURL);
     },
   },
   
