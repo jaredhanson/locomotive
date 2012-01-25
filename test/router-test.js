@@ -509,8 +509,6 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._express._dynamicHelpers.accountPasswordURL);
       assert.isFunction(router._express._dynamicHelpers.newAccountPasswordURL);
       assert.isFunction(router._express._dynamicHelpers.editAccountPasswordURL);
-      
-      // FIXME: Sub-resource routing helpers need to be declared properly and return correct paths.
     },
   },
   
@@ -835,8 +833,6 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._express._dynamicHelpers.bandAlbumURL);
       assert.isFunction(router._express._dynamicHelpers.newBandAlbumURL);
       assert.isFunction(router._express._dynamicHelpers.editBandAlbumURL);
-      
-      // FIXME: Sub-resource routing helpers need to be declared properly and return correct paths.
     },
   },
   
@@ -893,8 +889,6 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'index');
     },
     'should declare routing helpers': function (router) {
-      // FIXME: Ensure that namespaced routing return correct paths.
-      
       assert.isFunction(router._express._helpers.adminPostsPath);
       assert.isFunction(router._express._helpers.adminPostPath);
       assert.isFunction(router._express._helpers.newAdminPostPath);
