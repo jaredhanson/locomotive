@@ -79,8 +79,37 @@ vows.describe('util').addBatch({
       assert.equal(_util.helperize('FooBar', 'URL'), 'fooBarURL');
       assert.equal(_util.helperize('FooBar'), 'fooBar');
     },
+    'should return empty string if argument is empty string': function () {
+      assert.equal(_util.helperize(''), '');
+    },
     'should return null if argument is undefined': function () {
       assert.isNull(_util.helperize());
+    },
+  },
+  
+  'moduleize': {
+    'should normalize underscore notation': function () {
+      assert.equal(_util.moduleize('foo_bar_baz'), 'FooBarBaz');
+      assert.equal(_util.moduleize('fulano/foo'), 'Fulano::Foo');
+      assert.equal(_util.moduleize('fulano_sutano/foo_bar'), 'FulanoSutano::FooBar');
+      assert.equal(_util.moduleize('hoge/fulano/foo'), 'Hoge::Fulano::Foo');
+      assert.equal(_util.moduleize('hoge_page/fulano_sutano/foo_bar'), 'HogePage::FulanoSutano::FooBar');
+    },
+    'should normalize lower camelcase notation': function () {
+      assert.equal(_util.moduleize('fooBarBaz'), 'FooBarBaz');
+      assert.equal(_util.moduleize('fulanoSutano/fooBar'), 'FulanoSutano::FooBar');
+      assert.equal(_util.moduleize('hogePage/fulanoSutano/fooBar'), 'HogePage::FulanoSutano::FooBar');
+    },
+    'should normalize upper camelcase notation': function () {
+      assert.equal(_util.moduleize('FooBarBaz'), 'FooBarBaz');
+      assert.equal(_util.moduleize('FulanoSutano/FooBar'), 'FulanoSutano::FooBar');
+      assert.equal(_util.moduleize('HogePage/FulanoSutano/FooBar'), 'HogePage::FulanoSutano::FooBar');
+    },
+    'should return empty string if argument is empty string': function () {
+      assert.equal(_util.moduleize(''), '');
+    },
+    'should return null if argument is undefined': function () {
+      assert.isNull(_util.moduleize());
     },
   },
   
