@@ -20,6 +20,9 @@ vows.describe('Namespace').addBatch({
     'should have empty helper property': function (ns) {
       assert.equal(ns.helper, '');
     },
+    'should not have placeholder property': function (ns) {
+      assert.isNull(ns.placeholder);
+    },
     'should not have parent property': function (ns) {
       assert.isNull(ns.parent);
     },
@@ -49,6 +52,9 @@ vows.describe('Namespace').addBatch({
     'should have helper property': function (ns) {
       assert.equal(ns.helper, 'foo');
     },
+    'should not have placeholder property': function (ns) {
+      assert.isNull(ns.placeholder);
+    },
     'should not have parent property': function (ns) {
       assert.isNull(ns.parent);
     },
@@ -61,6 +67,11 @@ vows.describe('Namespace').addBatch({
     'should qualify paths': function (ns) {
       assert.equal(ns.qpath('photos'), '/foo/photos');
       assert.equal(ns.qpath('/photos'), '/foo/photos');
+    },
+    'should return placeholder given as argument': function (ns) {
+      var placeholders = ns.placeholders('id');
+      assert.lengthOf(placeholders, 1);
+      assert.equal(placeholders[0], 'id');
     },
   },
   
@@ -178,6 +189,21 @@ vows.describe('Namespace').addBatch({
     'should qualify paths': function (ns) {
       assert.equal(ns.qpath('proxies'), '/net/http/proxies');
       assert.equal(ns.qpath('/proxies'), '/net/http/proxies');
+    },
+  },
+  
+  'namespace with parent containing placeholders': {
+    topic: function() {
+      var admin = new Namespace('net', { placeholder: 'net_id' });
+      return new Namespace('http', { placeholder: 'http_id' }, admin);
+    },
+    
+    'should return placeholders': function (ns) {
+      var placeholders = ns.placeholders('id');
+      assert.lengthOf(placeholders, 3);
+      assert.equal(placeholders[0], 'net_id');
+      assert.equal(placeholders[1], 'http_id');
+      assert.equal(placeholders[2], 'id');
     },
   },
 
