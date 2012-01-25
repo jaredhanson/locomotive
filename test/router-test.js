@@ -514,6 +514,117 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with resources nested under resource': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resource('settings', function() {
+        this.resources('accounts');
+      });
+      return router;
+    },
+    
+    'should mount fourteen routes': function (router) {
+      assert.lengthOf(router._http._routes, 13);
+    },
+    'should create route to sub-resources index action': function (router) {
+      var route = router._find('AccountsController', 'index');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/settings/accounts');
+    },
+    'should mount route to sub-resources index action at GET /resource/sub-resources': function (router) {
+      assert.equal(router._http._routes[6].method, 'GET');
+      assert.equal(router._http._routes[6].path, '/settings/accounts');
+      assert.equal(router._http._routes[6].fn().controller, 'AccountsController');
+      assert.equal(router._http._routes[6].fn().action, 'index');
+    },
+    'should create route to sub-resources new action': function (router) {
+      var route = router._find('AccountsController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/settings/accounts/new');
+    },
+    'should mount route to sub-resources new action at GET /resource/sub-resources/new': function (router) {
+      assert.equal(router._http._routes[7].method, 'GET');
+      assert.equal(router._http._routes[7].path, '/settings/accounts/new');
+      assert.equal(router._http._routes[7].fn().controller, 'AccountsController');
+      assert.equal(router._http._routes[7].fn().action, 'new');
+    },
+    'should create route to sub-resources create action': function (router) {
+      var route = router._find('AccountsController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/settings/accounts');
+    },
+    'should mount route to sub-resources create action at POST /resource/sub-resources': function (router) {
+      assert.equal(router._http._routes[8].method, 'POST');
+      assert.equal(router._http._routes[8].path, '/settings/accounts');
+      assert.equal(router._http._routes[8].fn().controller, 'AccountsController');
+      assert.equal(router._http._routes[8].fn().action, 'create');
+    },
+    'should create route to sub-resources show action': function (router) {
+      var route = router._find('AccountsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/settings/accounts/:id.:format?');
+    },
+    'should mount route to sub-resources show action at GET /resource/sub-resources/5678': function (router) {
+      assert.equal(router._http._routes[9].method, 'GET');
+      assert.equal(router._http._routes[9].path, '/settings/accounts/:id.:format?');
+      assert.equal(router._http._routes[9].fn().controller, 'AccountsController');
+      assert.equal(router._http._routes[9].fn().action, 'show');
+    },
+    'should create route to sub-resources edit action': function (router) {
+      var route = router._find('AccountsController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/settings/accounts/:id/edit');
+    },
+    'should mount route to sub-resources edit action at GET /resource/sub-resources/5678/edit': function (router) {
+      assert.equal(router._http._routes[10].method, 'GET');
+      assert.equal(router._http._routes[10].path, '/settings/accounts/:id/edit');
+      assert.equal(router._http._routes[10].fn().controller, 'AccountsController');
+      assert.equal(router._http._routes[10].fn().action, 'edit');
+    },
+    'should create route to sub-resources update action': function (router) {
+      var route = router._find('AccountsController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/settings/accounts/:id');
+    },
+    'should mount route to sub-resources update action at PUT /resource/sub-resources/5678': function (router) {
+      assert.equal(router._http._routes[11].method, 'PUT');
+      assert.equal(router._http._routes[11].path, '/settings/accounts/:id');
+      assert.equal(router._http._routes[11].fn().controller, 'AccountsController');
+      assert.equal(router._http._routes[11].fn().action, 'update');
+    },
+    'should create route to destroy action': function (router) {
+      var route = router._find('AccountsController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/settings/accounts/:id');
+    },
+    'should mount route to destroy action at DELETE /resource/sub-resources/1234': function (router) {
+      assert.equal(router._http._routes[12].method, 'DELETE');
+      assert.equal(router._http._routes[12].path, '/settings/accounts/:id');
+      assert.equal(router._http._routes[12].fn().controller, 'AccountsController');
+      assert.equal(router._http._routes[12].fn().action, 'destroy');
+    },
+    'should declare routing helpers': function (router) {
+      assert.lengthOf(Object.keys(router._express._helpers), 7);
+      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 7);
+      
+      assert.isFunction(router._express._helpers.settingsPath);
+      assert.isFunction(router._express._helpers.newSettingsPath);
+      assert.isFunction(router._express._helpers.editSettingsPath);
+      assert.isFunction(router._express._helpers.settingsAccountsPath);
+      assert.isFunction(router._express._helpers.settingsAccountPath);
+      assert.isFunction(router._express._helpers.newSettingsAccountPath);
+      assert.isFunction(router._express._helpers.editSettingsAccountPath);
+      
+      assert.isFunction(router._express._dynamicHelpers.settingsURL);
+      assert.isFunction(router._express._dynamicHelpers.newSettingsURL);
+      assert.isFunction(router._express._dynamicHelpers.editSettingsURL);
+      assert.isFunction(router._express._dynamicHelpers.settingsAccountsURL);
+      assert.isFunction(router._express._dynamicHelpers.settingsAccountURL);
+      assert.isFunction(router._express._dynamicHelpers.newSettingsAccountURL);
+      assert.isFunction(router._express._dynamicHelpers.editSettingsAccountURL);
+    },
+  },
+  
   'router with resources nested under resources': {
     topic: function() {
       var router = intializedRouter()
