@@ -841,7 +841,35 @@ vows.describe('Router').addBatch({
   },
   
   // TODO: Ensure test coverage of match declared under namespace.
-  // TODO: Ensure test coverage for resource nested under resources and vice-versa.
+  
+  'router with match route in a namespace': {
+    topic: function() {
+      var router = intializedRouter()
+      router.namespace('top40', function() {
+        router.match('songs/:title', 'songs#show', { as: 'songs' });
+      });
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router._find('Top40::SongsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/top40/songs/:title');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/top40/songs/:title');
+      assert.equal(router._http._routes[0].fn().controller, 'Top40::SongsController');
+      assert.equal(router._http._routes[0].fn().action, 'show');
+    },
+    'should declare routing helpers': function (router) {
+      assert.isFunction(router._express._helpers.songsPath);
+      assert.isFunction(router._express._dynamicHelpers.songsURL);
+      var songsURL = router._express._dynamicHelpers.songsURL({}, {});
+      assert.isFunction(songsURL);
+    },
+  },
   
   'router with resources route in a namespace': {
     topic: function() {
