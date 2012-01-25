@@ -12,7 +12,7 @@ vows.describe('Namespace').addBatch({
     },
     
     'should have empty name property': function (ns) {
-      assert.equal(ns.name, '');
+      assert.equal(ns.path, '');
     },
     'should have empty module property': function (ns) {
       assert.equal(ns.module, '');
@@ -21,7 +21,7 @@ vows.describe('Namespace').addBatch({
       assert.isNull(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qcontroller('PhotosController'), 'PhotosController');
+      assert.equal(ns.qmodule('PhotosController'), 'PhotosController');
     },
     'should qualify paths': function (ns) {
       assert.equal(ns.qpath('photos'), '/photos');
@@ -35,7 +35,7 @@ vows.describe('Namespace').addBatch({
     },
     
     'should have name property': function (ns) {
-      assert.equal(ns.name, 'foo');
+      assert.equal(ns.path, 'foo');
     },
     'should have module property': function (ns) {
       assert.equal(ns.module, 'Foo');
@@ -44,7 +44,7 @@ vows.describe('Namespace').addBatch({
       assert.isNull(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qcontroller('PhotosController'), 'Foo::PhotosController');
+      assert.equal(ns.qmodule('PhotosController'), 'Foo::PhotosController');
     },
     'should qualify paths': function (ns) {
       assert.equal(ns.qpath('photos'), '/foo/photos');
@@ -58,7 +58,7 @@ vows.describe('Namespace').addBatch({
     },
     
     'should have name property': function (ns) {
-      assert.equal(ns.name, 'foo');
+      assert.equal(ns.path, 'foo');
     },
     'should have module property': function (ns) {
       assert.equal(ns.module, 'Bar');
@@ -67,7 +67,7 @@ vows.describe('Namespace').addBatch({
       assert.isNull(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qcontroller('PhotosController'), 'Bar::PhotosController');
+      assert.equal(ns.qmodule('PhotosController'), 'Bar::PhotosController');
     },
     'should qualify paths': function (ns) {
       assert.equal(ns.qpath('photos'), '/foo/photos');
@@ -81,7 +81,7 @@ vows.describe('Namespace').addBatch({
     },
     
     'should have name property': function (ns) {
-      assert.equal(ns.name, 'foo');
+      assert.equal(ns.path, 'foo');
     },
     'should have module property': function (ns) {
       assert.equal(ns.module, '');
@@ -90,7 +90,7 @@ vows.describe('Namespace').addBatch({
       assert.isNull(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qcontroller('PhotosController'), 'PhotosController');
+      assert.equal(ns.qmodule('PhotosController'), 'PhotosController');
     },
     'should qualify paths': function (ns) {
       assert.equal(ns.qpath('photos'), '/foo/photos');
@@ -105,7 +105,7 @@ vows.describe('Namespace').addBatch({
     },
     
     'should have empty name property': function (ns) {
-      assert.equal(ns.name, 'http');
+      assert.equal(ns.path, 'http');
     },
     'should have empty module property': function (ns) {
       assert.equal(ns.module, 'Http');
@@ -114,7 +114,7 @@ vows.describe('Namespace').addBatch({
       assert.isObject(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qcontroller('ProxiesController'), 'Net::Http::ProxiesController');
+      assert.equal(ns.qmodule('ProxiesController'), 'Net::Http::ProxiesController');
     },
     'should qualify paths': function (ns) {
       assert.equal(ns.qpath('proxies'), '/net/http/proxies');
