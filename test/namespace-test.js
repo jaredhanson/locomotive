@@ -68,6 +68,10 @@ vows.describe('Namespace').addBatch({
       assert.equal(ns.qpath('photos'), '/foo/photos');
       assert.equal(ns.qpath('/photos'), '/foo/photos');
     },
+    'should return null when no placeholders exist': function (ns) {
+      var placeholders = ns.placeholders();
+      assert.isNull(placeholders);
+    },
     'should return placeholder given as argument': function (ns) {
       var placeholders = ns.placeholders('id');
       assert.lengthOf(placeholders, 1);

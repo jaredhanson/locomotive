@@ -840,8 +840,6 @@ vows.describe('Router').addBatch({
     },
   },
   
-  // TODO: Ensure test coverage of match declared under namespace.
-  
   'router with match route in a namespace': {
     topic: function() {
       var router = intializedRouter()
@@ -976,6 +974,45 @@ vows.describe('Router').addBatch({
       assert.equal(songURL(7), 'http://www.example.com/songs/7');
       assert.equal(songURL('mr-jones'), 'http://www.example.com/songs/mr-jones');
       assert.equal(songURL({ id: 101 }), 'http://www.example.com/songs/101');
+    },
+  },
+  
+  'routing helpers for resources nested under resources': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resources('bands', function() {
+        this.resources('albums');
+      });
+      return router;
+    },
+    
+    'should generate correct paths': function (router) {
+      // setup app and urlFor helper
+      var app = new MockLocomotive();
+      app._routes['AlbumsController#show'] = new Route('get', '/bands/:band_id/albums/:id');
+      var req = new MockRequest();
+      req.headers = { 'host': 'www.example.com' };
+      req.locomotive = app;
+      var res = new MockResponse();
+      
+      var context = {};
+      for (var key in dynamicHelpers) {
+        context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
+      }
+      // end setup
+      
+      assert.isFunction(router._express._helpers.bandAlbumPath);
+      var bandAlbumPath = router._express._helpers.bandAlbumPath.bind(context)
+      assert.equal(bandAlbumPath(7, 8), '/bands/7/albums/8');
+      assert.equal(bandAlbumPath('counting-crows', 'august-and-everything-after'), '/bands/counting-crows/albums/august-and-everything-after');
+      assert.equal(bandAlbumPath({ id: 101 }, { id: 202 }), '/bands/101/albums/202');
+      
+      assert.isFunction(router._express._dynamicHelpers.bandAlbumURL);
+      var bandAlbumURL = router._express._dynamicHelpers.bandAlbumURL(req, res).bind(context);
+      assert.isFunction(bandAlbumURL);
+      assert.equal(bandAlbumURL(7, 8), 'http://www.example.com/bands/7/albums/8');
+      assert.equal(bandAlbumURL('counting-crows', 'august-and-everything-after'), 'http://www.example.com/bands/counting-crows/albums/august-and-everything-after');
+      assert.equal(bandAlbumURL({ id: 101 }, { id: 202 }), 'http://www.example.com/bands/101/albums/202');
     },
   },
   
