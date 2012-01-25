@@ -625,6 +625,106 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with resource nested under resources': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resources('bands', function() {
+        this.resource('bio');
+      });
+      return router;
+    },
+    
+    'should mount thirteen routes': function (router) {
+      assert.lengthOf(router._http._routes, 13);
+    },
+    'should create route to sub-resource new action': function (router) {
+      var route = router._find('BioController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:bandID/bio/new');
+    },
+    'should mount route to sub-resource new action at GET /resources/1234/sub-resource/new': function (router) {
+      assert.equal(router._http._routes[7].method, 'GET');
+      assert.equal(router._http._routes[7].path, '/bands/:bandID/bio/new');
+      assert.equal(router._http._routes[7].fn().controller, 'BioController');
+      assert.equal(router._http._routes[7].fn().action, 'new');
+    },
+    'should create route to sub-resource create action': function (router) {
+      var route = router._find('BioController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/bands/:bandID/bio');
+    },
+    'should mount route to sub-resource create action at POST /resources/1234/sub-resource': function (router) {
+      assert.equal(router._http._routes[8].method, 'POST');
+      assert.equal(router._http._routes[8].path, '/bands/:bandID/bio');
+      assert.equal(router._http._routes[8].fn().controller, 'BioController');
+      assert.equal(router._http._routes[8].fn().action, 'create');
+    },
+    'should create route to sub-resource show action': function (router) {
+      var route = router._find('BioController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:bandID/bio.:format?');
+    },
+    'should mount route to sub-resource show action at GET /resources/1234/sub-resource': function (router) {
+      assert.equal(router._http._routes[9].method, 'GET');
+      assert.equal(router._http._routes[9].path, '/bands/:bandID/bio.:format?');
+      assert.equal(router._http._routes[9].fn().controller, 'BioController');
+      assert.equal(router._http._routes[9].fn().action, 'show');
+    },
+    'should create route to sub-resource edit action': function (router) {
+      var route = router._find('BioController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:bandID/bio/edit');
+    },
+    'should mount route to sub-resource edit action at GET /resources/1234/sub-resource/edit': function (router) {
+      assert.equal(router._http._routes[10].method, 'GET');
+      assert.equal(router._http._routes[10].path, '/bands/:bandID/bio/edit');
+      assert.equal(router._http._routes[10].fn().controller, 'BioController');
+      assert.equal(router._http._routes[10].fn().action, 'edit');
+    },
+    'should create route to sub-resource update action': function (router) {
+      var route = router._find('BioController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/bands/:bandID/bio');
+    },
+    'should mount route to sub-resource update action at PUT /resources/1234/sub-resource': function (router) {
+      assert.equal(router._http._routes[11].method, 'PUT');
+      assert.equal(router._http._routes[11].path, '/bands/:bandID/bio');
+      assert.equal(router._http._routes[11].fn().controller, 'BioController');
+      assert.equal(router._http._routes[11].fn().action, 'update');
+    },
+    'should create route to sub-resource destroy action': function (router) {
+      var route = router._find('BioController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/bands/:bandID/bio');
+    },
+    'should mount route to sub-resource destroy action at DELETE /resources/1234/sub-resource': function (router) {
+      assert.equal(router._http._routes[12].method, 'DELETE');
+      assert.equal(router._http._routes[12].path, '/bands/:bandID/bio');
+      assert.equal(router._http._routes[12].fn().controller, 'BioController');
+      assert.equal(router._http._routes[12].fn().action, 'destroy');
+    },
+    'should declare routing helpers': function (router) {
+      assert.lengthOf(Object.keys(router._express._helpers), 7);
+      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 7);
+      
+      assert.isFunction(router._express._helpers.bandsPath);
+      assert.isFunction(router._express._helpers.bandPath);
+      assert.isFunction(router._express._helpers.newBandPath);
+      assert.isFunction(router._express._helpers.editBandPath);
+      assert.isFunction(router._express._helpers.bandBioPath);
+      assert.isFunction(router._express._helpers.newBandBioPath);
+      assert.isFunction(router._express._helpers.editBandBioPath);
+      
+      assert.isFunction(router._express._dynamicHelpers.bandsURL);
+      assert.isFunction(router._express._dynamicHelpers.bandURL);
+      assert.isFunction(router._express._dynamicHelpers.newBandURL);
+      assert.isFunction(router._express._dynamicHelpers.editBandURL);
+      assert.isFunction(router._express._dynamicHelpers.bandBioURL);
+      assert.isFunction(router._express._dynamicHelpers.newBandBioURL);
+      assert.isFunction(router._express._dynamicHelpers.editBandBioURL);
+    },
+  },
+  
   'router with resources nested under resources': {
     topic: function() {
       var router = intializedRouter()
