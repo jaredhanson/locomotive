@@ -499,10 +499,16 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._express._helpers.accountPath);
       assert.isFunction(router._express._helpers.newAccountPath);
       assert.isFunction(router._express._helpers.editAccountPath);
+      assert.isFunction(router._express._helpers.accountPasswordPath);
+      assert.isFunction(router._express._helpers.newAccountPasswordPath);
+      assert.isFunction(router._express._helpers.editAccountPasswordPath);
       
       assert.isFunction(router._express._dynamicHelpers.accountURL);
       assert.isFunction(router._express._dynamicHelpers.newAccountURL);
       assert.isFunction(router._express._dynamicHelpers.editAccountURL);
+      assert.isFunction(router._express._dynamicHelpers.accountPasswordURL);
+      assert.isFunction(router._express._dynamicHelpers.newAccountPasswordURL);
+      assert.isFunction(router._express._dynamicHelpers.editAccountPasswordURL);
       
       // FIXME: Sub-resource routing helpers need to be declared properly and return correct paths.
     },
@@ -605,11 +611,19 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._express._helpers.bandPath);
       assert.isFunction(router._express._helpers.newBandPath);
       assert.isFunction(router._express._helpers.editBandPath);
+      assert.isFunction(router._express._helpers.bandAlbumsPath);
+      assert.isFunction(router._express._helpers.bandAlbumPath);
+      assert.isFunction(router._express._helpers.newBandAlbumPath);
+      assert.isFunction(router._express._helpers.editBandAlbumPath);
       
       assert.isFunction(router._express._dynamicHelpers.bandsURL);
       assert.isFunction(router._express._dynamicHelpers.bandURL);
       assert.isFunction(router._express._dynamicHelpers.newBandURL);
       assert.isFunction(router._express._dynamicHelpers.editBandURL);
+      assert.isFunction(router._express._dynamicHelpers.bandAlbumsURL);
+      assert.isFunction(router._express._dynamicHelpers.bandAlbumURL);
+      assert.isFunction(router._express._dynamicHelpers.newBandAlbumURL);
+      assert.isFunction(router._express._dynamicHelpers.editBandAlbumURL);
       
       // FIXME: Sub-resource routing helpers need to be declared properly and return correct paths.
     },
