@@ -15,14 +15,27 @@ function MockLocomotive() {
     var key = controller + '#' + action;
     return self._routes[key];
   }
+  
+  this._helpers = {};
+  this._dynamicHelpers = {};
+}
+
+MockLocomotive.prototype.helpers = function(obj) {
+  for (var method in obj) {
+    this._helpers[method] = obj[method];
+  }
+}
+
+MockLocomotive.prototype.dynamicHelpers = function(obj) {
+  for (var method in obj) {
+    this._dynamicHelpers[method] = obj[method];
+  }
 }
 
 /* MockExpress */
 
 function MockExpress() {
   this._routes = [];
-  this._helpers = {};
-  this._dynamicHelpers = {};
 }
 
 MockExpress.prototype.get = function(path, fn) {
@@ -41,24 +54,6 @@ MockExpress.prototype.del = function(path, fn) {
   this._routes.push({ method: 'DELETE', path: path, fn: fn });
 }
 
-MockExpress.prototype.helpers = function(obj) {
-  for (var method in obj) {
-    this._helpers[method] = obj[method];
-  }
-}
-
-MockExpress.prototype.dynamicHelpers = function(obj) {
-  for (var method in obj) {
-    this._dynamicHelpers[method] = obj[method];
-  }
-}
-
-MockExpress.prototype.reset = function() {
-  this._routes = [];
-  this._helpers = {};
-  this._dynamicHelpers = {};
-}
-
 /* MockRequest */
 
 function MockRequest() {
@@ -71,7 +66,8 @@ function MockResponse() {
 
 
 function intializedRouter() {
-  var router = new Router();
+  var app = new MockLocomotive();
+  var router = new Router(app);
   var http = new MockExpress();
   function handle(controller, action) {
     return function() {
@@ -220,9 +216,9 @@ vows.describe('Router').addBatch({
     },
     
     'should declare routing helpers': function (router) {
-      assert.isFunction(router._express._helpers.songsPath);
-      assert.isFunction(router._express._dynamicHelpers.songsURL);
-      var songsURL = router._express._dynamicHelpers.songsURL({}, {});
+      assert.isFunction(router._app._helpers.songsPath);
+      assert.isFunction(router._app._dynamicHelpers.songsURL);
+      var songsURL = router._app._dynamicHelpers.songsURL({}, {});
       assert.isFunction(songsURL);
     },
   },
@@ -304,13 +300,13 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[5].fn().action, 'destroy');
     },
     'should declare routing helpers': function (router) {
-      assert.isFunction(router._express._helpers.profilePath);
-      assert.isFunction(router._express._helpers.newProfilePath);
-      assert.isFunction(router._express._helpers.editProfilePath);
+      assert.isFunction(router._app._helpers.profilePath);
+      assert.isFunction(router._app._helpers.newProfilePath);
+      assert.isFunction(router._app._helpers.editProfilePath);
       
-      assert.isFunction(router._express._dynamicHelpers.profileURL);
-      assert.isFunction(router._express._dynamicHelpers.newProfileURL);
-      assert.isFunction(router._express._dynamicHelpers.editProfileURL);
+      assert.isFunction(router._app._dynamicHelpers.profileURL);
+      assert.isFunction(router._app._dynamicHelpers.newProfileURL);
+      assert.isFunction(router._app._dynamicHelpers.editProfileURL);
     },
   },
   
@@ -402,15 +398,15 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[6].fn().action, 'destroy');
     },
     'should declare routing helpers': function (router) {
-      assert.isFunction(router._express._helpers.bandsPath);
-      assert.isFunction(router._express._helpers.bandPath);
-      assert.isFunction(router._express._helpers.newBandPath);
-      assert.isFunction(router._express._helpers.editBandPath);
+      assert.isFunction(router._app._helpers.bandsPath);
+      assert.isFunction(router._app._helpers.bandPath);
+      assert.isFunction(router._app._helpers.newBandPath);
+      assert.isFunction(router._app._helpers.editBandPath);
       
-      assert.isFunction(router._express._dynamicHelpers.bandsURL);
-      assert.isFunction(router._express._dynamicHelpers.bandURL);
-      assert.isFunction(router._express._dynamicHelpers.newBandURL);
-      assert.isFunction(router._express._dynamicHelpers.editBandURL);
+      assert.isFunction(router._app._dynamicHelpers.bandsURL);
+      assert.isFunction(router._app._dynamicHelpers.bandURL);
+      assert.isFunction(router._app._dynamicHelpers.newBandURL);
+      assert.isFunction(router._app._dynamicHelpers.editBandURL);
     },
   },
   
@@ -493,22 +489,22 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[11].fn().action, 'destroy');
     },
     'should declare routing helpers': function (router) {
-      assert.lengthOf(Object.keys(router._express._helpers), 6);
-      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 6);
+      assert.lengthOf(Object.keys(router._app._helpers), 6);
+      assert.lengthOf(Object.keys(router._app._dynamicHelpers), 6);
       
-      assert.isFunction(router._express._helpers.accountPath);
-      assert.isFunction(router._express._helpers.newAccountPath);
-      assert.isFunction(router._express._helpers.editAccountPath);
-      assert.isFunction(router._express._helpers.accountPasswordPath);
-      assert.isFunction(router._express._helpers.newAccountPasswordPath);
-      assert.isFunction(router._express._helpers.editAccountPasswordPath);
+      assert.isFunction(router._app._helpers.accountPath);
+      assert.isFunction(router._app._helpers.newAccountPath);
+      assert.isFunction(router._app._helpers.editAccountPath);
+      assert.isFunction(router._app._helpers.accountPasswordPath);
+      assert.isFunction(router._app._helpers.newAccountPasswordPath);
+      assert.isFunction(router._app._helpers.editAccountPasswordPath);
       
-      assert.isFunction(router._express._dynamicHelpers.accountURL);
-      assert.isFunction(router._express._dynamicHelpers.newAccountURL);
-      assert.isFunction(router._express._dynamicHelpers.editAccountURL);
-      assert.isFunction(router._express._dynamicHelpers.accountPasswordURL);
-      assert.isFunction(router._express._dynamicHelpers.newAccountPasswordURL);
-      assert.isFunction(router._express._dynamicHelpers.editAccountPasswordURL);
+      assert.isFunction(router._app._dynamicHelpers.accountURL);
+      assert.isFunction(router._app._dynamicHelpers.newAccountURL);
+      assert.isFunction(router._app._dynamicHelpers.editAccountURL);
+      assert.isFunction(router._app._dynamicHelpers.accountPasswordURL);
+      assert.isFunction(router._app._dynamicHelpers.newAccountPasswordURL);
+      assert.isFunction(router._app._dynamicHelpers.editAccountPasswordURL);
     },
   },
   
@@ -602,24 +598,24 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[12].fn().action, 'destroy');
     },
     'should declare routing helpers': function (router) {
-      assert.lengthOf(Object.keys(router._express._helpers), 7);
-      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 7);
+      assert.lengthOf(Object.keys(router._app._helpers), 7);
+      assert.lengthOf(Object.keys(router._app._dynamicHelpers), 7);
       
-      assert.isFunction(router._express._helpers.settingsPath);
-      assert.isFunction(router._express._helpers.newSettingsPath);
-      assert.isFunction(router._express._helpers.editSettingsPath);
-      assert.isFunction(router._express._helpers.settingsAccountsPath);
-      assert.isFunction(router._express._helpers.settingsAccountPath);
-      assert.isFunction(router._express._helpers.newSettingsAccountPath);
-      assert.isFunction(router._express._helpers.editSettingsAccountPath);
+      assert.isFunction(router._app._helpers.settingsPath);
+      assert.isFunction(router._app._helpers.newSettingsPath);
+      assert.isFunction(router._app._helpers.editSettingsPath);
+      assert.isFunction(router._app._helpers.settingsAccountsPath);
+      assert.isFunction(router._app._helpers.settingsAccountPath);
+      assert.isFunction(router._app._helpers.newSettingsAccountPath);
+      assert.isFunction(router._app._helpers.editSettingsAccountPath);
       
-      assert.isFunction(router._express._dynamicHelpers.settingsURL);
-      assert.isFunction(router._express._dynamicHelpers.newSettingsURL);
-      assert.isFunction(router._express._dynamicHelpers.editSettingsURL);
-      assert.isFunction(router._express._dynamicHelpers.settingsAccountsURL);
-      assert.isFunction(router._express._dynamicHelpers.settingsAccountURL);
-      assert.isFunction(router._express._dynamicHelpers.newSettingsAccountURL);
-      assert.isFunction(router._express._dynamicHelpers.editSettingsAccountURL);
+      assert.isFunction(router._app._dynamicHelpers.settingsURL);
+      assert.isFunction(router._app._dynamicHelpers.newSettingsURL);
+      assert.isFunction(router._app._dynamicHelpers.editSettingsURL);
+      assert.isFunction(router._app._dynamicHelpers.settingsAccountsURL);
+      assert.isFunction(router._app._dynamicHelpers.settingsAccountURL);
+      assert.isFunction(router._app._dynamicHelpers.newSettingsAccountURL);
+      assert.isFunction(router._app._dynamicHelpers.editSettingsAccountURL);
     },
   },
   
@@ -702,24 +698,24 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[12].fn().action, 'destroy');
     },
     'should declare routing helpers': function (router) {
-      assert.lengthOf(Object.keys(router._express._helpers), 7);
-      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 7);
+      assert.lengthOf(Object.keys(router._app._helpers), 7);
+      assert.lengthOf(Object.keys(router._app._dynamicHelpers), 7);
       
-      assert.isFunction(router._express._helpers.bandsPath);
-      assert.isFunction(router._express._helpers.bandPath);
-      assert.isFunction(router._express._helpers.newBandPath);
-      assert.isFunction(router._express._helpers.editBandPath);
-      assert.isFunction(router._express._helpers.bandBioPath);
-      assert.isFunction(router._express._helpers.newBandBioPath);
-      assert.isFunction(router._express._helpers.editBandBioPath);
+      assert.isFunction(router._app._helpers.bandsPath);
+      assert.isFunction(router._app._helpers.bandPath);
+      assert.isFunction(router._app._helpers.newBandPath);
+      assert.isFunction(router._app._helpers.editBandPath);
+      assert.isFunction(router._app._helpers.bandBioPath);
+      assert.isFunction(router._app._helpers.newBandBioPath);
+      assert.isFunction(router._app._helpers.editBandBioPath);
       
-      assert.isFunction(router._express._dynamicHelpers.bandsURL);
-      assert.isFunction(router._express._dynamicHelpers.bandURL);
-      assert.isFunction(router._express._dynamicHelpers.newBandURL);
-      assert.isFunction(router._express._dynamicHelpers.editBandURL);
-      assert.isFunction(router._express._dynamicHelpers.bandBioURL);
-      assert.isFunction(router._express._dynamicHelpers.newBandBioURL);
-      assert.isFunction(router._express._dynamicHelpers.editBandBioURL);
+      assert.isFunction(router._app._dynamicHelpers.bandsURL);
+      assert.isFunction(router._app._dynamicHelpers.bandURL);
+      assert.isFunction(router._app._dynamicHelpers.newBandURL);
+      assert.isFunction(router._app._dynamicHelpers.editBandURL);
+      assert.isFunction(router._app._dynamicHelpers.bandBioURL);
+      assert.isFunction(router._app._dynamicHelpers.newBandBioURL);
+      assert.isFunction(router._app._dynamicHelpers.editBandBioURL);
     },
   },
   
@@ -813,26 +809,26 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[13].fn().action, 'destroy');
     },
     'should declare routing helpers': function (router) {
-      assert.lengthOf(Object.keys(router._express._helpers), 8);
-      assert.lengthOf(Object.keys(router._express._dynamicHelpers), 8);
+      assert.lengthOf(Object.keys(router._app._helpers), 8);
+      assert.lengthOf(Object.keys(router._app._dynamicHelpers), 8);
       
-      assert.isFunction(router._express._helpers.bandsPath);
-      assert.isFunction(router._express._helpers.bandPath);
-      assert.isFunction(router._express._helpers.newBandPath);
-      assert.isFunction(router._express._helpers.editBandPath);
-      assert.isFunction(router._express._helpers.bandAlbumsPath);
-      assert.isFunction(router._express._helpers.bandAlbumPath);
-      assert.isFunction(router._express._helpers.newBandAlbumPath);
-      assert.isFunction(router._express._helpers.editBandAlbumPath);
+      assert.isFunction(router._app._helpers.bandsPath);
+      assert.isFunction(router._app._helpers.bandPath);
+      assert.isFunction(router._app._helpers.newBandPath);
+      assert.isFunction(router._app._helpers.editBandPath);
+      assert.isFunction(router._app._helpers.bandAlbumsPath);
+      assert.isFunction(router._app._helpers.bandAlbumPath);
+      assert.isFunction(router._app._helpers.newBandAlbumPath);
+      assert.isFunction(router._app._helpers.editBandAlbumPath);
       
-      assert.isFunction(router._express._dynamicHelpers.bandsURL);
-      assert.isFunction(router._express._dynamicHelpers.bandURL);
-      assert.isFunction(router._express._dynamicHelpers.newBandURL);
-      assert.isFunction(router._express._dynamicHelpers.editBandURL);
-      assert.isFunction(router._express._dynamicHelpers.bandAlbumsURL);
-      assert.isFunction(router._express._dynamicHelpers.bandAlbumURL);
-      assert.isFunction(router._express._dynamicHelpers.newBandAlbumURL);
-      assert.isFunction(router._express._dynamicHelpers.editBandAlbumURL);
+      assert.isFunction(router._app._dynamicHelpers.bandsURL);
+      assert.isFunction(router._app._dynamicHelpers.bandURL);
+      assert.isFunction(router._app._dynamicHelpers.newBandURL);
+      assert.isFunction(router._app._dynamicHelpers.editBandURL);
+      assert.isFunction(router._app._dynamicHelpers.bandAlbumsURL);
+      assert.isFunction(router._app._dynamicHelpers.bandAlbumURL);
+      assert.isFunction(router._app._dynamicHelpers.newBandAlbumURL);
+      assert.isFunction(router._app._dynamicHelpers.editBandAlbumURL);
     },
   },
   
@@ -858,9 +854,9 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'show');
     },
     'should declare routing helpers': function (router) {
-      assert.isFunction(router._express._helpers.songsPath);
-      assert.isFunction(router._express._dynamicHelpers.songsURL);
-      var songsURL = router._express._dynamicHelpers.songsURL({}, {});
+      assert.isFunction(router._app._helpers.songsPath);
+      assert.isFunction(router._app._dynamicHelpers.songsURL);
+      var songsURL = router._app._dynamicHelpers.songsURL({}, {});
       assert.isFunction(songsURL);
     },
   },
@@ -889,15 +885,15 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'index');
     },
     'should declare routing helpers': function (router) {
-      assert.isFunction(router._express._helpers.adminPostsPath);
-      assert.isFunction(router._express._helpers.adminPostPath);
-      assert.isFunction(router._express._helpers.newAdminPostPath);
-      assert.isFunction(router._express._helpers.editAdminPostPath);
+      assert.isFunction(router._app._helpers.adminPostsPath);
+      assert.isFunction(router._app._helpers.adminPostPath);
+      assert.isFunction(router._app._helpers.newAdminPostPath);
+      assert.isFunction(router._app._helpers.editAdminPostPath);
       
-      assert.isFunction(router._express._dynamicHelpers.adminPostsURL);
-      assert.isFunction(router._express._dynamicHelpers.adminPostURL);
-      assert.isFunction(router._express._dynamicHelpers.newAdminPostURL);
-      assert.isFunction(router._express._dynamicHelpers.editAdminPostURL);
+      assert.isFunction(router._app._dynamicHelpers.adminPostsURL);
+      assert.isFunction(router._app._dynamicHelpers.adminPostURL);
+      assert.isFunction(router._app._dynamicHelpers.newAdminPostURL);
+      assert.isFunction(router._app._dynamicHelpers.editAdminPostURL);
     },
   },
   
@@ -924,12 +920,12 @@ vows.describe('Router').addBatch({
       }
       // end setup
       
-      assert.isFunction(router._express._helpers.songsPath);
-      var songsPath = router._express._helpers.songsPath.bind(context)
+      assert.isFunction(router._app._helpers.songsPath);
+      var songsPath = router._app._helpers.songsPath.bind(context)
       assert.equal(songsPath(), '/songs');
       
-      assert.isFunction(router._express._dynamicHelpers.songsURL);
-      var songsURL = router._express._dynamicHelpers.songsURL(req, res).bind(context);
+      assert.isFunction(router._app._dynamicHelpers.songsURL);
+      var songsURL = router._app._dynamicHelpers.songsURL(req, res).bind(context);
       assert.isFunction(songsURL);
       assert.equal(songsURL(), 'http://www.example.com/songs');
     },
@@ -958,14 +954,14 @@ vows.describe('Router').addBatch({
       }
       // end setup
       
-      assert.isFunction(router._express._helpers.songPath);
-      var songPath = router._express._helpers.songPath.bind(context)
+      assert.isFunction(router._app._helpers.songPath);
+      var songPath = router._app._helpers.songPath.bind(context)
       assert.equal(songPath(7), '/songs/7');
       assert.equal(songPath('mr-jones'), '/songs/mr-jones');
       assert.equal(songPath({ id: 101 }), '/songs/101');
       
-      assert.isFunction(router._express._dynamicHelpers.songURL);
-      var songURL = router._express._dynamicHelpers.songURL(req, res).bind(context);
+      assert.isFunction(router._app._dynamicHelpers.songURL);
+      var songURL = router._app._dynamicHelpers.songURL(req, res).bind(context);
       assert.isFunction(songURL);
       assert.equal(songURL(7), 'http://www.example.com/songs/7');
       assert.equal(songURL('mr-jones'), 'http://www.example.com/songs/mr-jones');
@@ -998,14 +994,14 @@ vows.describe('Router').addBatch({
       }
       // end setup
       
-      assert.isFunction(router._express._helpers.bandAlbumPath);
-      var bandAlbumPath = router._express._helpers.bandAlbumPath.bind(context)
+      assert.isFunction(router._app._helpers.bandAlbumPath);
+      var bandAlbumPath = router._app._helpers.bandAlbumPath.bind(context)
       assert.equal(bandAlbumPath(7, 8), '/bands/7/albums/8');
       assert.equal(bandAlbumPath('counting-crows', 'august-and-everything-after'), '/bands/counting-crows/albums/august-and-everything-after');
       assert.equal(bandAlbumPath({ id: 101 }, { id: 202 }), '/bands/101/albums/202');
       
-      assert.isFunction(router._express._dynamicHelpers.bandAlbumURL);
-      var bandAlbumURL = router._express._dynamicHelpers.bandAlbumURL(req, res).bind(context);
+      assert.isFunction(router._app._dynamicHelpers.bandAlbumURL);
+      var bandAlbumURL = router._app._dynamicHelpers.bandAlbumURL(req, res).bind(context);
       assert.isFunction(bandAlbumURL);
       assert.equal(bandAlbumURL(7, 8), 'http://www.example.com/bands/7/albums/8');
       assert.equal(bandAlbumURL('counting-crows', 'august-and-everything-after'), 'http://www.example.com/bands/counting-crows/albums/august-and-everything-after');
