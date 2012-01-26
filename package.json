@@ -1,7 +1,7 @@
 {
   "name": "locomotive",
   "version": "0.1.2",
-  "description": "Easy web development for Node.js.",
+  "description": "Effective web development for Node.js.",
   "author": { "name": "Jared Hanson", "email": "jaredhanson@gmail.com", "url": "http://www.jaredhanson.net/" },
   "repository": {
     "type": "git",
@@ -13,6 +13,7 @@
   "main": "./lib/locomotive",
   "bin" : { "lcm" : "./bin/lcm.js" },
   "dependencies": {
+    "pkginfo": "0.2.x",
     "commander": ">= 0.4.1",
     "mkdirp": ">= 0.2.1",
     "express": ">= 2.4.6",
