@@ -48,6 +48,16 @@ vows.describe('Module').addBatch({
       locomotive.controller('fooBarController', TestController);
       assert.equal(TestController.__name, 'FooBarController');
     },
+    'should register controllers with underscore names without controller suffix in directory': function (locomotive) {
+      var TestController = new Controller();
+      locomotive.controller('baz/foo_bar', TestController);
+      assert.equal(TestController.__name, 'Baz::FooBarController');
+    },
+    'should register controllers with underscore names with controller suffix in directory': function (locomotive) {
+      var TestController = new Controller();
+      locomotive.controller('baz/foo_bar_controller', TestController);
+      assert.equal(TestController.__name, 'Baz::FooBarController');
+    },
   },
   
 }).export(module);
