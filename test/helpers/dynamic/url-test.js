@@ -56,9 +56,10 @@ vows.describe('URLDynamicHelpers').addBatch({
       var app = new MockLocomotive();
       var req = new MockRequest();
       req.headers = { 'host': 'www.example.com' };
-      req.locomotive = app;
-      req.controller = 'TestController';
-      req.action = 'show';
+      req._locomotive = {};
+      req._locomotive.app = app;
+      req._locomotive.controller = 'TestController';
+      req._locomotive.action = 'show';
       var res = new MockResponse();
       var view = new Object();
       var dynHelpers = {};
@@ -121,9 +122,10 @@ vows.describe('URLDynamicHelpers').addBatch({
     topic: function() {
       var app = new MockLocomotive();
       var req = new MockRequest();
-      req.locomotive = app;
-      req.controller = 'TestController';
-      req.action = 'show';
+      req._locomotive = {};
+      req._locomotive.app = app;
+      req._locomotive.controller = 'TestController';
+      req._locomotive.action = 'show';
       var res = new MockResponse();
       var view = new Object();
       var dynHelpers = {};

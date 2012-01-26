@@ -140,10 +140,9 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign properties to req': function(err, c, req, res) {
-        assert.isObject(req.locomotive);
-        assert.equal(req.locomotive.name, 'foo');
-        assert.equal(req.controller, 'TestController');
-        assert.equal(req.action, 'home');
+        assert.isObject(req._locomotive);
+        assert.equal(req._locomotive.controller, 'TestController');
+        assert.equal(req._locomotive.action, 'home');
       },
     },
     

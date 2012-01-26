@@ -914,7 +914,8 @@ vows.describe('Router').addBatch({
       app._routes['SongsController#index'] = new Route('get', '/songs');
       var req = new MockRequest();
       req.headers = { 'host': 'www.example.com' };
-      req.locomotive = app;
+      req._locomotive = {};
+      req._locomotive.app = app;
       var res = new MockResponse();
       
       var context = {};
@@ -947,7 +948,8 @@ vows.describe('Router').addBatch({
       app._routes['SongsController#show'] = new Route('get', '/songs/:id');
       var req = new MockRequest();
       req.headers = { 'host': 'www.example.com' };
-      req.locomotive = app;
+      req._locomotive = {};
+      req._locomotive.app = app;
       var res = new MockResponse();
       
       var context = {};
@@ -986,7 +988,8 @@ vows.describe('Router').addBatch({
       app._routes['AlbumsController#show'] = new Route('get', '/bands/:band_id/albums/:id');
       var req = new MockRequest();
       req.headers = { 'host': 'www.example.com' };
-      req.locomotive = app;
+      req._locomotive = {};
+      req._locomotive.app = app;
       var res = new MockResponse();
       
       var context = {};

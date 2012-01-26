@@ -63,9 +63,10 @@ vows.describe('URLHelpers').addBatch({
         var app = new MockLocomotive();
         var req = new MockRequest();
         req.headers = { 'host': 'www.example.com' };
-        req.locomotive = app;
-        req.controller = 'TestController';
-        req.action = 'index';
+        req._locomotive = {};
+        req._locomotive.app = app;
+        req._locomotive.controller = 'TestController';
+        req._locomotive.action = 'index';
         var res = new MockResponse();
         var view = new Object();
         var dynHelpers = {};
@@ -84,6 +85,8 @@ vows.describe('URLHelpers').addBatch({
       },
       
       'should construct link to controller and action': function (view) {
+        assert.equal(view.linkTo('Profile', { controller: 'profile', action: 'show' }), '<a href="http://www.example.com/profile">Profile</a>');
+        assert.equal(view.linkTo('Profile', { controller: 'profile', action: 'show' }, { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
         assert.equal(view.linkTo('Profile', { controller: 'ProfileController', action: 'show' }), '<a href="http://www.example.com/profile">Profile</a>');
         assert.equal(view.linkTo('Profile', { controller: 'ProfileController', action: 'show' }, { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
       },
