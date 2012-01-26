@@ -20,13 +20,27 @@ function MockLocomotive() {
   this._dynamicHelpers = {};
 }
 
-MockLocomotive.prototype.helpers = function(obj) {
+MockLocomotive.prototype.helper = 
+MockLocomotive.prototype.helpers = function(obj, fn) {
+  if (fn) {
+    var name = obj;
+    obj = {};
+    obj[name] = fn;
+  }
+  
   for (var method in obj) {
     this._helpers[method] = obj[method];
   }
 }
 
-MockLocomotive.prototype.dynamicHelpers = function(obj) {
+MockLocomotive.prototype.dynamicHelper = 
+MockLocomotive.prototype.dynamicHelpers = function(obj, fn) {
+  if (fn) {
+    var name = obj;
+    obj = {};
+    obj[name] = fn;
+  }
+  
   for (var method in obj) {
     this._dynamicHelpers[method] = obj[method];
   }
