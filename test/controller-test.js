@@ -577,6 +577,105 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  'controller instance with middleware as after filter': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._init({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'mr-jones';
+        this.render();
+      }
+      TestController.after('foo', function(req, res, next) {
+        req.middleware = 'called';
+        this.finished();
+        next();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'invoking an action with after filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._prepare(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(res._locals, 1);
+        assert.equal(res._locals[0].name, 'song');
+        assert.equal(res._locals[0].val, 'mr-jones');
+      },
+      'should assign request properties in after filters': function(err, c, req, res) {
+        assert.equal(req.middleware, 'called');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+  },
+  
+  'controller instance with after filters that error': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._init({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'mr-jones';
+        this.render();
+      }
+      TestController.after('foo', function(next) {
+        this.band = 'counting-crows';
+        next(new Error('something went wrong'));
+      });
+      TestController.after('foo', function(next) {
+        this.album = 'august-and-everything-after';
+        next();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'invoking an action with after filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        
+        controller._prepare(req, res, function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(res._locals, 1);
+        assert.equal(res._locals[0].name, 'song');
+        assert.equal(res._locals[0].val, 'mr-jones');
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'counting-crows');
+        assert.isUndefined(c.album);
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+  },
+  
   'controller hooks': {
     topic: function() {
       return new Controller();
