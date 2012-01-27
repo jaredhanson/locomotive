@@ -429,6 +429,101 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  'controller instance with middleware as before filter': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._init({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'mr-jones';
+        this.render();
+      }
+      TestController.before('foo', function(req, res, next) {
+        req.middleware = 'called';
+        next();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'invoking an action with before filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._prepare(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(res._locals, 1);
+        assert.equal(res._locals[0].name, 'song');
+        assert.equal(res._locals[0].val, 'mr-jones');
+      },
+      'should assign request properties in before filters': function(err, c, req, res) {
+        assert.equal(req.middleware, 'called');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+  },
+  
+  'controller instance with before filters that error': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._init({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'mr-jones';
+        this.render();
+      }
+      TestController.before('foo', function(next) {
+        this.band = 'counting-crows';
+        next(new Error('something went wrong'));
+      });
+      TestController.before('foo', function(next) {
+        this.album = 'august-and-everything-after';
+        next();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'invoking an action with before filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(new Error('should not be called'));
+        });
+        
+        controller._prepare(req, res, function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._invoke('foo');
+      },
+      
+      'should not end request': function(err, c, req, res) {
+        assert.isNull(err);
+      },
+      'should not assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(res._locals, 0);
+      },
+      'should not render view': function(err, c, req, res) {
+        assert.isUndefined(res._view);
+      },
+    },
+  },
+  
   'controller instance with after filters': {
     topic: function() {
       var TestController = new Controller();
