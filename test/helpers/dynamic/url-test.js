@@ -12,7 +12,7 @@ function MockLocomotive() {
   var self = this;
   this._routes = {};
   this._routes['TestController#index'] = new Route('get', '/test');
-  this._routes['AnimalController#show'] = new Route('get', '/animals/:id');
+  this._routes['AnimalsController#show'] = new Route('get', '/animals/:id');
   
   this._routes._find = function(controller, action) {
     var key = controller + '#' + action;
@@ -20,7 +20,7 @@ function MockLocomotive() {
   }
   
   function animalURL(obj) {
-    return this.urlFor({ controller: 'AnimalController', action: 'show', id: obj.id });
+    return this.urlFor({ controller: 'AnimalsController', action: 'show', id: obj.id });
   }
   this.routingHelpers = { animalURL: animalURL };
 }
@@ -97,6 +97,10 @@ vows.describe('URLDynamicHelpers').addBatch({
       'should build correct url for request controller and protocol, host, and pathname options': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ protocol: 'https', host: 'www.example.net', pathname: 'welcome' }), 'https://www.example.net/welcome');
+      },
+      'should build correct url to controller action and id': function (view) {
+        assert.isFunction(view.urlFor);
+        assert.equal(view.urlFor({ controller: 'animals', action: 'show', id: '1234' }), 'http://www.example.com/animals/1234');
       },
       'should throw error with unknown controller and action': function (view) {
         assert.throws(function() { view.urlFor({ controller: 'unknown', action: 'unknown' }) });
