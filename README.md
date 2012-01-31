@@ -1,4 +1,5 @@
 # Locomotive
+[http://locomotivejs.org](http://locomotivejs.org/)
 
 Locomotive is a framework that brings structure and MVC patterns to web
 applications using [Node](http://nodejs.org) and [Express](http://expressjs.com/).
@@ -16,8 +17,8 @@ starter application.  To use it, install Locomotive globally.
     
 Next, create an application and install dependencies.
 
-    $ lcm create foo
-    $ cd foo
+    $ lcm create hello
+    $ cd hello
     $ npm install
     
 Start the server.
@@ -28,9 +29,29 @@ The application is available at [localhost:3000](http://localhost:3000).
 
 ## Guide
 
-Refer to the [Locomotive Guide](http://locomotivejs.org/guide/) for
-documentation and examples regarding the functionality Locomotive provides for
-developing web applications.
+The [Locomotive Guide](http://locomotivejs.org/guide/) is the official source
+for documentation, and is a handy reference to have available when developing
+web applications powered by Locomotive.
+
+## Datastore Adapters
+
+<table>
+  <thead>
+    <tr><th>Adapter</th><th>Description</th><th>Developer</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><a href="https://github.com/jaredhanson/locomotive-mongoose">Mongoose</a></td><td>Mongoose ODM adapter.</td><td></td></tr>
+  </tbody>
+</table>
+
+## Tests
+
+    $ npm install --dev
+    $ make test
+
+## Credits
+
+  - [Jared Hanson](http://github.com/jaredhanson)
 
 ## License
 
