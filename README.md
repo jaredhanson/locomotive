@@ -32,7 +32,7 @@ Start the server with node debug mode
 	$ lcm server --debug (node --debug mode)
 	$ lcm server --debug-brk (node --debug-brk mode)
 
-Then you can use debug tools like [node-inspector](https://github.com/dannycoates/node-inspector)
+Then you can use debug tools like [node-inspector](https://github.com/dannycoates/node-inspector) to debug your application in more friendly way.
 
 ## Guide
 
