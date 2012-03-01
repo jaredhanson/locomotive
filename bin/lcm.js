@@ -5,7 +5,8 @@ var program = require('commander')
 
 program.version(locomotive.version)
   .option('-a, --app [directory]', 'load app at specified directory (default: <working-dir>)')
-  .option('-p, --port [number]', 'listen on specified port (default: 3000)');
+  .option('-p, --port [number]', 'listen on specified port (default: 3000)')
+  .option('-e, --env [environment]','switch between environments (default: development)');
 
 program.command('create')
   .description('-> create Locomotive application')
@@ -16,7 +17,7 @@ program.command('create')
 program.command('server')
   .description('-> start the Locomotive server')
   .action(function() {
-    locomotive.cli.server(program.app || process.cwd(), program.port || 3000);
+    locomotive.cli.server(program.app || process.cwd(), program.port || 3000, program.env || 'development');
   });
 
 program.parse(process.argv);
