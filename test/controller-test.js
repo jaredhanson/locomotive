@@ -23,8 +23,10 @@ function MockResponse(fn) {
   this.done = fn;
 }
 
-MockResponse.prototype.render = function(view) {
+MockResponse.prototype.render = function(view, options, fn) {
   this._view = view;
+  this._options = options;
+  this._fn = fn;
   this.end();
 }
 
@@ -97,6 +99,18 @@ vows.describe('Controller').addBatch({
       
       TestController.renderTemplateWithFormat = function() {
         this.render('show', { format: 'json' });
+      }
+      
+      TestController.renderToCallback = function() {
+        this.render(function(err, html) { return 'CB-1' });
+      }
+      
+      TestController.renderTemplateToCallback = function() {
+        this.render('show', function(err, html) { return 'CB-2' });
+      }
+      
+      TestController.renderTemplateAndOptionsToCallback = function() {
+        this.render('show', { layout: 'email' }, function(err, html) { return 'CB-3' });
       }
       
       TestController.redirectHome = function() {
@@ -279,6 +293,72 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/show.json.ejs');
+      },
+    },
+    
+    'invoking an action which renders to callback': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderToCallback');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_to_callback.html.ejs');
+        assert.lengthOf(Object.keys(res._options), 0);
+        assert.isFunction(res._fn);
+        assert.equal(res._fn(), 'CB-1');
+      },
+    },
+    
+    'invoking an action which renders template to callback': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderTemplateToCallback');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/show.html.ejs');
+        assert.lengthOf(Object.keys(res._options), 0);
+        assert.isFunction(res._fn);
+        assert.equal(res._fn(), 'CB-2');
+      },
+    },
+    
+    'invoking an action which renders template with options to callback': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._prepare(req, res);
+        controller._invoke('renderTemplateAndOptionsToCallback');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/show.html.ejs');
+        assert.equal(res._options.layout, 'email');
+        assert.isFunction(res._fn);
+        assert.equal(res._fn(), 'CB-3');
       },
     },
     
