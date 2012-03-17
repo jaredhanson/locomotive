@@ -46,8 +46,10 @@ web applications powered by Locomotive.
 
 ## Tests
 
-    $ npm install --dev
+    $ npm install
     $ make test
+
+[![Build Status](https://secure.travis-ci.org/jaredhanson/locomotive.png)](http://travis-ci.org/jaredhanson/locomotive)
 
 ## Credits
 

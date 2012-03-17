@@ -15,14 +15,17 @@
   "bin" : { "lcm" : "./bin/lcm.js" },
   "dependencies": {
     "pkginfo": "0.2.x",
-    "commander": ">= 0.4.1",
-    "express": ">= 2.4.6",
-    "mkdirp": ">= 0.2.1",
-    "hooks": ">= 0.1.9",
-    "lingo": ">= 0.0.4"
+    "commander": "0.4.x",
+    "express": "2.x.x",
+    "mkdirp": "0.2.x",
+    "hooks": "0.1.x",
+    "lingo": "0.0.x"
   },
   "devDependencies": {
     "vows": "0.6.x"
+  },
+  "scripts": {
+    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js test/**/*-test.js test/**/**/*-test.js"
   },
   "engines": { "node": ">= 0.4.0" },
   "licenses": [ {
