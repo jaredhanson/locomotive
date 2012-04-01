@@ -1,6 +1,6 @@
 {
   "name": "locomotive",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Effective web development for Node.js.",
   "author": { "name": "Jared Hanson", "email": "jaredhanson@gmail.com", "url": "http://www.jaredhanson.net/" },
   "homepage": "http://locomotivejs.org/",
