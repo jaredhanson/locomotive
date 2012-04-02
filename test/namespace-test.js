@@ -24,7 +24,7 @@ vows.describe('Namespace').addBatch({
       assert.isNull(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qmodule('PhotosController'), 'PhotosController');
+      assert.equal(ns.qcontroller('PhotosController'), 'PhotosController');
     },
     'should qualify helpers': function (ns) {
       assert.equal(ns.qhelper('photos'), 'photos');
@@ -53,7 +53,7 @@ vows.describe('Namespace').addBatch({
       assert.isNull(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qmodule('PhotosController'), 'Foo::PhotosController');
+      assert.equal(ns.qcontroller('PhotosController'), 'Foo::PhotosController');
     },
     'should qualify helpers': function (ns) {
       assert.equal(ns.qhelper('photos'), 'fooPhotos');
@@ -82,7 +82,7 @@ vows.describe('Namespace').addBatch({
       assert.isNull(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qmodule('PhotosController'), 'Bar::PhotosController');
+      assert.equal(ns.qcontroller('PhotosController'), 'Bar::PhotosController');
     },
     'should qualify helpers': function (ns) {
       assert.equal(ns.qhelper('photos'), 'fooPhotos');
@@ -111,7 +111,7 @@ vows.describe('Namespace').addBatch({
       assert.isNull(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qmodule('PhotosController'), 'Foo::PhotosController');
+      assert.equal(ns.qcontroller('PhotosController'), 'Foo::PhotosController');
     },
     'should qualify helpers': function (ns) {
       assert.equal(ns.qhelper('photos'), 'barPhotos');
@@ -140,7 +140,7 @@ vows.describe('Namespace').addBatch({
       assert.isNull(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qmodule('PhotosController'), 'PhotosController');
+      assert.equal(ns.qcontroller('PhotosController'), 'PhotosController');
     },
     'should qualify helpers': function (ns) {
       assert.equal(ns.qhelper('photos'), 'fooPhotos');
@@ -170,7 +170,7 @@ vows.describe('Namespace').addBatch({
       assert.isObject(ns.parent);
     },
     'should qualify controllers': function (ns) {
-      assert.equal(ns.qmodule('ProxiesController'), 'Net::Http::ProxiesController');
+      assert.equal(ns.qcontroller('ProxiesController'), 'Net::Http::ProxiesController');
     },
     'should qualify helpers': function (ns) {
       assert.equal(ns.qhelper('photos'), 'netHttpPhotos');
