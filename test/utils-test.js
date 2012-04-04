@@ -81,9 +81,6 @@ vows.describe('util').addBatch({
       assert.equal(utils.helperize('FooBar', 'URL'), 'fooBarURL');
       assert.equal(utils.helperize('FooBar'), 'fooBar');
     },
-    'should return empty string if argument is empty string': function () {
-      assert.equal(utils.helperize(''), '');
-    },
     'should return null if argument is undefined': function () {
       assert.isNull(utils.helperize());
     },
@@ -106,9 +103,6 @@ vows.describe('util').addBatch({
       assert.equal(utils.moduleize('FooBarBaz'), 'FooBarBaz');
       assert.equal(utils.moduleize('FulanoSutano/FooBar'), 'FulanoSutano::FooBar');
       assert.equal(utils.moduleize('HogePage/FulanoSutano/FooBar'), 'HogePage::FulanoSutano::FooBar');
-    },
-    'should return empty string if argument is empty string': function () {
-      assert.equal(utils.moduleize(''), '');
     },
     'should return null if argument is undefined': function () {
       assert.isNull(utils.moduleize());
