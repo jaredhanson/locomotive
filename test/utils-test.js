@@ -66,29 +66,29 @@ vows.describe('util').addBatch({
   },
   
   'helperize': {
+    'should normalize generic notation': function () {
+      assert.equal(utils.helperize('foo'), 'foo');
+      assert.equal(utils.helperize('foo', 'Path'), 'fooPath');
+      assert.equal(utils.helperize('foo', 'URL'), 'fooURL');
+      assert.equal(utils.helperize('edit', 'foo', 'path'), 'editFooPath');
+    },
     'should normalize underscore notation': function () {
-      assert.equal(utils.helperize('foo_bar', 'Path'), 'fooBarPath');
-      assert.equal(utils.helperize('foo_bar', 'Path', true), 'FooBarPath');
-      assert.equal(utils.helperize('foo_bar', 'URL'), 'fooBarURL');
-      assert.equal(utils.helperize('foo_bar', 'URL', true), 'FooBarURL');
       assert.equal(utils.helperize('foo_bar'), 'fooBar');
-      assert.equal(utils.helperize('foo_bar', true), 'FooBar');
+      assert.equal(utils.helperize('foo_bar', 'Path'), 'fooBarPath');
+      assert.equal(utils.helperize('foo_bar', 'URL'), 'fooBarURL');
+      assert.equal(utils.helperize('edit', 'foo_bar', 'path'), 'editFooBarPath');
     },
     'should normalize lower camelcase notation': function () {
-      assert.equal(utils.helperize('fooBar', 'Path'), 'fooBarPath');
-      assert.equal(utils.helperize('fooBar', 'Path', true), 'FooBarPath');
-      assert.equal(utils.helperize('fooBar', 'URL'), 'fooBarURL');
-      assert.equal(utils.helperize('fooBar', 'URL', true), 'FooBarURL');
       assert.equal(utils.helperize('fooBar'), 'fooBar');
-      assert.equal(utils.helperize('fooBar', true), 'FooBar');
+      assert.equal(utils.helperize('fooBar', 'Path'), 'fooBarPath');
+      assert.equal(utils.helperize('fooBar', 'URL'), 'fooBarURL');
+      assert.equal(utils.helperize('edit', 'fooBar', 'path'), 'editFooBarPath');
     },
     'should normalize upper camelcase notation': function () {
-      assert.equal(utils.helperize('FooBar', 'Path'), 'fooBarPath');
-      assert.equal(utils.helperize('FooBar', 'Path', true), 'FooBarPath');
-      assert.equal(utils.helperize('FooBar', 'URL'), 'fooBarURL');
-      assert.equal(utils.helperize('FooBar', 'URL', true), 'FooBarURL');
       assert.equal(utils.helperize('FooBar'), 'fooBar');
-      assert.equal(utils.helperize('FooBar', true), 'FooBar');
+      assert.equal(utils.helperize('FooBar', 'Path'), 'fooBarPath');
+      assert.equal(utils.helperize('FooBar', 'URL'), 'fooBarURL');
+      assert.equal(utils.helperize('Edit', 'FooBar', 'Path'), 'editFooBarPath');
     },
     'should return null if argument is undefined': function () {
       assert.isNull(utils.helperize());
