@@ -36,20 +36,6 @@ vows.describe('util').addBatch({
     },
   },
   
-  'decontrollerize': {
-    'should denormalize to underscore notation': function () {
-      assert.equal(utils.decontrollerize('FooController'), 'foo');
-      assert.equal(utils.decontrollerize('FooBarBazController'), 'foo_bar_baz');
-      assert.equal(utils.decontrollerize('Fulano::FooController'), 'fulano/foo');
-      assert.equal(utils.decontrollerize('FulanoSutano::FooBarController'), 'fulano_sutano/foo_bar');
-      assert.equal(utils.decontrollerize('Hoge::Fulano::FooController'), 'hoge/fulano/foo');
-      assert.equal(utils.decontrollerize('HogePage::FulanoSutano::FooBarController'), 'hoge_page/fulano_sutano/foo_bar');
-    },
-    'should return null if argument is undefined': function () {
-      assert.isNull(utils.decontrollerize());
-    },
-  },
-  
   'actionize': {
     'should normalize underscore notation': function () {
       assert.equal(utils.actionize('foo_bar'), 'fooBar');
@@ -115,6 +101,20 @@ vows.describe('util').addBatch({
     },
     'should return null if argument is undefined': function () {
       assert.isNull(utils.moduleize());
+    },
+  },
+  
+  'pathize': {
+    'should denormalize to underscore notation': function () {
+      assert.equal(utils.pathize('FooController'), 'foo');
+      assert.equal(utils.pathize('FooBarBazController'), 'foo_bar_baz');
+      assert.equal(utils.pathize('Fulano::FooController'), 'fulano/foo');
+      assert.equal(utils.pathize('FulanoSutano::FooBarController'), 'fulano_sutano/foo_bar');
+      assert.equal(utils.pathize('Hoge::Fulano::FooController'), 'hoge/fulano/foo');
+      assert.equal(utils.pathize('HogePage::FulanoSutano::FooBarController'), 'hoge_page/fulano_sutano/foo_bar');
+    },
+    'should return null if argument is undefined': function () {
+      assert.isNull(utils.pathize());
     },
   },
   
