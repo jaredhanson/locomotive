@@ -27,6 +27,13 @@ Start the server.
 
 The application is available at [localhost:3000](http://localhost:3000).
 
+Start the server with node debug mode
+
+	$ lcm server --debug (node --debug mode)
+	$ lcm server --debug-brk (node --debug-brk mode)
+
+Then you can use debug tools like [node-inspector](https://github.com/dannycoates/node-inspector) to debug your application as usual.
+
 ## Guide
 
 The [Locomotive Guide](http://locomotivejs.org/guide/) is the official source
