@@ -5,6 +5,30 @@ var utils = require('locomotive/utils')
 
 vows.describe('util').addBatch({
   
+  'capitalize': {
+    'should be reexported from lingo': function () {
+      assert.isFunction(utils.capitalize);
+    },
+  },
+  
+  'camelize': {
+    'should lowercase first character': function () {
+      assert.equal(utils.camelize('foo_bar'), 'fooBar');
+    },
+    'should uppercase first character if set': function () {
+      assert.equal(utils.camelize('foo_bar_baz', true), 'FooBarBaz');
+    },
+  },
+  
+  'underscore': {
+    'should underscore camelcase words': function () {
+      assert.equal(utils.underscore('FooBar'), 'foo_bar');
+    },
+    'should underscore camelcase words with consequtive capital letters': function () {
+      assert.equal(utils.underscore('SSLError'), 'ssl_error');
+    },
+  },
+  
   'controllerize': {
     'should normalize underscore notation': function () {
       assert.equal(utils.controllerize('foo_bar_baz'), 'FooBarBazController');
