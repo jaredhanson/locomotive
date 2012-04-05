@@ -11,6 +11,12 @@ vows.describe('util').addBatch({
     },
   },
   
+  'decapitalize': {
+    'should lowercase an uppercase first character': function () {
+      assert.equal(utils.decapitalize('Hello there'), 'hello there');
+    },
+  },
+  
   'camelize': {
     'should lowercase first character': function () {
       assert.equal(utils.camelize('foo_bar'), 'fooBar');
