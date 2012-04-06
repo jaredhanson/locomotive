@@ -17,7 +17,7 @@ program.command('create')
 program.command('server')
   .description('-> start the Locomotive server')
   .action(function() {
-    locomotive.cli.server(program.app || process.cwd(), program.port || 3000, program.env || 'development');
+    locomotive.cli.server(program.app || process.cwd(), program.port || 3000, program.env || process.env.NODE_ENV || 'development');
   });
 
 program.parse(process.argv);
