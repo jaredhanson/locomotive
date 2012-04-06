@@ -180,6 +180,27 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with match route given shorthand and capitalized via option': {
+    topic: function() {
+      var router = intializedRouter()
+      router.match('bands', 'bands#create', { via: 'PUT' });
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router._find('BandsController', 'create');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/bands');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'PUT');
+      assert.equal(router._http._routes[0].path, '/bands');
+      assert.equal(router._http._routes[0].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[0].fn().action, 'create');
+    },
+  },
+  
   'router with match route given controller, action, and via options': {
     topic: function() {
       var router = intializedRouter()
