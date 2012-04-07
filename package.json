@@ -15,12 +15,13 @@
   "bin" : { "lcm" : "./bin/lcm.js" },
   "dependencies": {
     "pkginfo": "0.2.x",
-    "commander": "0.4.x",
-    "express": "2.x.x",
+    "commander": "0.5.x",
     "mkdirp": "0.2.x",
+    "diveSync": "0.2.0",
+    "express": "2.x.x",
     "hooks": "0.1.x",
     "lingo": "0.0.x",
-    "diveSync": "0.2.0"
+    "debug": "0.6.x"
   },
   "devDependencies": {
     "vows": "0.6.x"

@@ -4,12 +4,7 @@ var program = require('commander')
   , locomotive = require('../');
 
 program.version(locomotive.version)
-  .option('-a, --app [directory]', 'load app at specified directory (default: <working-dir>)')
-  .option('-p, --port [number]', 'listen on specified port (default: 3000)')
-  .option('-e, --env [environment]','switch between environments (default: development)')
-  .option('--debug', 'enable node debug mode')
-  .option('--debug-brk', 'enable node debug-brk mode')
-  .option('--debug-port [number]', 'debug app on specified port(default: 5858)');
+  .option('-A, --app [directory]', 'load app at specified directory (default: `pwd`)');
 
 program.command('create')
   .description('-> create Locomotive application')
@@ -19,21 +14,36 @@ program.command('create')
 
 program.command('server')
   .description('-> start the Locomotive server')
-  .action(function() {
-    var debug = program.debug || program.debugBrk;
-    if (debug) {
-      var debugMode = program.debug ? "--debug" : "--debug-brk"
-        , filePath = require("path").join(__dirname, "server.js")
-        , command = ["node ", debugMode, " ", filePath].join("");
-      
-      require("child_process")
-        .exec(command,function(err, stdout, stderr){
-          if(err){ throw err; }
-          console.log(stdout);
-        });
-    } else {
-      locomotive.cli.server(program.app || process.cwd(), program.port || 3000, program.env || process.env.NODE_ENV || 'development');
+  .option('-a, --address [address]', 'listen on specified address (default: 0.0.0.0)')
+  .option('-p, --port [port]', 'listen on specified port (default: 3000)', parseInt)
+  .option('-e, --env [environment]', 'run in specified environment (default: development)')
+  .option('--debug [port]', 'enable V8 debugger on specified port (default: 5858)', parseInt)
+  .option('--debug-brk [port]', 'enable V8 debugger on specified port and break immediately (default: 5858)', parseInt)
+  .action(function(options) {
+    options = options || {};
+    options.address = options.address || '0.0.0.0';
+    options.port = options.port || 3000;
+    options.env = options.env || process.env.NODE_ENV || 'development';
+    
+    // TODO: Implement daemon and cluster mode
+    
+    locomotive.cli.server(program.app || process.cwd(), options.address, options.port, options.env, options);
+  }).on('--help', function(options) {
+    if (program.rawArgs.indexOf('--more') != -1) {
+      console.log('  Debugging:');
+      console.log();
+      console.log('    $ lcm server --debug');
+      console.log();
     }
   });
+
+/*
+program.command('generate <GENERATOR>')
+  .description("-> generate new code")
+  .option('-f, --force', "overwrite files that already exist")
+  .action(function(generator, options) {
+    console.log('generate "%s" using %s mode', generator, options.force);
+  });
+*/
 
 program.parse(process.argv);
