@@ -22,41 +22,49 @@ vows.describe('Module').addBatch({
       var TestController = new Controller();
       locomotive.controller('foo_bar', TestController);
       assert.equal(TestController.__name, 'FooBarController');
+      assert.equal(TestController.__viewDir, 'foo_bar');
     },
     'should register controllers with underscore names with controller suffix': function (locomotive) {
       var TestController = new Controller();
       locomotive.controller('foo_bar_controller', TestController);
       assert.equal(TestController.__name, 'FooBarController');
+      assert.equal(TestController.__viewDir, 'foo_bar');
     },
     'should register controllers with capitalized camelcase names without controller suffix': function (locomotive) {
       var TestController = new Controller();
       locomotive.controller('Foo', TestController);
       assert.equal(TestController.__name, 'FooController');
+      assert.equal(TestController.__viewDir, 'foo');
     },
     'should register controllers with capitalized camelcase names with controller suffix': function (locomotive) {
       var TestController = new Controller();
       locomotive.controller('FooController', TestController);
       assert.equal(TestController.__name, 'FooController');
+      assert.equal(TestController.__viewDir, 'foo');
     },
     'should register controllers with non-capitalized camelcase names without controller suffix': function (locomotive) {
       var TestController = new Controller();
       locomotive.controller('fooBar', TestController);
       assert.equal(TestController.__name, 'FooBarController');
+      assert.equal(TestController.__viewDir, 'foo_bar');
     },
     'should register controllers with non-capitalized camelcase names with controller suffix': function (locomotive) {
       var TestController = new Controller();
       locomotive.controller('fooBarController', TestController);
       assert.equal(TestController.__name, 'FooBarController');
+      assert.equal(TestController.__viewDir, 'foo_bar');
     },
     'should register controllers with underscore names without controller suffix in directory': function (locomotive) {
       var TestController = new Controller();
       locomotive.controller('baz/foo_bar', TestController);
       assert.equal(TestController.__name, 'Baz::FooBarController');
+      assert.equal(TestController.__viewDir, 'baz/foo_bar');
     },
     'should register controllers with underscore names with controller suffix in directory': function (locomotive) {
       var TestController = new Controller();
       locomotive.controller('baz/foo_bar_controller', TestController);
       assert.equal(TestController.__name, 'Baz::FooBarController');
+      assert.equal(TestController.__viewDir, 'baz/foo_bar');
     },
   },
   
