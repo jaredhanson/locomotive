@@ -11,7 +11,7 @@ var dynamicHelpers = require('locomotive/helpers/dynamic');
 function MockLocomotive() {
   var self = this;
   this._routes = {};
-  this._routes._find = function(controller, action) {
+  this._routes.find = function(controller, action) {
     var key = controller + '#' + action;
     return self._routes[key];
   }
@@ -104,7 +104,7 @@ vows.describe('Router').addBatch({
     },
     
     'should create route': function (router) {
-      var route = router._find('PagesController', 'main');
+      var route = router.find('PagesController', 'main');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/');
     },
@@ -125,7 +125,7 @@ vows.describe('Router').addBatch({
     },
     
     'should create route': function (router) {
-      var route = router._find('SongsController', 'show');
+      var route = router.find('SongsController', 'show');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/songs/:title');
     },
@@ -146,7 +146,7 @@ vows.describe('Router').addBatch({
     },
     
     'should create route': function (router) {
-      var route = router._find('BandsController', 'list');
+      var route = router.find('BandsController', 'list');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands');
     },
@@ -167,7 +167,7 @@ vows.describe('Router').addBatch({
     },
     
     'should create route': function (router) {
-      var route = router._find('BandsController', 'create');
+      var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'post');
       assert.equal(route.pattern, '/bands');
     },
@@ -188,7 +188,7 @@ vows.describe('Router').addBatch({
     },
     
     'should create route': function (router) {
-      var route = router._find('BandsController', 'create');
+      var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'put');
       assert.equal(route.pattern, '/bands');
     },
@@ -209,7 +209,7 @@ vows.describe('Router').addBatch({
     },
     
     'should create route': function (router) {
-      var route = router._find('BandsController', 'create');
+      var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'post');
       assert.equal(route.pattern, '/bands');
     },
@@ -230,7 +230,7 @@ vows.describe('Router').addBatch({
     },
     
     'should create route': function (router) {
-      var route = router._find('SongsController', 'show');
+      var route = router.find('SongsController', 'show');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/songs/:title');
     },
@@ -269,7 +269,7 @@ vows.describe('Router').addBatch({
       assert.lengthOf(router._http._routes, 6);
     },
     'should create route to new action': function (router) {
-      var route = router._find('ProfileController', 'new');
+      var route = router.find('ProfileController', 'new');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/profile/new');
     },
@@ -280,7 +280,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'new');
     },
     'should create route to create action': function (router) {
-      var route = router._find('ProfileController', 'create');
+      var route = router.find('ProfileController', 'create');
       assert.equal(route.method, 'post');
       assert.equal(route.pattern, '/profile');
     },
@@ -291,7 +291,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[1].fn().action, 'create');
     },
     'should create route to show action': function (router) {
-      var route = router._find('ProfileController', 'show');
+      var route = router.find('ProfileController', 'show');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/profile.:format?');
     },
@@ -302,7 +302,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[2].fn().action, 'show');
     },
     'should create route to edit action': function (router) {
-      var route = router._find('ProfileController', 'edit');
+      var route = router.find('ProfileController', 'edit');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/profile/edit');
     },
@@ -313,7 +313,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[3].fn().action, 'edit');
     },
     'should create route to update action': function (router) {
-      var route = router._find('ProfileController', 'update');
+      var route = router.find('ProfileController', 'update');
       assert.equal(route.method, 'put');
       assert.equal(route.pattern, '/profile');
     },
@@ -324,7 +324,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[4].fn().action, 'update');
     },
     'should create route to destroy action': function (router) {
-      var route = router._find('ProfileController', 'destroy');
+      var route = router.find('ProfileController', 'destroy');
       assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/profile');
     },
@@ -356,7 +356,7 @@ vows.describe('Router').addBatch({
       assert.lengthOf(router._http._routes, 7);
     },
     'should create route to index action': function (router) {
-      var route = router._find('BandsController', 'index');
+      var route = router.find('BandsController', 'index');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands');
     },
@@ -367,7 +367,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[0].fn().action, 'index');
     },
     'should create route to new action': function (router) {
-      var route = router._find('BandsController', 'new');
+      var route = router.find('BandsController', 'new');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/new');
     },
@@ -378,7 +378,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[1].fn().action, 'new');
     },
     'should create route to create action': function (router) {
-      var route = router._find('BandsController', 'create');
+      var route = router.find('BandsController', 'create');
       assert.equal(route.method, 'post');
       assert.equal(route.pattern, '/bands');
     },
@@ -389,7 +389,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[2].fn().action, 'create');
     },
     'should create route to show action': function (router) {
-      var route = router._find('BandsController', 'show');
+      var route = router.find('BandsController', 'show');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/:id.:format?');
     },
@@ -400,7 +400,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[3].fn().action, 'show');
     },
     'should create route to edit action': function (router) {
-      var route = router._find('BandsController', 'edit');
+      var route = router.find('BandsController', 'edit');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/:id/edit');
     },
@@ -411,7 +411,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[4].fn().action, 'edit');
     },
     'should create route to update action': function (router) {
-      var route = router._find('BandsController', 'update');
+      var route = router.find('BandsController', 'update');
       assert.equal(route.method, 'put');
       assert.equal(route.pattern, '/bands/:id');
     },
@@ -422,7 +422,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[5].fn().action, 'update');
     },
     'should create route to destroy action': function (router) {
-      var route = router._find('BandsController', 'destroy');
+      var route = router.find('BandsController', 'destroy');
       assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/bands/:id');
     },
@@ -458,7 +458,7 @@ vows.describe('Router').addBatch({
       assert.lengthOf(router._http._routes, 12);
     },
     'should create route to sub-resource new action': function (router) {
-      var route = router._find('PasswordController', 'new');
+      var route = router.find('PasswordController', 'new');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/account/password/new');
     },
@@ -469,7 +469,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[6].fn().action, 'new');
     },
     'should create route to sub-resource create action': function (router) {
-      var route = router._find('PasswordController', 'create');
+      var route = router.find('PasswordController', 'create');
       assert.equal(route.method, 'post');
       assert.equal(route.pattern, '/account/password');
     },
@@ -480,7 +480,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[7].fn().action, 'create');
     },
     'should create route to sub-resource show action': function (router) {
-      var route = router._find('PasswordController', 'show');
+      var route = router.find('PasswordController', 'show');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/account/password.:format?');
     },
@@ -491,7 +491,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[8].fn().action, 'show');
     },
     'should create route to sub-resource edit action': function (router) {
-      var route = router._find('PasswordController', 'edit');
+      var route = router.find('PasswordController', 'edit');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/account/password/edit');
     },
@@ -502,7 +502,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[9].fn().action, 'edit');
     },
     'should create route to sub-resource update action': function (router) {
-      var route = router._find('PasswordController', 'update');
+      var route = router.find('PasswordController', 'update');
       assert.equal(route.method, 'put');
       assert.equal(route.pattern, '/account/password');
     },
@@ -513,7 +513,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[10].fn().action, 'update');
     },
     'should create route to sub-resource destroy action': function (router) {
-      var route = router._find('PasswordController', 'destroy');
+      var route = router.find('PasswordController', 'destroy');
       assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/account/password');
     },
@@ -556,7 +556,7 @@ vows.describe('Router').addBatch({
       assert.lengthOf(router._http._routes, 13);
     },
     'should create route to sub-resources index action': function (router) {
-      var route = router._find('AccountsController', 'index');
+      var route = router.find('AccountsController', 'index');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/settings/accounts');
     },
@@ -567,7 +567,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[6].fn().action, 'index');
     },
     'should create route to sub-resources new action': function (router) {
-      var route = router._find('AccountsController', 'new');
+      var route = router.find('AccountsController', 'new');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/settings/accounts/new');
     },
@@ -578,7 +578,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[7].fn().action, 'new');
     },
     'should create route to sub-resources create action': function (router) {
-      var route = router._find('AccountsController', 'create');
+      var route = router.find('AccountsController', 'create');
       assert.equal(route.method, 'post');
       assert.equal(route.pattern, '/settings/accounts');
     },
@@ -589,7 +589,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[8].fn().action, 'create');
     },
     'should create route to sub-resources show action': function (router) {
-      var route = router._find('AccountsController', 'show');
+      var route = router.find('AccountsController', 'show');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/settings/accounts/:id.:format?');
     },
@@ -600,7 +600,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[9].fn().action, 'show');
     },
     'should create route to sub-resources edit action': function (router) {
-      var route = router._find('AccountsController', 'edit');
+      var route = router.find('AccountsController', 'edit');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/settings/accounts/:id/edit');
     },
@@ -611,7 +611,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[10].fn().action, 'edit');
     },
     'should create route to sub-resources update action': function (router) {
-      var route = router._find('AccountsController', 'update');
+      var route = router.find('AccountsController', 'update');
       assert.equal(route.method, 'put');
       assert.equal(route.pattern, '/settings/accounts/:id');
     },
@@ -622,7 +622,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[11].fn().action, 'update');
     },
     'should create route to destroy action': function (router) {
-      var route = router._find('AccountsController', 'destroy');
+      var route = router.find('AccountsController', 'destroy');
       assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/settings/accounts/:id');
     },
@@ -667,7 +667,7 @@ vows.describe('Router').addBatch({
       assert.lengthOf(router._http._routes, 13);
     },
     'should create route to sub-resource new action': function (router) {
-      var route = router._find('BioController', 'new');
+      var route = router.find('BioController', 'new');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/:band_id/bio/new');
     },
@@ -678,7 +678,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[7].fn().action, 'new');
     },
     'should create route to sub-resource create action': function (router) {
-      var route = router._find('BioController', 'create');
+      var route = router.find('BioController', 'create');
       assert.equal(route.method, 'post');
       assert.equal(route.pattern, '/bands/:band_id/bio');
     },
@@ -689,7 +689,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[8].fn().action, 'create');
     },
     'should create route to sub-resource show action': function (router) {
-      var route = router._find('BioController', 'show');
+      var route = router.find('BioController', 'show');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/:band_id/bio.:format?');
     },
@@ -700,7 +700,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[9].fn().action, 'show');
     },
     'should create route to sub-resource edit action': function (router) {
-      var route = router._find('BioController', 'edit');
+      var route = router.find('BioController', 'edit');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/:band_id/bio/edit');
     },
@@ -711,7 +711,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[10].fn().action, 'edit');
     },
     'should create route to sub-resource update action': function (router) {
-      var route = router._find('BioController', 'update');
+      var route = router.find('BioController', 'update');
       assert.equal(route.method, 'put');
       assert.equal(route.pattern, '/bands/:band_id/bio');
     },
@@ -722,7 +722,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[11].fn().action, 'update');
     },
     'should create route to sub-resource destroy action': function (router) {
-      var route = router._find('BioController', 'destroy');
+      var route = router.find('BioController', 'destroy');
       assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/bands/:band_id/bio');
     },
@@ -767,7 +767,7 @@ vows.describe('Router').addBatch({
       assert.lengthOf(router._http._routes, 14);
     },
     'should create route to sub-resources index action': function (router) {
-      var route = router._find('AlbumsController', 'index');
+      var route = router.find('AlbumsController', 'index');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/:band_id/albums');
     },
@@ -778,7 +778,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[7].fn().action, 'index');
     },
     'should create route to sub-resources new action': function (router) {
-      var route = router._find('AlbumsController', 'new');
+      var route = router.find('AlbumsController', 'new');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/:band_id/albums/new');
     },
@@ -789,7 +789,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[8].fn().action, 'new');
     },
     'should create route to sub-resources create action': function (router) {
-      var route = router._find('AlbumsController', 'create');
+      var route = router.find('AlbumsController', 'create');
       assert.equal(route.method, 'post');
       assert.equal(route.pattern, '/bands/:band_id/albums');
     },
@@ -800,7 +800,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[9].fn().action, 'create');
     },
     'should create route to sub-resources show action': function (router) {
-      var route = router._find('AlbumsController', 'show');
+      var route = router.find('AlbumsController', 'show');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/:band_id/albums/:id.:format?');
     },
@@ -811,7 +811,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[10].fn().action, 'show');
     },
     'should create route to sub-resources edit action': function (router) {
-      var route = router._find('AlbumsController', 'edit');
+      var route = router.find('AlbumsController', 'edit');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/bands/:band_id/albums/:id/edit');
     },
@@ -822,7 +822,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[11].fn().action, 'edit');
     },
     'should create route to sub-resources update action': function (router) {
-      var route = router._find('AlbumsController', 'update');
+      var route = router.find('AlbumsController', 'update');
       assert.equal(route.method, 'put');
       assert.equal(route.pattern, '/bands/:band_id/albums/:id');
     },
@@ -833,7 +833,7 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[12].fn().action, 'update');
     },
     'should create route to destroy action': function (router) {
-      var route = router._find('AlbumsController', 'destroy');
+      var route = router.find('AlbumsController', 'destroy');
       assert.equal(route.method, 'del');
       assert.equal(route.pattern, '/bands/:band_id/albums/:id');
     },
@@ -877,7 +877,7 @@ vows.describe('Router').addBatch({
     },
     
     'should create route': function (router) {
-      var route = router._find('Top40::SongsController', 'show');
+      var route = router.find('Top40::SongsController', 'show');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/top40/songs/:title');
     },
@@ -909,7 +909,7 @@ vows.describe('Router').addBatch({
       assert.lengthOf(router._http._routes, 7);
     },
     'should create route to index action': function (router) {
-      var route = router._find('Admin::PostsController', 'index');
+      var route = router.find('Admin::PostsController', 'index');
       assert.equal(route.method, 'get');
       assert.equal(route.pattern, '/admin/posts');
     },

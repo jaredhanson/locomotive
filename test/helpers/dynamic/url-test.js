@@ -14,7 +14,7 @@ function MockLocomotive() {
   this._routes['TestController#index'] = new Route('get', '/test');
   this._routes['AnimalsController#show'] = new Route('get', '/animals/:id');
   
-  this._routes._find = function(controller, action) {
+  this._routes.find = function(controller, action) {
     var key = controller + '#' + action;
     return self._routes[key];
   }
