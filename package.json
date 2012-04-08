@@ -19,6 +19,7 @@
     "mkdirp": "0.2.x",
     "diveSync": "0.2.0",
     "express": "2.x.x",
+    "async": "0.1.x",
     "hooks": "0.1.x",
     "lingo": "0.0.x",
     "debug": "0.6.x"
