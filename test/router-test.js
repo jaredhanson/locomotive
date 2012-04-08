@@ -996,9 +996,7 @@ vows.describe('Router').addBatch({
       var res = new MockResponse();
       
       var context = {};
-      for (var key in dynamicHelpers) {
-        context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
-      }
+      context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
       // end setup
       
       assert.isFunction(router._app._helpers.songsPath);
@@ -1030,9 +1028,7 @@ vows.describe('Router').addBatch({
       var res = new MockResponse();
       
       var context = {};
-      for (var key in dynamicHelpers) {
-        context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
-      }
+      context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
       // end setup
       
       assert.isFunction(router._app._helpers.songPath);
@@ -1070,9 +1066,7 @@ vows.describe('Router').addBatch({
       var res = new MockResponse();
       
       var context = {};
-      for (var key in dynamicHelpers) {
-        context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
-      }
+      context.urlFor = dynamicHelpers.urlFor.call(this, req, res);
       // end setup
       
       assert.isFunction(router._app._helpers.bandAlbumPath);
