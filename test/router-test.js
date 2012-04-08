@@ -867,6 +867,29 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with root route in a namespace': {
+    topic: function() {
+      var router = intializedRouter()
+      router.namespace('top40', function() {
+        router.root('pages#main');
+      });
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('Top40::PagesController', 'main');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/top40');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/top40');
+      assert.equal(router._http._routes[0].fn().controller, 'Top40::PagesController');
+      assert.equal(router._http._routes[0].fn().action, 'main');
+    },
+  },
+  
   'router with match route in a namespace': {
     topic: function() {
       var router = intializedRouter()
@@ -893,6 +916,29 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._dynamicHelpers.songsURL);
       var songsURL = router._app._dynamicHelpers.songsURL({}, {});
       assert.isFunction(songsURL);
+    },
+  },
+  
+  'router with match route specified with preceeding slash in a namespace': {
+    topic: function() {
+      var router = intializedRouter()
+      router.namespace('top40', function() {
+        router.match('/bands/:name', 'bands#show');
+      });
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('Top40::BandsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/top40/bands/:name');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/top40/bands/:name');
+      assert.equal(router._http._routes[0].fn().controller, 'Top40::BandsController');
+      assert.equal(router._http._routes[0].fn().action, 'show');
     },
   },
   
