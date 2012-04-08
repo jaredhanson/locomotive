@@ -10,7 +10,7 @@ docs: docs/api.html
 docs/api.html: lib/locomotive/*.js
 	dox \
 		--title Locomotive \
-		--desc "Web MVC framework built on Express" \
+		--desc "Powerful web framework for Node.js" \
 		$(shell find lib/locomotive/* -type f) > $@
 
 docclean:

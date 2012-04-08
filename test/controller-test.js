@@ -44,7 +44,7 @@ vows.describe('Controller').addBatch({
   'controller initialization': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init({ name: 'application' }, 'FooBarController');
+      TestController._load({ name: 'application' }, 'FooBarController');
       return TestController;
     },
     
@@ -63,7 +63,7 @@ vows.describe('Controller').addBatch({
   'controller instance': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init({ name: 'application' }, 'TestController');
+      TestController._load({ name: 'application' }, 'TestController');
       
       TestController.home = function() {
         this.render();
@@ -462,7 +462,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filters': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init({ name: 'application' }, 'TestController');
+      TestController._load({ name: 'application' }, 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -512,7 +512,7 @@ vows.describe('Controller').addBatch({
   'controller instance with middleware as before filter': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init({ name: 'application' }, 'TestController');
+      TestController._load({ name: 'application' }, 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -557,7 +557,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filters that error': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init({ name: 'application' }, 'TestController');
+      TestController._load({ name: 'application' }, 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -607,7 +607,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filters': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init({ name: 'application' }, 'TestController');
+      TestController._load({ name: 'application' }, 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -660,7 +660,7 @@ vows.describe('Controller').addBatch({
   'controller instance with middleware as after filter': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init({ name: 'application' }, 'TestController');
+      TestController._load({ name: 'application' }, 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -708,7 +708,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filters that error': {
     topic: function() {
       var TestController = new Controller();
-      TestController._init({ name: 'application' }, 'TestController');
+      TestController._load({ name: 'application' }, 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
