@@ -1,7 +1,7 @@
 {
   "name": "locomotive",
   "version": "0.1.4",
-  "description": "Powerful web framework for Node.js.",
+  "description": "Powerful MVC web framework for Node.js.",
   "author": { "name": "Jared Hanson", "email": "jaredhanson@gmail.com", "url": "http://www.jaredhanson.net/" },
   "homepage": "http://locomotivejs.org/",
   "repository": {
