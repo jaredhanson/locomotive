@@ -138,7 +138,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('home');
       },
       
@@ -159,7 +159,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('showOnTheRoad');
       },
       
@@ -185,7 +185,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('showBook');
       },
       
@@ -211,7 +211,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('renderWithFormat');
       },
       
@@ -230,7 +230,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('renderWithEngine');
       },
       
@@ -249,7 +249,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('renderTemplate');
       },
       
@@ -268,7 +268,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('renderTemplatePath');
       },
       
@@ -287,7 +287,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('renderTemplateWithFormat');
       },
       
@@ -306,7 +306,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('renderToCallback');
       },
       
@@ -328,7 +328,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('renderTemplateToCallback');
       },
       
@@ -350,7 +350,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('renderTemplateAndOptionsToCallback');
       },
       
@@ -375,7 +375,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, url, status);
         }
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('redirectHome');
       },
       
@@ -398,7 +398,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, url, status);
         }
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('redirectHomeWithStatus');
       },
       
@@ -421,7 +421,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, err);
         }
         
-        controller._prepare(req, res, next);
+        controller._init(req, res, next);
         controller._invoke('internalError');
       },
       
@@ -446,7 +446,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, err);
         }
         
-        controller._prepare(req, res, next);
+        controller._init(req, res, next);
         controller._invoke('unknown');
       },
       
@@ -490,7 +490,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('foo');
       },
       
@@ -536,7 +536,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('foo');
       },
       
@@ -586,7 +586,7 @@ vows.describe('Controller').addBatch({
           self.callback(new Error('should not be called'));
         });
         
-        controller._prepare(req, res, function() {
+        controller._init(req, res, function() {
           self.callback(null, controller, req, res);
         });
         controller._invoke('foo');
@@ -638,7 +638,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('foo');
       },
       
@@ -687,7 +687,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._prepare(req, res);
+        controller._init(req, res);
         controller._invoke('foo');
       },
       
@@ -735,7 +735,7 @@ vows.describe('Controller').addBatch({
         req = new MockRequest();
         res = new MockResponse();
         
-        controller._prepare(req, res, function() {
+        controller._init(req, res, function() {
           self.callback(null, controller, req, res);
         });
         controller._invoke('foo');
