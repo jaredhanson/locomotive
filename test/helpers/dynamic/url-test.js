@@ -90,11 +90,11 @@ vows.describe('URLDynamicHelpers').addBatch({
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ action: 'index', onlyPath: true }), '/test');
       },
-      'should build correct url for request controller and protocol and host options': function (view) {
+      'should build correct url for request controller using protocol and host options': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ action: 'index', protocol: 'https', host: 'www.example.net' }), 'https://www.example.net/test');
       },
-      'should build correct url for request controller and protocol, host, and pathname options': function (view) {
+      'should build correct url to protocol, host, and pathname': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ protocol: 'https', host: 'www.example.net', pathname: 'welcome' }), 'https://www.example.net/welcome');
       },
