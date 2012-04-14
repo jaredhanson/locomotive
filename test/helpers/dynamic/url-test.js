@@ -22,7 +22,10 @@ function MockLocomotive() {
   function animalURL(obj) {
     return this.urlFor({ controller: 'AnimalsController', action: 'show', id: obj.id });
   }
-  this.routingHelpers = { animalURL: animalURL };
+  function animalPath(obj) {
+    return this.urlFor({ controller: 'AnimalsController', action: 'show', id: obj.id, onlyPath: true });
+  }
+  this.routingHelpers = { animalURL: animalURL, animalPath: animalPath };
 }
 
 MockLocomotive.prototype._recordOf = function(obj) {
@@ -110,6 +113,12 @@ vows.describe('URLDynamicHelpers').addBatch({
         var animal = new Animal();
         animal.id = '123';
         assert.equal(view.urlFor(animal), 'http://www.example.com/animals/123');
+      },
+      'should invoke routing helper methods when given an object argument and onlyPath option': function (view) {
+        function Animal() {};
+        var animal = new Animal();
+        animal.id = '123';
+        assert.equal(view.urlFor(animal, { onlyPath: true }), '/animals/123');
       },
       'should throw error when unable to find routing helper for object': function (view) {
         function Dog() {};
