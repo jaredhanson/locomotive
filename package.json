@@ -30,7 +30,7 @@
   "scripts": {
     "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js test/**/*-test.js test/**/**/*-test.js"
   },
-  "engines": { "node": ">= 0.4.0" },
+  "engines": { "node": ">= 0.6.0" },
   "licenses": [ {
     "type": "MIT",
     "url": "http://www.opensource.org/licenses/MIT" 
