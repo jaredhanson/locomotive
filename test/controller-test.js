@@ -114,6 +114,10 @@ vows.describe('Controller').addBatch({
       }
       
       TestController.redirectHomeWithStatus = function() {
+        this.redirect(303, '/home');
+      }
+      
+      TestController.redirectHomeWithStatusAsLastArg = function() {
         this.redirect('/home', 303);
       }
       
@@ -363,17 +367,17 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(new Error('should not be called'));
         });
-        res.redirect = function(url, status) {
-          self.callback(null, url, status);
+        res.redirect = function(status, url) {
+          self.callback(null, status, url);
         }
         
         controller._init(req, res);
         controller._invoke('redirectHome');
       },
       
-      'should redirect': function(err, url, status) {
-        assert.equal(url, '/home');
-        assert.isUndefined(status);
+      'should redirect': function(err, status, url) {
+        assert.equal(status, '/home');
+        assert.isUndefined(url);
       },
     },
     
@@ -386,17 +390,40 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(new Error('should not be called'));
         });
-        res.redirect = function(url, status) {
-          self.callback(null, url, status);
+        res.redirect = function(status, url) {
+          self.callback(null, status, url);
         }
         
         controller._init(req, res);
         controller._invoke('redirectHomeWithStatus');
       },
       
-      'should redirect': function(err, url, status) {
-        assert.equal(url, '/home');
+      'should redirect': function(err, status, url) {
         assert.equal(status, 303);
+        assert.equal(url, '/home');
+      },
+    },
+    
+    'invoking an action which redirects with a status code as last argument': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(new Error('should not be called'));
+        });
+        res.redirect = function(status, url) {
+          self.callback(null, status, url);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('redirectHomeWithStatusAsLastArg');
+      },
+      
+      'should redirect': function(err, status, url) {
+        assert.equal(status, 303);
+        assert.equal(url, '/home');
       },
     },
     
