@@ -525,6 +525,76 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  'controller instance with before filter on multiple actions': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'the-end';
+        this.render();
+      }
+      TestController.bar = function() {
+        this.song = 'break-on-through';
+        this.render();
+      }
+      TestController.before(['foo', 'bar'], function(next) {
+        this.band = 'the-doors';
+        next();
+      });
+      
+      return TestController;
+    },
+    
+    'invoking first action with before filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 2);
+        assert.equal(res.locals.band, 'the-doors');
+        assert.equal(res.locals.song, 'the-end');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+    
+    'invoking second action with before filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._init(req, res);
+        controller._invoke('bar');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 2);
+        assert.equal(res.locals.band, 'the-doors');
+        assert.equal(res.locals.song, 'break-on-through');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/bar.html.ejs');
+      },
+    },
+  },
+  
   'controller instance with middleware as before filter': {
     topic: function() {
       var TestController = new Controller();
