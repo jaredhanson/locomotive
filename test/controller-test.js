@@ -741,6 +741,85 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  'controller instance with after filter on multiple actions': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'the-end';
+        this.render();
+      }
+      TestController.bar = function() {
+        this.song = 'break-on-through';
+        this.render();
+      }
+      TestController.after(['foo', 'bar'], function(next) {
+        this.band = 'the-doors';
+        this.finished();
+        next();
+      });
+      
+      return TestController;
+    },
+    
+    'invoking first action with after filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'the-end');
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'the-doors');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+    
+    'invoking second action with after filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('bar');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'break-on-through');
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'the-doors');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/bar.html.ejs');
+      },
+    },
+  },
+  
   'controller instance with middleware as after filter': {
     topic: function() {
       var TestController = new Controller();
