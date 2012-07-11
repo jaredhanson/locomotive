@@ -19,7 +19,7 @@ MockRequest.prototype.param = function(name, defaultValue) {
 /* MockResponse */
 
 function MockResponse(fn) {
-  this._locals = [];
+  this.locals = {};
   this.done = fn;
 }
 
@@ -28,10 +28,6 @@ MockResponse.prototype.render = function(view, options, fn) {
   this._options = options;
   this._fn = fn;
   this.end();
-}
-
-MockResponse.prototype.local = function(name, val) {
-  this._locals.push({ name: name, val: val });
 }
 
 MockResponse.prototype.end = function() {
@@ -118,6 +114,10 @@ vows.describe('Controller').addBatch({
       }
       
       TestController.redirectHomeWithStatus = function() {
+        this.redirect(303, '/home');
+      }
+      
+      TestController.redirectHomeWithStatusAsLastArg = function() {
         this.redirect('/home', 303);
       }
       
@@ -164,11 +164,9 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
-        assert.lengthOf(res._locals, 2);
-        assert.equal(res._locals[0].name, 'title');
-        assert.equal(res._locals[0].val, 'On The Road');
-        assert.equal(res._locals[1].name, 'author');
-        assert.equal(res._locals[1].val, 'Jack Kerouac');
+        assert.lengthOf(Object.keys(res.locals), 2);
+        assert.equal(res.locals.title, 'On The Road');
+        assert.equal(res.locals.author, 'Jack Kerouac');
       },
       'should render view': function(err, c, req, res) {
         assert.equal(res._view, 'test/show_on_the_road.html.ejs');
@@ -190,11 +188,9 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
-        assert.lengthOf(res._locals, 2);
-        assert.equal(res._locals[0].name, 'id');
-        assert.equal(res._locals[0].val, '123456');
-        assert.equal(res._locals[1].name, 'fullText');
-        assert.equal(res._locals[1].val, 'true');
+        assert.lengthOf(Object.keys(res.locals), 2);
+        assert.equal(res.locals.id, '123456');
+        assert.equal(res.locals.fullText, 'true');
       },
       'should render view': function(err, c, req, res) {
         assert.equal(res._view, 'test/show_book.html.ejs');
@@ -371,17 +367,17 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(new Error('should not be called'));
         });
-        res.redirect = function(url, status) {
-          self.callback(null, url, status);
+        res.redirect = function(status, url) {
+          self.callback(null, status, url);
         }
         
         controller._init(req, res);
         controller._invoke('redirectHome');
       },
       
-      'should redirect': function(err, url, status) {
-        assert.equal(url, '/home');
-        assert.isUndefined(status);
+      'should redirect': function(err, status, url) {
+        assert.equal(status, '/home');
+        assert.isUndefined(url);
       },
     },
     
@@ -394,17 +390,40 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(new Error('should not be called'));
         });
-        res.redirect = function(url, status) {
-          self.callback(null, url, status);
+        res.redirect = function(status, url) {
+          self.callback(null, status, url);
         }
         
         controller._init(req, res);
         controller._invoke('redirectHomeWithStatus');
       },
       
-      'should redirect': function(err, url, status) {
-        assert.equal(url, '/home');
+      'should redirect': function(err, status, url) {
         assert.equal(status, 303);
+        assert.equal(url, '/home');
+      },
+    },
+    
+    'invoking an action which redirects with a status code as last argument': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(new Error('should not be called'));
+        });
+        res.redirect = function(status, url) {
+          self.callback(null, status, url);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('redirectHomeWithStatusAsLastArg');
+      },
+      
+      'should redirect': function(err, status, url) {
+        assert.equal(status, 303);
+        assert.equal(url, '/home');
       },
     },
     
@@ -495,16 +514,153 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
-        assert.lengthOf(res._locals, 3);
-        assert.equal(res._locals[0].name, 'band');
-        assert.equal(res._locals[0].val, 'counting-crows');
-        assert.equal(res._locals[1].name, 'album');
-        assert.equal(res._locals[1].val, 'august-and-everything-after');
-        assert.equal(res._locals[2].name, 'song');
-        assert.equal(res._locals[2].val, 'mr-jones');
+        assert.lengthOf(Object.keys(res.locals), 3);
+        assert.equal(res.locals.band, 'counting-crows');
+        assert.equal(res.locals.album, 'august-and-everything-after');
+        assert.equal(res.locals.song, 'mr-jones');
       },
       'should render view': function(err, c, req, res) {
         assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+  },
+  
+  'controller instance with before filter on multiple actions': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'the-end';
+        this.render();
+      }
+      TestController.bar = function() {
+        this.song = 'break-on-through';
+        this.render();
+      }
+      TestController.before(['foo', 'bar'], function(next) {
+        this.band = 'the-doors';
+        next();
+      });
+      
+      return TestController;
+    },
+    
+    'invoking first action with before filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 2);
+        assert.equal(res.locals.band, 'the-doors');
+        assert.equal(res.locals.song, 'the-end');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+    
+    'invoking second action with before filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._init(req, res);
+        controller._invoke('bar');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 2);
+        assert.equal(res.locals.band, 'the-doors');
+        assert.equal(res.locals.song, 'break-on-through');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/bar.html.ejs');
+      },
+    },
+  },
+  
+  'controller instance with before filter on all actions': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'the-end';
+        this.render();
+      }
+      TestController.bar = function() {
+        this.song = 'break-on-through';
+        this.render();
+      }
+      TestController.before('*', function(next) {
+        this.band = 'the-doors';
+        next();
+      });
+      
+      return TestController;
+    },
+    
+    'invoking first action with before filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 2);
+        assert.equal(res.locals.band, 'the-doors');
+        assert.equal(res.locals.song, 'the-end');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+    
+    'invoking second action with before filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, controller, req, res);
+        });
+        controller._init(req, res);
+        controller._invoke('bar');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 2);
+        assert.equal(res.locals.band, 'the-doors');
+        assert.equal(res.locals.song, 'break-on-through');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/bar.html.ejs');
       },
     },
   },
@@ -541,9 +697,8 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
-        assert.lengthOf(res._locals, 1);
-        assert.equal(res._locals[0].name, 'song');
-        assert.equal(res._locals[0].val, 'mr-jones');
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'mr-jones');
       },
       'should assign request properties in before filters': function(err, c, req, res) {
         assert.equal(req.middleware, 'called');
@@ -596,7 +751,7 @@ vows.describe('Controller').addBatch({
         assert.isNull(err);
       },
       'should not assign controller properties as response locals': function(err, c, req, res) {
-        assert.lengthOf(res._locals, 0);
+        assert.lengthOf(Object.keys(res.locals), 0);
       },
       'should not render view': function(err, c, req, res) {
         assert.isUndefined(res._view);
@@ -643,9 +798,8 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
-        assert.lengthOf(res._locals, 1);
-        assert.equal(res._locals[0].name, 'song');
-        assert.equal(res._locals[0].val, 'mr-jones');
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'mr-jones');
       },
       'should assign controller properties in after filters': function(err, c, req, res) {
         assert.equal(c.band, 'counting-crows');
@@ -653,6 +807,164 @@ vows.describe('Controller').addBatch({
       },
       'should render view': function(err, c, req, res) {
         assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+  },
+  
+  'controller instance with after filter on multiple actions': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'the-end';
+        this.render();
+      }
+      TestController.bar = function() {
+        this.song = 'break-on-through';
+        this.render();
+      }
+      TestController.after(['foo', 'bar'], function(next) {
+        this.band = 'the-doors';
+        this.finished();
+        next();
+      });
+      
+      return TestController;
+    },
+    
+    'invoking first action with after filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'the-end');
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'the-doors');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+    
+    'invoking second action with after filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('bar');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'break-on-through');
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'the-doors');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/bar.html.ejs');
+      },
+    },
+  },
+  
+  'controller instance with after filter on all actions': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load({ name: 'application' }, 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'the-end';
+        this.render();
+      }
+      TestController.bar = function() {
+        this.song = 'break-on-through';
+        this.render();
+      }
+      TestController.after('*', function(next) {
+        this.band = 'the-doors';
+        this.finished();
+        next();
+      });
+      
+      return TestController;
+    },
+    
+    'invoking first action with after filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'the-end');
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'the-doors');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+    
+    'invoking second action with after filter': {
+      topic: function(TestController) {
+        var controller = Object.create(TestController);
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('bar');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'break-on-through');
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'the-doors');
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/bar.html.ejs');
       },
     },
   },
@@ -692,9 +1004,8 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
-        assert.lengthOf(res._locals, 1);
-        assert.equal(res._locals[0].name, 'song');
-        assert.equal(res._locals[0].val, 'mr-jones');
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'mr-jones');
       },
       'should assign request properties in after filters': function(err, c, req, res) {
         assert.equal(req.middleware, 'called');
@@ -742,9 +1053,8 @@ vows.describe('Controller').addBatch({
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
-        assert.lengthOf(res._locals, 1);
-        assert.equal(res._locals[0].name, 'song');
-        assert.equal(res._locals[0].val, 'mr-jones');
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'mr-jones');
       },
       'should assign controller properties in after filters': function(err, c, req, res) {
         assert.equal(c.band, 'counting-crows');

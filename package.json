@@ -18,11 +18,11 @@
     "commander": "0.6.x",
     "mkdirp": "0.3.x",
     "diveSync": "0.2.0",
-    "express": "2.x.x",
+    "express": "3.x.x",
     "async": "0.1.x",
     "hooks": "0.2.x",
     "lingo": "0.0.x",
-    "debug": "0.6.x"
+    "debug": "0.7.x"
   },
   "devDependencies": {
     "vows": "0.6.x"
@@ -30,7 +30,7 @@
   "scripts": {
     "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js test/**/*-test.js test/**/**/*-test.js"
   },
-  "engines": { "node": ">= 0.4.0" },
+  "engines": { "node": ">= 0.6.0" },
   "licenses": [ {
     "type": "MIT",
     "url": "http://www.opensource.org/licenses/MIT" 

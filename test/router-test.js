@@ -543,6 +543,104 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with resource nested under resource using namespace option': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resource('account', { namespace: true }, function() {
+        this.resource('password');
+      });
+      return router;
+    },
+    
+    'should mount twelve routes': function (router) {
+      assert.lengthOf(router._http._routes, 12);
+    },
+    'should create route to sub-resource new action': function (router) {
+      var route = router.find('Account::PasswordController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/account/password/new');
+    },
+    'should mount route to sub-resource new action at GET /resource/sub-resource/new': function (router) {
+      assert.equal(router._http._routes[6].method, 'GET');
+      assert.equal(router._http._routes[6].path, '/account/password/new');
+      assert.equal(router._http._routes[6].fn().controller, 'Account::PasswordController');
+      assert.equal(router._http._routes[6].fn().action, 'new');
+    },
+    'should create route to sub-resource create action': function (router) {
+      var route = router.find('Account::PasswordController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/account/password');
+    },
+    'should mount route to sub-resource create action at POST /resource/sub-resource': function (router) {
+      assert.equal(router._http._routes[7].method, 'POST');
+      assert.equal(router._http._routes[7].path, '/account/password');
+      assert.equal(router._http._routes[7].fn().controller, 'Account::PasswordController');
+      assert.equal(router._http._routes[7].fn().action, 'create');
+    },
+    'should create route to sub-resource show action': function (router) {
+      var route = router.find('Account::PasswordController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/account/password.:format?');
+    },
+    'should mount route to sub-resource show action at GET /resource/sub-resource': function (router) {
+      assert.equal(router._http._routes[8].method, 'GET');
+      assert.equal(router._http._routes[8].path, '/account/password.:format?');
+      assert.equal(router._http._routes[8].fn().controller, 'Account::PasswordController');
+      assert.equal(router._http._routes[8].fn().action, 'show');
+    },
+    'should create route to sub-resource edit action': function (router) {
+      var route = router.find('Account::PasswordController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/account/password/edit');
+    },
+    'should mount route to sub-resource edit action at GET /resource/sub-resource/edit': function (router) {
+      assert.equal(router._http._routes[9].method, 'GET');
+      assert.equal(router._http._routes[9].path, '/account/password/edit');
+      assert.equal(router._http._routes[9].fn().controller, 'Account::PasswordController');
+      assert.equal(router._http._routes[9].fn().action, 'edit');
+    },
+    'should create route to sub-resource update action': function (router) {
+      var route = router.find('Account::PasswordController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/account/password');
+    },
+    'should mount route to sub-resource update action at PUT /resource/sub-resource': function (router) {
+      assert.equal(router._http._routes[10].method, 'PUT');
+      assert.equal(router._http._routes[10].path, '/account/password');
+      assert.equal(router._http._routes[10].fn().controller, 'Account::PasswordController');
+      assert.equal(router._http._routes[10].fn().action, 'update');
+    },
+    'should create route to sub-resource destroy action': function (router) {
+      var route = router.find('Account::PasswordController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/account/password');
+    },
+    'should mount route to sub-resource destroy action at DELETE /resource/sub-resource': function (router) {
+      assert.equal(router._http._routes[11].method, 'DELETE');
+      assert.equal(router._http._routes[11].path, '/account/password');
+      assert.equal(router._http._routes[11].fn().controller, 'Account::PasswordController');
+      assert.equal(router._http._routes[11].fn().action, 'destroy');
+    },
+    'should declare routing helpers': function (router) {
+      assert.lengthOf(Object.keys(router._app._helpers), 6);
+      assert.lengthOf(Object.keys(router._app._dynamicHelpers), 6);
+      
+      assert.isFunction(router._app._helpers.accountPath);
+      assert.isFunction(router._app._helpers.newAccountPath);
+      assert.isFunction(router._app._helpers.editAccountPath);
+      assert.isFunction(router._app._helpers.accountPasswordPath);
+      assert.isFunction(router._app._helpers.newAccountPasswordPath);
+      assert.isFunction(router._app._helpers.editAccountPasswordPath);
+      
+      assert.isFunction(router._app._dynamicHelpers.accountURL);
+      assert.isFunction(router._app._dynamicHelpers.newAccountURL);
+      assert.isFunction(router._app._dynamicHelpers.editAccountURL);
+      assert.isFunction(router._app._dynamicHelpers.accountPasswordURL);
+      assert.isFunction(router._app._dynamicHelpers.newAccountPasswordURL);
+      assert.isFunction(router._app._dynamicHelpers.editAccountPasswordURL);
+    },
+  },
+  
   'router with resources nested under resource': {
     topic: function() {
       var router = intializedRouter()
@@ -841,6 +939,119 @@ vows.describe('Router').addBatch({
       assert.equal(router._http._routes[13].method, 'DELETE');
       assert.equal(router._http._routes[13].path, '/bands/:band_id/albums/:id');
       assert.equal(router._http._routes[13].fn().controller, 'AlbumsController');
+      assert.equal(router._http._routes[13].fn().action, 'destroy');
+    },
+    'should declare routing helpers': function (router) {
+      assert.lengthOf(Object.keys(router._app._helpers), 8);
+      assert.lengthOf(Object.keys(router._app._dynamicHelpers), 8);
+      
+      assert.isFunction(router._app._helpers.bandsPath);
+      assert.isFunction(router._app._helpers.bandPath);
+      assert.isFunction(router._app._helpers.newBandPath);
+      assert.isFunction(router._app._helpers.editBandPath);
+      assert.isFunction(router._app._helpers.bandAlbumsPath);
+      assert.isFunction(router._app._helpers.bandAlbumPath);
+      assert.isFunction(router._app._helpers.newBandAlbumPath);
+      assert.isFunction(router._app._helpers.editBandAlbumPath);
+      
+      assert.isFunction(router._app._dynamicHelpers.bandsURL);
+      assert.isFunction(router._app._dynamicHelpers.bandURL);
+      assert.isFunction(router._app._dynamicHelpers.newBandURL);
+      assert.isFunction(router._app._dynamicHelpers.editBandURL);
+      assert.isFunction(router._app._dynamicHelpers.bandAlbumsURL);
+      assert.isFunction(router._app._dynamicHelpers.bandAlbumURL);
+      assert.isFunction(router._app._dynamicHelpers.newBandAlbumURL);
+      assert.isFunction(router._app._dynamicHelpers.editBandAlbumURL);
+    },
+  },
+  
+  'router with resources nested under resources using namespace option': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resources('bands', { namespace: true }, function() {
+        this.resources('albums');
+      });
+      return router;
+    },
+    
+    'should mount fourteen routes': function (router) {
+      assert.lengthOf(router._http._routes, 14);
+    },
+    'should create route to sub-resources index action': function (router) {
+      var route = router.find('Bands::AlbumsController', 'index');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:band_id/albums');
+    },
+    'should mount route to sub-resources index action at GET /resources/1234/sub-resources': function (router) {
+      assert.equal(router._http._routes[7].method, 'GET');
+      assert.equal(router._http._routes[7].path, '/bands/:band_id/albums');
+      assert.equal(router._http._routes[7].fn().controller, 'Bands::AlbumsController');
+      assert.equal(router._http._routes[7].fn().action, 'index');
+    },
+    'should create route to sub-resources new action': function (router) {
+      var route = router.find('Bands::AlbumsController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:band_id/albums/new');
+    },
+    'should mount route to sub-resources new action at GET /resources/1234/sub-resources/new': function (router) {
+      assert.equal(router._http._routes[8].method, 'GET');
+      assert.equal(router._http._routes[8].path, '/bands/:band_id/albums/new');
+      assert.equal(router._http._routes[8].fn().controller, 'Bands::AlbumsController');
+      assert.equal(router._http._routes[8].fn().action, 'new');
+    },
+    'should create route to sub-resources create action': function (router) {
+      var route = router.find('Bands::AlbumsController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/bands/:band_id/albums');
+    },
+    'should mount route to sub-resources create action at POST /resources/1234/sub-resources': function (router) {
+      assert.equal(router._http._routes[9].method, 'POST');
+      assert.equal(router._http._routes[9].path, '/bands/:band_id/albums');
+      assert.equal(router._http._routes[9].fn().controller, 'Bands::AlbumsController');
+      assert.equal(router._http._routes[9].fn().action, 'create');
+    },
+    'should create route to sub-resources show action': function (router) {
+      var route = router.find('Bands::AlbumsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:band_id/albums/:id.:format?');
+    },
+    'should mount route to sub-resources show action at GET /resources/1234/sub-resources/5678': function (router) {
+      assert.equal(router._http._routes[10].method, 'GET');
+      assert.equal(router._http._routes[10].path, '/bands/:band_id/albums/:id.:format?');
+      assert.equal(router._http._routes[10].fn().controller, 'Bands::AlbumsController');
+      assert.equal(router._http._routes[10].fn().action, 'show');
+    },
+    'should create route to sub-resources edit action': function (router) {
+      var route = router.find('Bands::AlbumsController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:band_id/albums/:id/edit');
+    },
+    'should mount route to sub-resources edit action at GET /resources/1234/sub-resources/5678/edit': function (router) {
+      assert.equal(router._http._routes[11].method, 'GET');
+      assert.equal(router._http._routes[11].path, '/bands/:band_id/albums/:id/edit');
+      assert.equal(router._http._routes[11].fn().controller, 'Bands::AlbumsController');
+      assert.equal(router._http._routes[11].fn().action, 'edit');
+    },
+    'should create route to sub-resources update action': function (router) {
+      var route = router.find('Bands::AlbumsController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/bands/:band_id/albums/:id');
+    },
+    'should mount route to sub-resources update action at PUT /resources/1234/sub-resources/5678': function (router) {
+      assert.equal(router._http._routes[12].method, 'PUT');
+      assert.equal(router._http._routes[12].path, '/bands/:band_id/albums/:id');
+      assert.equal(router._http._routes[12].fn().controller, 'Bands::AlbumsController');
+      assert.equal(router._http._routes[12].fn().action, 'update');
+    },
+    'should create route to destroy action': function (router) {
+      var route = router.find('Bands::AlbumsController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/bands/:band_id/albums/:id');
+    },
+    'should mount route to destroy action at DELETE /resources/1234/sub-resources/1234': function (router) {
+      assert.equal(router._http._routes[13].method, 'DELETE');
+      assert.equal(router._http._routes[13].path, '/bands/:band_id/albums/:id');
+      assert.equal(router._http._routes[13].fn().controller, 'Bands::AlbumsController');
       assert.equal(router._http._routes[13].fn().action, 'destroy');
     },
     'should declare routing helpers': function (router) {
