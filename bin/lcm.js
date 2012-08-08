@@ -25,7 +25,7 @@ program.command('server')
   .action(function(options) {
     options = options || {};
     options.address = options.address || '0.0.0.0';
-    options.port = options.port || 3000;
+    options.port = options.port || process.env.PORT || 3000;
     options.env = options.env || process.env.NODE_ENV || 'development';
     
     // TODO: Implement daemon and cluster mode
