@@ -440,6 +440,31 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    'invoking an action which responds to request that wants XML by extension using function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = { format: 'xml' };
+        req.accepts = function(keys) {
+          // format param overrides this
+          return 'application/json';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingMimeKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_mime_key.xml.xmlb');
+      },
+    },
+    
     'invoking an action which responds to request that accepts an unsupported format using function and mime types as keys': {
       topic: function(controller) {
         var self = this;
@@ -539,6 +564,31 @@ vows.describe('Controller').addBatch({
         req.params = {};
         req.accepts = function(keys) {
           return 'xml';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingExtKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_ext_key.xml.xmlb');
+      },
+    },
+    
+    'invoking an action which responds to request that wants XML by extension using function and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = { format: 'xml' };
+        req.accepts = function(keys) {
+          // format param overrides this
+          return 'json';
         }
         
         res = new MockResponse(function() {
