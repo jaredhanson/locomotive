@@ -84,6 +84,10 @@ vows.describe('Controller').addBatch({
       TestController.renderWithEngine = function() {
         this.render({ engine: 'haml' });
       }
+
+      TestController.renderWithoutFormatInViewFilename = function() {
+        this.render({ hideFormatInViewFilename: true });
+      }
       
       TestController.renderTemplate = function() {
         this.render('show');
@@ -266,6 +270,25 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/render_with_engine.html.haml');
+      },
+    },
+
+    'invoking an action which renders view without passing format with filename': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('renderWithoutFormatInViewFilename');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_without_format_in_view_filename.ejs');
       },
     },
     
