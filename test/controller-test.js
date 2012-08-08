@@ -117,11 +117,29 @@ vows.describe('Controller').addBatch({
         });
       }
       
+      TestController.respondWithFunctionUsingMimeKeyAndDefault = function() {
+        var self = this;
+        this.respond({
+          'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+          'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
+          default: function() { self.render({ format: 'foo', engine: 'foob' }); }
+        });
+      }
+      
       TestController.respondWithFunctionUsingExtKey = function() {
         var self = this;
         this.respond({
           'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
           'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+        });
+      }
+      
+      TestController.respondWithFunctionUsingExtKeyAndDefault = function() {
+        var self = this;
+        this.respond({
+          'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+          'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
+          default: function() { self.render({ format: 'foo', engine: 'foob' }); },
         });
       }
       
@@ -430,7 +448,8 @@ vows.describe('Controller').addBatch({
         req = new MockRequest();
         req.params = {};
         req.accepts = function(keys) {
-          return 'application/x-foo';
+          //return 'application/x-foo';
+          return undefined;
         }
         next = function(err) {
           self.callback(null, err);
@@ -454,6 +473,36 @@ vows.describe('Controller').addBatch({
         assert.lengthOf(e.types, 2);
         assert.equal(e.types[0], 'application/json');
         assert.equal(e.types[1], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts an unsupported format using default function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithFunctionUsingMimeKeyAndDefault');
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_mime_key_and_default.foo.foob');
       },
     },
     
@@ -513,7 +562,8 @@ vows.describe('Controller').addBatch({
         req = new MockRequest();
         req.params = {};
         req.accepts = function(keys) {
-          return 'foo';
+          //return 'foo';
+          return undefined;
         }
         next = function(err) {
           self.callback(null, err);
@@ -537,6 +587,36 @@ vows.describe('Controller').addBatch({
         assert.lengthOf(e.types, 2);
         assert.equal(e.types[0], 'application/json');
         assert.equal(e.types[1], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts an unsupported format using default function and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithFunctionUsingExtKeyAndDefault');
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_ext_key_and_default.foo.foob');
       },
     },
     
