@@ -109,6 +109,14 @@ vows.describe('Controller').addBatch({
         this.render('show', { layout: 'email' }, function(err, html) { return 'CB-3' });
       }
       
+      TestController.respondWithFunctionUsingMimeKey = function() {
+        var self = this;
+        this.respond({
+          'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+          'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+        });
+      }
+      
       TestController.redirectHome = function() {
         this.redirect('/home');
       }
@@ -355,6 +363,89 @@ vows.describe('Controller').addBatch({
         assert.equal(res._options.layout, 'email');
         assert.isFunction(res._fn);
         assert.equal(res._fn(), 'CB-3');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts JSON using function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'application/json';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingMimeKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_mime_key.json.jsonb');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts XML using function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'application/xml';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingMimeKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_mime_key.xml.xmlb');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts an unsupported format using function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'application/x-foo';
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(new Error('should not be called'));
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithFunctionUsingMimeKey');
+      },
+      
+      'should not send response' : function(err, e) {
+        assert.isNull(err);
+      },
+      'should call next with error': function(err, e) {
+        assert.instanceOf(e, Error);
+        assert.equal(e.message, 'Not Acceptable');
+        assert.equal(e.status, 406);
+        assert.lengthOf(e.types, 2);
+        assert.equal(e.types[0], 'application/json');
+        assert.equal(e.types[1], 'application/xml');
       },
     },
     
