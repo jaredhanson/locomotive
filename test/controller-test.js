@@ -19,6 +19,7 @@ MockRequest.prototype.param = function(name, defaultValue) {
 /* MockResponse */
 
 function MockResponse(fn) {
+  this._headers = {};
   this.locals = {};
   this.done = fn;
 }
@@ -28,6 +29,10 @@ MockResponse.prototype.render = function(view, options, fn) {
   this._options = options;
   this._fn = fn;
   this.end();
+}
+
+MockResponse.prototype.setHeader = function(name, value) {
+  this._headers[name] = value;
 }
 
 MockResponse.prototype.end = function() {
@@ -491,6 +496,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_function_using_mime_key.json.jsonb');
+      },
+      'should set vary header': function(err, req, res) {
+        assert.equal(res._headers['Vary'], 'Accept');
       },
     },
     
