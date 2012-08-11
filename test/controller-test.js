@@ -11,6 +11,10 @@ function MockLocomotive() {
   this._formats = {};
 }
 
+MockLocomotive.prototype.format = function(fmt, options) {
+  this._formats[fmt] = options;
+}
+
 
 /* MockRequest */
 
@@ -1319,6 +1323,113 @@ vows.describe('Controller').addBatch({
       },
       'should call next with error': function(err, e) {
         assert.instanceOf(e, ControllerError);
+      },
+    },
+  },
+  
+  'controller instance in app with registered formats': {
+    topic: function() {
+      var app = new MockLocomotive();
+      app.format('xml', { engine: 'xmlb' });
+    
+      var TestController = new Controller();
+      TestController._load(app, 'TestController');
+    
+      TestController.renderXML = function() {
+        this.render({ format: 'xml' });
+      }
+      TestController.renderXMLWithEngine = function() {
+        this.render({ format: 'xml', engine: 'ltxb' });
+      }
+      TestController.renderXMLWithExtension = function() {
+        this.render({ format: 'xml', extension: 'xtxb' });
+      }
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'rendering XML using application engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderXML');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_xml.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'rendering XML using override engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderXMLWithEngine');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_xml_with_engine.xml.ltxb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'rendering XML using override extension': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderXMLWithExtension');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_xml_with_extension.xtxb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
       },
     },
   },
