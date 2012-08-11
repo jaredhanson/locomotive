@@ -1330,11 +1330,22 @@ vows.describe('Controller').addBatch({
   'controller instance in app with registered formats': {
     topic: function() {
       var app = new MockLocomotive();
+      app.format('html', { extension: 'jade' });
       app.format('xml', { engine: 'xmlb' });
+      app.format('foo', { extension: '.bar' });
     
       var TestController = new Controller();
       TestController._load(app, 'TestController');
     
+      TestController.renderHTML = function() {
+        this.render();
+      }
+      TestController.renderHTMLWithEngine = function() {
+        this.render({ engine: 'dust' });
+      }
+      TestController.renderHTMLWithExtension = function() {
+        this.render({ extension: 'stache' });
+      }
       TestController.renderXML = function() {
         this.render({ format: 'xml' });
       }
@@ -1347,9 +1358,96 @@ vows.describe('Controller').addBatch({
       TestController.renderXMLWithDotExtension = function() {
         this.render({ format: 'xml', extension: '.dxtxb' });
       }
+      TestController.renderFoo = function() {
+        this.render({ format: 'foo' });
+      }
       
       var instance = Object.create(TestController);
       return instance;
+    },
+    
+    'rendering HTML using application engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderHTML');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_html.jade');
+      },
+      'should not set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
+    },
+    
+    'rendering HTML using override engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderHTMLWithEngine');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_html_with_engine.html.dust');
+      },
+      'should not set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
+    },
+    
+    'rendering HTML using override extension': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderHTMLWithExtension');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_html_with_extension.stache');
+      },
+      'should not set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
     },
     
     'rendering XML using application engine': {
@@ -1461,6 +1559,34 @@ vows.describe('Controller').addBatch({
       },
       'should set content-type': function(err, req, res) {
         assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'rendering foo using application engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderFoo');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_foo.bar');
+      },
+      'should not set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
       },
     },
   },
