@@ -294,6 +294,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, c, req, res) {
         assert.equal(res._view, 'test/show_on_the_road.html.ejs');
       },
+      'should not set content-type': function(err, c, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
     },
     
     'invoking an action which checks params, sets properties, and renders': {
@@ -336,6 +339,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/render_with_format.xml.ejs');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
       },
     },
     
@@ -503,6 +509,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_function_using_mime_key.json.jsonb');
       },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
+      },
       'should set vary header': function(err, req, res) {
         assert.equal(res._headers['Vary'], 'Accept');
       },
@@ -530,6 +539,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_function_using_mime_key.xml.xmlb');
       },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
     },
     
     'invoking an action which responds to request that wants XML by extension using function and mime types as keys': {
@@ -554,6 +566,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_function_using_mime_key.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
       },
     },
     
@@ -621,6 +636,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_function_using_mime_key_and_default.foo.foob');
       },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
+      },
     },
     
     'invoking an action which responds to request that accepts JSON using function and extensions as keys': {
@@ -644,6 +662,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_function_using_ext_key.json.jsonb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
       },
     },
     
@@ -669,6 +690,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_function_using_ext_key.xml.xmlb');
       },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
     },
     
     'invoking an action which responds to request that wants XML by extension using function and extensions as keys': {
@@ -693,6 +717,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_function_using_ext_key.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
       },
     },
     
@@ -760,6 +787,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_function_using_ext_key_and_default.foo.foob');
       },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
+      },
     },
     
     'invoking an action which responds to request that accepts JSON using object and mime types as keys': {
@@ -783,6 +813,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_options_using_mime_key.json.jsonb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
       },
     },
     
@@ -808,6 +841,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/otherxml.xml.xmlb');
       },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
     },
     
     'invoking an action which responds to request that accepts X-Foo using object and mime types as keys': {
@@ -831,6 +867,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_options_using_mime_key.foo.foob');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
       },
     },
     
@@ -895,6 +934,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_options_using_mime_key_and_defaults.html.ejs');
       },
+      'should set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
     },
     
     'invoking an action which responds to request for unsupported type using default true and mime types as keys': {
@@ -921,6 +963,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_options_using_mime_key_and_defaults_true.html.ejs');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
       },
     },
     
@@ -973,6 +1018,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_options_using_ext_key.json.jsonb');
       },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
+      },
     },
     
     'invoking an action which responds to request that accepts XML using object and extensions as keys': {
@@ -996,6 +1044,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/otherxml.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
       },
     },
     
@@ -1023,6 +1074,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_options_using_ext_key.foo.foob');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
       },
     },
     
@@ -1087,6 +1141,9 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_options_using_ext_key_and_defaults.html.ejs');
       },
+      'should set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
     },
     
     'invoking an action which responds to request for unsupported type using default true and extensions as keys': {
@@ -1113,6 +1170,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/respond_with_options_using_ext_key_and_defaults_true.html.ejs');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
       },
     },
     
