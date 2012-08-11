@@ -5,6 +5,13 @@ var Controller = require('locomotive/controller');
 var ControllerError = require('locomotive/errors/controllererror');
 
 
+/* MockLocomotive */
+
+function MockLocomotive() {
+  this._formats = {};
+}
+
+
 /* MockRequest */
 
 function MockRequest() {
@@ -45,13 +52,12 @@ vows.describe('Controller').addBatch({
   'controller initialization': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'FooBarController');
+      TestController._load(new MockLocomotive(), 'FooBarController');
       return TestController;
     },
     
     'should assign controller app property': function(controller) {
-      assert.isObject(controller.__app);
-      assert.equal(controller.__app.name, 'application');
+      assert.instanceOf(controller.__app, MockLocomotive);
     },
     'should assign controller name property': function(controller) {
       assert.equal(controller.__name, 'FooBarController');
@@ -64,7 +70,7 @@ vows.describe('Controller').addBatch({
   'controller instance': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.home = function() {
         this.render();
@@ -261,7 +267,7 @@ vows.describe('Controller').addBatch({
       
       'should assign properties to req': function(err, c, req, res) {
         assert.isObject(req._locomotive);
-        assert.equal(req._locomotive.app.name, 'application');
+        assert.instanceOf(req._locomotive.app, MockLocomotive);
         assert.equal(req._locomotive.controller, 'TestController');
         assert.equal(req._locomotive.action, 'home');
       },
@@ -1260,7 +1266,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filters': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1307,7 +1313,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -1377,7 +1383,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filter on all actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -1447,7 +1453,7 @@ vows.describe('Controller').addBatch({
   'controller instance with middleware as before filter': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1491,7 +1497,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filters that error': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1541,7 +1547,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filters': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1593,7 +1599,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -1672,7 +1678,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filter on all actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -1751,7 +1757,7 @@ vows.describe('Controller').addBatch({
   'controller instance with middleware as after filter': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1798,7 +1804,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filters that error': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
