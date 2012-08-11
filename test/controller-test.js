@@ -1344,6 +1344,9 @@ vows.describe('Controller').addBatch({
       TestController.renderXMLWithExtension = function() {
         this.render({ format: 'xml', extension: 'xtxb' });
       }
+      TestController.renderXMLWithDotExtension = function() {
+        this.render({ format: 'xml', extension: '.dxtxb' });
+      }
       
       var instance = Object.create(TestController);
       return instance;
@@ -1427,6 +1430,34 @@ vows.describe('Controller').addBatch({
       },
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/render_xml_with_extension.xtxb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'rendering XML using override dot extension': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderXMLWithDotExtension');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_xml_with_dot_extension.dxtxb');
       },
       'should set content-type': function(err, req, res) {
         assert.equal(res._headers['Content-Type'], 'application/xml');
