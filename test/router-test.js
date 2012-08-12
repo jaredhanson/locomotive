@@ -271,11 +271,11 @@ vows.describe('Router').addBatch({
     'should create route to new action': function (router) {
       var route = router.find('ProfileController', 'new');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/profile/new');
+      assert.equal(route.pattern, '/profile/new.:format?');
     },
     'should mount route to new action at GET /resource/new': function (router) {
       assert.equal(router._http._routes[0].method, 'GET');
-      assert.equal(router._http._routes[0].path, '/profile/new');
+      assert.equal(router._http._routes[0].path, '/profile/new.:format?');
       assert.equal(router._http._routes[0].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[0].fn().action, 'new');
     },
@@ -304,11 +304,11 @@ vows.describe('Router').addBatch({
     'should create route to edit action': function (router) {
       var route = router.find('ProfileController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/profile/edit');
+      assert.equal(route.pattern, '/profile/edit.:format?');
     },
     'should mount route to edit action at GET /resource/edit': function (router) {
       assert.equal(router._http._routes[3].method, 'GET');
-      assert.equal(router._http._routes[3].path, '/profile/edit');
+      assert.equal(router._http._routes[3].path, '/profile/edit.:format?');
       assert.equal(router._http._routes[3].fn().controller, 'ProfileController');
       assert.equal(router._http._routes[3].fn().action, 'edit');
     },
@@ -358,22 +358,22 @@ vows.describe('Router').addBatch({
     'should create route to index action': function (router) {
       var route = router.find('BandsController', 'index');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands');
+      assert.equal(route.pattern, '/bands.:format?');
     },
     'should mount route to index action at GET /resources': function (router) {
       assert.equal(router._http._routes[0].method, 'GET');
-      assert.equal(router._http._routes[0].path, '/bands');
+      assert.equal(router._http._routes[0].path, '/bands.:format?');
       assert.equal(router._http._routes[0].fn().controller, 'BandsController');
       assert.equal(router._http._routes[0].fn().action, 'index');
     },
     'should create route to new action': function (router) {
       var route = router.find('BandsController', 'new');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/new');
+      assert.equal(route.pattern, '/bands/new.:format?');
     },
     'should mount route to new action at GET /resources/new': function (router) {
       assert.equal(router._http._routes[1].method, 'GET');
-      assert.equal(router._http._routes[1].path, '/bands/new');
+      assert.equal(router._http._routes[1].path, '/bands/new.:format?');
       assert.equal(router._http._routes[1].fn().controller, 'BandsController');
       assert.equal(router._http._routes[1].fn().action, 'new');
     },
@@ -402,11 +402,11 @@ vows.describe('Router').addBatch({
     'should create route to edit action': function (router) {
       var route = router.find('BandsController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:id/edit');
+      assert.equal(route.pattern, '/bands/:id/edit.:format?');
     },
     'should mount route to edit action at GET /resources/1234/edit': function (router) {
       assert.equal(router._http._routes[4].method, 'GET');
-      assert.equal(router._http._routes[4].path, '/bands/:id/edit');
+      assert.equal(router._http._routes[4].path, '/bands/:id/edit.:format?');
       assert.equal(router._http._routes[4].fn().controller, 'BandsController');
       assert.equal(router._http._routes[4].fn().action, 'edit');
     },
@@ -460,11 +460,11 @@ vows.describe('Router').addBatch({
     'should create route to sub-resource new action': function (router) {
       var route = router.find('PasswordController', 'new');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/account/password/new');
+      assert.equal(route.pattern, '/account/password/new.:format?');
     },
     'should mount route to sub-resource new action at GET /resource/sub-resource/new': function (router) {
       assert.equal(router._http._routes[6].method, 'GET');
-      assert.equal(router._http._routes[6].path, '/account/password/new');
+      assert.equal(router._http._routes[6].path, '/account/password/new.:format?');
       assert.equal(router._http._routes[6].fn().controller, 'PasswordController');
       assert.equal(router._http._routes[6].fn().action, 'new');
     },
@@ -493,11 +493,11 @@ vows.describe('Router').addBatch({
     'should create route to sub-resource edit action': function (router) {
       var route = router.find('PasswordController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/account/password/edit');
+      assert.equal(route.pattern, '/account/password/edit.:format?');
     },
     'should mount route to sub-resource edit action at GET /resource/sub-resource/edit': function (router) {
       assert.equal(router._http._routes[9].method, 'GET');
-      assert.equal(router._http._routes[9].path, '/account/password/edit');
+      assert.equal(router._http._routes[9].path, '/account/password/edit.:format?');
       assert.equal(router._http._routes[9].fn().controller, 'PasswordController');
       assert.equal(router._http._routes[9].fn().action, 'edit');
     },
@@ -558,11 +558,11 @@ vows.describe('Router').addBatch({
     'should create route to sub-resource new action': function (router) {
       var route = router.find('Account::PasswordController', 'new');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/account/password/new');
+      assert.equal(route.pattern, '/account/password/new.:format?');
     },
     'should mount route to sub-resource new action at GET /resource/sub-resource/new': function (router) {
       assert.equal(router._http._routes[6].method, 'GET');
-      assert.equal(router._http._routes[6].path, '/account/password/new');
+      assert.equal(router._http._routes[6].path, '/account/password/new.:format?');
       assert.equal(router._http._routes[6].fn().controller, 'Account::PasswordController');
       assert.equal(router._http._routes[6].fn().action, 'new');
     },
@@ -591,11 +591,11 @@ vows.describe('Router').addBatch({
     'should create route to sub-resource edit action': function (router) {
       var route = router.find('Account::PasswordController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/account/password/edit');
+      assert.equal(route.pattern, '/account/password/edit.:format?');
     },
     'should mount route to sub-resource edit action at GET /resource/sub-resource/edit': function (router) {
       assert.equal(router._http._routes[9].method, 'GET');
-      assert.equal(router._http._routes[9].path, '/account/password/edit');
+      assert.equal(router._http._routes[9].path, '/account/password/edit.:format?');
       assert.equal(router._http._routes[9].fn().controller, 'Account::PasswordController');
       assert.equal(router._http._routes[9].fn().action, 'edit');
     },
@@ -656,22 +656,22 @@ vows.describe('Router').addBatch({
     'should create route to sub-resources index action': function (router) {
       var route = router.find('AccountsController', 'index');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/settings/accounts');
+      assert.equal(route.pattern, '/settings/accounts.:format?');
     },
     'should mount route to sub-resources index action at GET /resource/sub-resources': function (router) {
       assert.equal(router._http._routes[6].method, 'GET');
-      assert.equal(router._http._routes[6].path, '/settings/accounts');
+      assert.equal(router._http._routes[6].path, '/settings/accounts.:format?');
       assert.equal(router._http._routes[6].fn().controller, 'AccountsController');
       assert.equal(router._http._routes[6].fn().action, 'index');
     },
     'should create route to sub-resources new action': function (router) {
       var route = router.find('AccountsController', 'new');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/settings/accounts/new');
+      assert.equal(route.pattern, '/settings/accounts/new.:format?');
     },
     'should mount route to sub-resources new action at GET /resource/sub-resources/new': function (router) {
       assert.equal(router._http._routes[7].method, 'GET');
-      assert.equal(router._http._routes[7].path, '/settings/accounts/new');
+      assert.equal(router._http._routes[7].path, '/settings/accounts/new.:format?');
       assert.equal(router._http._routes[7].fn().controller, 'AccountsController');
       assert.equal(router._http._routes[7].fn().action, 'new');
     },
@@ -700,11 +700,11 @@ vows.describe('Router').addBatch({
     'should create route to sub-resources edit action': function (router) {
       var route = router.find('AccountsController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/settings/accounts/:id/edit');
+      assert.equal(route.pattern, '/settings/accounts/:id/edit.:format?');
     },
     'should mount route to sub-resources edit action at GET /resource/sub-resources/5678/edit': function (router) {
       assert.equal(router._http._routes[10].method, 'GET');
-      assert.equal(router._http._routes[10].path, '/settings/accounts/:id/edit');
+      assert.equal(router._http._routes[10].path, '/settings/accounts/:id/edit.:format?');
       assert.equal(router._http._routes[10].fn().controller, 'AccountsController');
       assert.equal(router._http._routes[10].fn().action, 'edit');
     },
@@ -767,11 +767,11 @@ vows.describe('Router').addBatch({
     'should create route to sub-resource new action': function (router) {
       var route = router.find('BioController', 'new');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:band_id/bio/new');
+      assert.equal(route.pattern, '/bands/:band_id/bio/new.:format?');
     },
     'should mount route to sub-resource new action at GET /resources/1234/sub-resource/new': function (router) {
       assert.equal(router._http._routes[7].method, 'GET');
-      assert.equal(router._http._routes[7].path, '/bands/:band_id/bio/new');
+      assert.equal(router._http._routes[7].path, '/bands/:band_id/bio/new.:format?');
       assert.equal(router._http._routes[7].fn().controller, 'BioController');
       assert.equal(router._http._routes[7].fn().action, 'new');
     },
@@ -800,11 +800,11 @@ vows.describe('Router').addBatch({
     'should create route to sub-resource edit action': function (router) {
       var route = router.find('BioController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:band_id/bio/edit');
+      assert.equal(route.pattern, '/bands/:band_id/bio/edit.:format?');
     },
     'should mount route to sub-resource edit action at GET /resources/1234/sub-resource/edit': function (router) {
       assert.equal(router._http._routes[10].method, 'GET');
-      assert.equal(router._http._routes[10].path, '/bands/:band_id/bio/edit');
+      assert.equal(router._http._routes[10].path, '/bands/:band_id/bio/edit.:format?');
       assert.equal(router._http._routes[10].fn().controller, 'BioController');
       assert.equal(router._http._routes[10].fn().action, 'edit');
     },
@@ -867,22 +867,22 @@ vows.describe('Router').addBatch({
     'should create route to sub-resources index action': function (router) {
       var route = router.find('AlbumsController', 'index');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:band_id/albums');
+      assert.equal(route.pattern, '/bands/:band_id/albums.:format?');
     },
     'should mount route to sub-resources index action at GET /resources/1234/sub-resources': function (router) {
       assert.equal(router._http._routes[7].method, 'GET');
-      assert.equal(router._http._routes[7].path, '/bands/:band_id/albums');
+      assert.equal(router._http._routes[7].path, '/bands/:band_id/albums.:format?');
       assert.equal(router._http._routes[7].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[7].fn().action, 'index');
     },
     'should create route to sub-resources new action': function (router) {
       var route = router.find('AlbumsController', 'new');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:band_id/albums/new');
+      assert.equal(route.pattern, '/bands/:band_id/albums/new.:format?');
     },
     'should mount route to sub-resources new action at GET /resources/1234/sub-resources/new': function (router) {
       assert.equal(router._http._routes[8].method, 'GET');
-      assert.equal(router._http._routes[8].path, '/bands/:band_id/albums/new');
+      assert.equal(router._http._routes[8].path, '/bands/:band_id/albums/new.:format?');
       assert.equal(router._http._routes[8].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[8].fn().action, 'new');
     },
@@ -911,11 +911,11 @@ vows.describe('Router').addBatch({
     'should create route to sub-resources edit action': function (router) {
       var route = router.find('AlbumsController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:band_id/albums/:id/edit');
+      assert.equal(route.pattern, '/bands/:band_id/albums/:id/edit.:format?');
     },
     'should mount route to sub-resources edit action at GET /resources/1234/sub-resources/5678/edit': function (router) {
       assert.equal(router._http._routes[11].method, 'GET');
-      assert.equal(router._http._routes[11].path, '/bands/:band_id/albums/:id/edit');
+      assert.equal(router._http._routes[11].path, '/bands/:band_id/albums/:id/edit.:format?');
       assert.equal(router._http._routes[11].fn().controller, 'AlbumsController');
       assert.equal(router._http._routes[11].fn().action, 'edit');
     },
@@ -980,22 +980,22 @@ vows.describe('Router').addBatch({
     'should create route to sub-resources index action': function (router) {
       var route = router.find('Bands::AlbumsController', 'index');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:band_id/albums');
+      assert.equal(route.pattern, '/bands/:band_id/albums.:format?');
     },
     'should mount route to sub-resources index action at GET /resources/1234/sub-resources': function (router) {
       assert.equal(router._http._routes[7].method, 'GET');
-      assert.equal(router._http._routes[7].path, '/bands/:band_id/albums');
+      assert.equal(router._http._routes[7].path, '/bands/:band_id/albums.:format?');
       assert.equal(router._http._routes[7].fn().controller, 'Bands::AlbumsController');
       assert.equal(router._http._routes[7].fn().action, 'index');
     },
     'should create route to sub-resources new action': function (router) {
       var route = router.find('Bands::AlbumsController', 'new');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:band_id/albums/new');
+      assert.equal(route.pattern, '/bands/:band_id/albums/new.:format?');
     },
     'should mount route to sub-resources new action at GET /resources/1234/sub-resources/new': function (router) {
       assert.equal(router._http._routes[8].method, 'GET');
-      assert.equal(router._http._routes[8].path, '/bands/:band_id/albums/new');
+      assert.equal(router._http._routes[8].path, '/bands/:band_id/albums/new.:format?');
       assert.equal(router._http._routes[8].fn().controller, 'Bands::AlbumsController');
       assert.equal(router._http._routes[8].fn().action, 'new');
     },
@@ -1024,11 +1024,11 @@ vows.describe('Router').addBatch({
     'should create route to sub-resources edit action': function (router) {
       var route = router.find('Bands::AlbumsController', 'edit');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/bands/:band_id/albums/:id/edit');
+      assert.equal(route.pattern, '/bands/:band_id/albums/:id/edit.:format?');
     },
     'should mount route to sub-resources edit action at GET /resources/1234/sub-resources/5678/edit': function (router) {
       assert.equal(router._http._routes[11].method, 'GET');
-      assert.equal(router._http._routes[11].path, '/bands/:band_id/albums/:id/edit');
+      assert.equal(router._http._routes[11].path, '/bands/:band_id/albums/:id/edit.:format?');
       assert.equal(router._http._routes[11].fn().controller, 'Bands::AlbumsController');
       assert.equal(router._http._routes[11].fn().action, 'edit');
     },
@@ -1168,11 +1168,11 @@ vows.describe('Router').addBatch({
     'should create route to index action': function (router) {
       var route = router.find('Admin::PostsController', 'index');
       assert.equal(route.method, 'get');
-      assert.equal(route.pattern, '/admin/posts');
+      assert.equal(route.pattern, '/admin/posts.:format?');
     },
     'should mount route to index action at GET /resources': function (router) {
       assert.equal(router._http._routes[0].method, 'GET');
-      assert.equal(router._http._routes[0].path, '/admin/posts');
+      assert.equal(router._http._routes[0].path, '/admin/posts.:format?');
       assert.equal(router._http._routes[0].fn().controller, 'Admin::PostsController');
       assert.equal(router._http._routes[0].fn().action, 'index');
     },
