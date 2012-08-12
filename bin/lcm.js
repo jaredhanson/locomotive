@@ -3,8 +3,7 @@
 var program = require('commander')
   , locomotive = require('../');
 
-program.version(locomotive.version)
-  .option('-A, --app [directory]', 'load app at specified directory (default: `pwd`)');
+program.version(locomotive.version);
 
 program.command('create')
   .description('-> create Locomotive application')
@@ -17,6 +16,7 @@ program.command('server')
   .option('-a, --address [address]', 'listen on specified address (default: 0.0.0.0)')
   .option('-p, --port [port]', 'listen on specified port (default: 3000)', parseInt)
   .option('-e, --env [environment]', 'run in specified environment (default: development)')
+  .option('-A, --app [directory]', 'load app at specified directory (default: `pwd`)')
   .option('-R, --reload', 'enable automatic reloading when code changes')
   .option('--use-nodemon', 'use nodemon for automatic reloading (default: supervisor)')
   .option('--debug [port]', 'enable V8 debugger on specified port (default: 5858)', parseInt)
@@ -30,7 +30,7 @@ program.command('server')
     
     // TODO: Implement daemon and cluster mode
     
-    locomotive.cli.server(program.app || process.cwd(), options.address, options.port, options.env, options);
+    locomotive.cli.server(options.app || process.cwd(), options.address, options.port, options.env, options);
   }).on('--help', function(options) {
     if (program.rawArgs && program.rawArgs.indexOf('--more') != -1) {
       console.log("  Debugging:");
