@@ -52,10 +52,10 @@ vows.describe('URLHelpers').addBatch({
   
   'linkTo': {
     'should build correct tag with text and url': function () {
-      assert.equal(helpers.linkTo('My Account', '/account'), '<a href="/account">My Account</a>');
+      assert.equal(helpers.linkTo('/account', 'My Account'), '<a href="/account">My Account</a>');
     },
     'should build correct tag with text, url, and options': function () {
-      assert.equal(helpers.linkTo('My Account', '/account', { rel: 'me' }), '<a rel="me" href="/account">My Account</a>');
+      assert.equal(helpers.linkTo('/account', 'My Account', { rel: 'me' }), '<a rel="me" href="/account">My Account</a>');
     },
     
     'route awareness': {
@@ -85,18 +85,18 @@ vows.describe('URLHelpers').addBatch({
       },
       
       'should construct link to controller and action': function (view) {
-        assert.equal(view.linkTo('Profile', { controller: 'profile', action: 'show' }), '<a href="http://www.example.com/profile">Profile</a>');
-        assert.equal(view.linkTo('Profile', { controller: 'profile', action: 'show' }, { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
-        assert.equal(view.linkTo('Profile', { controller: 'ProfileController', action: 'show' }), '<a href="http://www.example.com/profile">Profile</a>');
-        assert.equal(view.linkTo('Profile', { controller: 'ProfileController', action: 'show' }, { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
+        assert.equal(view.linkTo({ controller: 'profile', action: 'show' }, 'Profile'), '<a href="http://www.example.com/profile">Profile</a>');
+        assert.equal(view.linkTo({ controller: 'profile', action: 'show' }, 'Profile', { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
+        assert.equal(view.linkTo({ controller: 'ProfileController', action: 'show' }, 'Profile'), '<a href="http://www.example.com/profile">Profile</a>');
+        assert.equal(view.linkTo({ controller: 'ProfileController', action: 'show' }, 'Profile', { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
       },
       'should construct link to resource': function (view) {
         function Animal() {};
         var animal = new Animal();
         animal.id = '123';
         
-        assert.equal(view.linkTo('An Animal', animal), '<a href="http://www.example.com/animals/123">An Animal</a>');
-        assert.equal(view.linkTo('An Animal', animal, { rel: 'pet' }), '<a rel="pet" href="http://www.example.com/animals/123">An Animal</a>');
+        assert.equal(view.linkTo(animal, 'An Animal'), '<a href="http://www.example.com/animals/123">An Animal</a>');
+        assert.equal(view.linkTo(animal, 'An Animal', { rel: 'pet' }), '<a rel="pet" href="http://www.example.com/animals/123">An Animal</a>');
       },
     },
   },
