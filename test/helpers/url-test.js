@@ -61,6 +61,18 @@ vows.describe('URLHelpers').addBatch({
       assert.equal(helpers.linkTo('/account', 'My Account', { rel: 'me' }), '<a rel="me" href="/account">My Account</a>');
     },
     
+    'escaping': {
+      'should escape URLs with spaces': function () {
+        assert.equal(helpers.linkTo('/foo bar/', 'Foo Bar'), '<a href="/foo%20bar/">Foo Bar</a>');
+      },
+      'should escape test': function () {
+        assert.equal(helpers.linkTo('/foo-bar/', 'Foo & Bar'), '<a href="/foo-bar/">Foo &amp; Bar</a>');
+        assert.equal(helpers.linkTo('/foo-bar/', 'Foo < Bar'), '<a href="/foo-bar/">Foo &lt; Bar</a>');
+        assert.equal(helpers.linkTo('/foo-bar/', 'Foo > Bar'), '<a href="/foo-bar/">Foo &gt; Bar</a>');
+        assert.equal(helpers.linkTo('/foo-bar/', '"Foo Bar"'), '<a href="/foo-bar/">&quot;Foo Bar&quot;</a>');
+      },
+    },
+    
     'route awareness': {
       topic: function() {
         var app = new MockLocomotive();
@@ -116,6 +128,15 @@ vows.describe('URLHelpers').addBatch({
     },
     'should build correct tag with email, text, and options': function () {
       assert.equal(helpers.mailTo('johndoe@example.com', 'John Doe', { class: 'email' }), '<a class="email" href="mailto:johndoe@example.com">John Doe</a>');
+    },
+    
+    'escaping': {
+      'should escape URLs with spaces': function () {
+        assert.equal(helpers.mailTo('john doe@example.com', 'John Doe'), '<a href="mailto:john%20doe@example.com">John Doe</a>');
+      },
+      'should escape test': function () {
+        assert.equal(helpers.mailTo('parents@example.com', 'Mom & Dad'), '<a href="mailto:parents@example.com">Mom &amp; Dad</a>');
+      },
     },
   },
   
