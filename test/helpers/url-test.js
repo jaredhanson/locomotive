@@ -51,6 +51,9 @@ function augment(a, b) {
 vows.describe('URLHelpers').addBatch({
   
   'linkTo': {
+    'should build correct tag with url': function () {
+      assert.equal(helpers.linkTo('/account'), '<a href="/account">/account</a>');
+    },
     'should build correct tag with text and url': function () {
       assert.equal(helpers.linkTo('/account', 'My Account'), '<a href="/account">My Account</a>');
     },
