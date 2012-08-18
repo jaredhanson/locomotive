@@ -432,6 +432,93 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with resource route with dasherized path': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resource('foo-bar');
+      return router;
+    },
+    
+    'should mount six routes': function (router) {
+      assert.lengthOf(router._http._routes, 6);
+    },
+    'should create route to new action': function (router) {
+      var route = router.find('FooBarController', 'new');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/foo-bar/new.:format?');
+    },
+    'should mount route to new action at GET /resource/new': function (router) {
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/foo-bar/new.:format?');
+      assert.equal(router._http._routes[0].fn().controller, 'FooBarController');
+      assert.equal(router._http._routes[0].fn().action, 'new');
+    },
+    'should create route to create action': function (router) {
+      var route = router.find('FooBarController', 'create');
+      assert.equal(route.method, 'post');
+      assert.equal(route.pattern, '/foo-bar');
+    },
+    'should mount route to create action at POST /resource': function (router) {
+      assert.equal(router._http._routes[1].method, 'POST');
+      assert.equal(router._http._routes[1].path, '/foo-bar');
+      assert.equal(router._http._routes[1].fn().controller, 'FooBarController');
+      assert.equal(router._http._routes[1].fn().action, 'create');
+    },
+    'should create route to show action': function (router) {
+      var route = router.find('FooBarController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/foo-bar.:format?');
+    },
+    'should mount route to show action at GET /resource': function (router) {
+      assert.equal(router._http._routes[2].method, 'GET');
+      assert.equal(router._http._routes[2].path, '/foo-bar.:format?');
+      assert.equal(router._http._routes[2].fn().controller, 'FooBarController');
+      assert.equal(router._http._routes[2].fn().action, 'show');
+    },
+    'should create route to edit action': function (router) {
+      var route = router.find('FooBarController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/foo-bar/edit.:format?');
+    },
+    'should mount route to edit action at GET /resource/edit': function (router) {
+      assert.equal(router._http._routes[3].method, 'GET');
+      assert.equal(router._http._routes[3].path, '/foo-bar/edit.:format?');
+      assert.equal(router._http._routes[3].fn().controller, 'FooBarController');
+      assert.equal(router._http._routes[3].fn().action, 'edit');
+    },
+    'should create route to update action': function (router) {
+      var route = router.find('FooBarController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/foo-bar');
+    },
+    'should mount route to update action at PUT /resource': function (router) {
+      assert.equal(router._http._routes[4].method, 'PUT');
+      assert.equal(router._http._routes[4].path, '/foo-bar');
+      assert.equal(router._http._routes[4].fn().controller, 'FooBarController');
+      assert.equal(router._http._routes[4].fn().action, 'update');
+    },
+    'should create route to destroy action': function (router) {
+      var route = router.find('FooBarController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/foo-bar');
+    },
+    'should mount route to destroy action at DELETE /resource': function (router) {
+      assert.equal(router._http._routes[5].method, 'DELETE');
+      assert.equal(router._http._routes[5].path, '/foo-bar');
+      assert.equal(router._http._routes[5].fn().controller, 'FooBarController');
+      assert.equal(router._http._routes[5].fn().action, 'destroy');
+    },
+    'should declare routing helpers': function (router) {
+      assert.isFunction(router._app._helpers.fooBarPath);
+      assert.isFunction(router._app._helpers.newFooBarPath);
+      assert.isFunction(router._app._helpers.editFooBarPath);
+      
+      assert.isFunction(router._app._dynamicHelpers.fooBarURL);
+      assert.isFunction(router._app._dynamicHelpers.newFooBarURL);
+      assert.isFunction(router._app._dynamicHelpers.editFooBarURL);
+    },
+  },
+  
   'router with resources route': {
     topic: function() {
       var router = intializedRouter()
