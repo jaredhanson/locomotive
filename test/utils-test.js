@@ -24,6 +24,12 @@ vows.describe('util').addBatch({
     'should uppercase first character if set': function () {
       assert.equal(utils.camelize('foo_bar_baz', true), 'FooBarBaz');
     },
+    'should camelize dasherized words with lowercase first character': function () {
+      assert.equal(utils.camelize('foo-bar'), 'fooBar');
+    },
+    'should camelize dasherized words with uppercase first character': function () {
+      assert.equal(utils.camelize('foo-bar-baz', true), 'FooBarBaz');
+    },
   },
   
   'underscore': {
@@ -32,6 +38,9 @@ vows.describe('util').addBatch({
     },
     'should underscore camelcase words with consequtive capital letters': function () {
       assert.equal(utils.underscore('SSLError'), 'ssl_error');
+    },
+    'should underscore dasherized words': function () {
+      assert.equal(utils.underscore('foo-bar'), 'foo_bar');
     },
   },
   
