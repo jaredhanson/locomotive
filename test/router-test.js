@@ -138,6 +138,48 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with match route with underscored path': {
+    topic: function() {
+      var router = intializedRouter()
+      router.match('foo_bar', 'foo_bar#list');
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('FooBarController', 'list');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/foo_bar');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/foo_bar');
+      assert.equal(router._http._routes[0].fn().controller, 'FooBarController');
+      assert.equal(router._http._routes[0].fn().action, 'list');
+    },
+  },
+  
+  'router with match route with dasherized path': {
+    topic: function() {
+      var router = intializedRouter()
+      router.match('foo-bar', 'foo_bar#list');
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('FooBarController', 'list');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/foo-bar');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/foo-bar');
+      assert.equal(router._http._routes[0].fn().controller, 'FooBarController');
+      assert.equal(router._http._routes[0].fn().action, 'list');
+    },
+  },
+  
   'router with match route given controller and action options': {
     topic: function() {
       var router = intializedRouter()
