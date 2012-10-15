@@ -51,11 +51,26 @@ function augment(a, b) {
 vows.describe('URLHelpers').addBatch({
   
   'linkTo': {
+    'should build correct tag with url': function () {
+      assert.equal(helpers.linkTo('/account'), '<a href="/account">/account</a>');
+    },
     'should build correct tag with text and url': function () {
-      assert.equal(helpers.linkTo('My Account', '/account'), '<a href="/account">My Account</a>');
+      assert.equal(helpers.linkTo('/account', 'My Account'), '<a href="/account">My Account</a>');
     },
     'should build correct tag with text, url, and options': function () {
-      assert.equal(helpers.linkTo('My Account', '/account', { rel: 'me' }), '<a rel="me" href="/account">My Account</a>');
+      assert.equal(helpers.linkTo('/account', 'My Account', { rel: 'me' }), '<a rel="me" href="/account">My Account</a>');
+    },
+    
+    'escaping': {
+      'should escape URLs with spaces': function () {
+        assert.equal(helpers.linkTo('/foo bar/', 'Foo Bar'), '<a href="/foo%20bar/">Foo Bar</a>');
+      },
+      'should escape test': function () {
+        assert.equal(helpers.linkTo('/foo-bar/', 'Foo & Bar'), '<a href="/foo-bar/">Foo &amp; Bar</a>');
+        assert.equal(helpers.linkTo('/foo-bar/', 'Foo < Bar'), '<a href="/foo-bar/">Foo &lt; Bar</a>');
+        assert.equal(helpers.linkTo('/foo-bar/', 'Foo > Bar'), '<a href="/foo-bar/">Foo &gt; Bar</a>');
+        assert.equal(helpers.linkTo('/foo-bar/', '"Foo Bar"'), '<a href="/foo-bar/">&quot;Foo Bar&quot;</a>');
+      },
     },
     
     'route awareness': {
@@ -85,18 +100,18 @@ vows.describe('URLHelpers').addBatch({
       },
       
       'should construct link to controller and action': function (view) {
-        assert.equal(view.linkTo('Profile', { controller: 'profile', action: 'show' }), '<a href="http://www.example.com/profile">Profile</a>');
-        assert.equal(view.linkTo('Profile', { controller: 'profile', action: 'show' }, { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
-        assert.equal(view.linkTo('Profile', { controller: 'ProfileController', action: 'show' }), '<a href="http://www.example.com/profile">Profile</a>');
-        assert.equal(view.linkTo('Profile', { controller: 'ProfileController', action: 'show' }, { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
+        assert.equal(view.linkTo({ controller: 'profile', action: 'show' }, 'Profile'), '<a href="http://www.example.com/profile">Profile</a>');
+        assert.equal(view.linkTo({ controller: 'profile', action: 'show' }, 'Profile', { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
+        assert.equal(view.linkTo({ controller: 'ProfileController', action: 'show' }, 'Profile'), '<a href="http://www.example.com/profile">Profile</a>');
+        assert.equal(view.linkTo({ controller: 'ProfileController', action: 'show' }, 'Profile', { rel: 'me' }), '<a rel="me" href="http://www.example.com/profile">Profile</a>');
       },
       'should construct link to resource': function (view) {
         function Animal() {};
         var animal = new Animal();
         animal.id = '123';
         
-        assert.equal(view.linkTo('An Animal', animal), '<a href="http://www.example.com/animals/123">An Animal</a>');
-        assert.equal(view.linkTo('An Animal', animal, { rel: 'pet' }), '<a rel="pet" href="http://www.example.com/animals/123">An Animal</a>');
+        assert.equal(view.linkTo(animal, 'An Animal'), '<a href="http://www.example.com/animals/123">An Animal</a>');
+        assert.equal(view.linkTo(animal, 'An Animal', { rel: 'pet' }), '<a rel="pet" href="http://www.example.com/animals/123">An Animal</a>');
       },
     },
   },
@@ -113,6 +128,15 @@ vows.describe('URLHelpers').addBatch({
     },
     'should build correct tag with email, text, and options': function () {
       assert.equal(helpers.mailTo('johndoe@example.com', 'John Doe', { class: 'email' }), '<a class="email" href="mailto:johndoe@example.com">John Doe</a>');
+    },
+    
+    'escaping': {
+      'should escape URLs with spaces': function () {
+        assert.equal(helpers.mailTo('john doe@example.com', 'John Doe'), '<a href="mailto:john%20doe@example.com">John Doe</a>');
+      },
+      'should escape test': function () {
+        assert.equal(helpers.mailTo('parents@example.com', 'Mom & Dad'), '<a href="mailto:parents@example.com">Mom &amp; Dad</a>');
+      },
     },
   },
   

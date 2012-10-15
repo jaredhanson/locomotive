@@ -5,6 +5,17 @@ var Controller = require('locomotive/controller');
 var ControllerError = require('locomotive/errors/controllererror');
 
 
+/* MockLocomotive */
+
+function MockLocomotive() {
+  this._formats = {};
+}
+
+MockLocomotive.prototype.format = function(fmt, options) {
+  this._formats[fmt] = options;
+}
+
+
 /* MockRequest */
 
 function MockRequest() {
@@ -19,6 +30,7 @@ MockRequest.prototype.param = function(name, defaultValue) {
 /* MockResponse */
 
 function MockResponse(fn) {
+  this._headers = {};
   this.locals = {};
   this.done = fn;
 }
@@ -28,6 +40,10 @@ MockResponse.prototype.render = function(view, options, fn) {
   this._options = options;
   this._fn = fn;
   this.end();
+}
+
+MockResponse.prototype.setHeader = function(name, value) {
+  this._headers[name] = value;
 }
 
 MockResponse.prototype.end = function() {
@@ -40,13 +56,12 @@ vows.describe('Controller').addBatch({
   'controller initialization': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'FooBarController');
+      TestController._load(new MockLocomotive(), 'FooBarController');
       return TestController;
     },
     
     'should assign controller app property': function(controller) {
-      assert.isObject(controller.__app);
-      assert.equal(controller.__app.name, 'application');
+      assert.instanceOf(controller.__app, MockLocomotive);
     },
     'should assign controller name property': function(controller) {
       assert.equal(controller.__name, 'FooBarController');
@@ -59,7 +74,7 @@ vows.describe('Controller').addBatch({
   'controller instance': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.home = function() {
         this.render();
@@ -109,6 +124,118 @@ vows.describe('Controller').addBatch({
         this.render('show', { layout: 'email' }, function(err, html) { return 'CB-3' });
       }
       
+      TestController.respondWithFunctionUsingMimeKey = function() {
+        var self = this;
+        this.respond({
+          'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+          'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+        });
+      }
+      
+      TestController.respondWithFunctionUsingMimeKeyAndDefault = function() {
+        var self = this;
+        this.respond({
+          'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+          'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
+          default: function() { self.render({ format: 'foo', engine: 'foob' }); }
+        });
+      }
+      
+      TestController.respondWithFunctionUsingExtKey = function() {
+        var self = this;
+        this.respond({
+          'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+          'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+        });
+      }
+      
+      TestController.respondWithFunctionUsingExtKeyAndDefault = function() {
+        var self = this;
+        this.respond({
+          'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+          'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
+          default: function() { self.render({ format: 'foo', engine: 'foob' }); },
+        });
+      }
+      
+      TestController.respondWithOptionsUsingMimeKey = function() {
+        var self = this;
+        this.respond({
+          'application/json': { engine: 'jsonb' },
+          'application/xml': { template: 'otherxml', engine: 'xmlb' },
+          'application/x-foo': { format: 'foo', engine: 'foob' },
+        });
+      }
+      
+      TestController.respondWithOptionsUsingMimeKeyAndDefaults = function() {
+        var self = this;
+        this.respond({
+          'application/json': { engine: 'jsonb' },
+          'application/xml': { template: 'otherxml', engine: 'xmlb' },
+          'application/x-foo': { format: 'foo', engine: 'foob' },
+          default: {},
+        });
+      }
+      
+      TestController.respondWithOptionsUsingMimeKeyAndDefaultsTrue = function() {
+        var self = this;
+        this.respond({
+          'application/json': { engine: 'jsonb' },
+          'application/xml': { template: 'otherxml', engine: 'xmlb' },
+          'application/x-foo': { format: 'foo', engine: 'foob' },
+          default: true,
+        });
+      }
+      
+      TestController.respondWithOptionsUsingMimeKeyAndDefaultsToYAML = function() {
+        var self = this;
+        this.respond({
+          'application/json': { engine: 'jsonb' },
+          'application/xml': { template: 'otherxml', engine: 'xmlb' },
+          'application/x-foo': { format: 'foo', engine: 'foob' },
+          default: { format: 'yaml', engine: 'yamlb' },
+        });
+      }
+      
+      TestController.respondWithOptionsUsingExtKey = function() {
+        var self = this;
+        this.respond({
+          'json': { engine: 'jsonb' },
+          'xml': { template: 'otherxml', engine: 'xmlb' },
+          'foo': { format: 'foo', engine: 'foob' },
+        });
+      }
+      
+      TestController.respondWithOptionsUsingExtKeyAndDefaults = function() {
+        var self = this;
+        this.respond({
+          'json': { engine: 'jsonb' },
+          'xml': { template: 'otherxml', engine: 'xmlb' },
+          'foo': { format: 'foo', engine: 'foob' },
+          default: {},
+        });
+      }
+      
+      TestController.respondWithOptionsUsingExtKeyAndDefaultsTrue = function() {
+        var self = this;
+        this.respond({
+          'json': { engine: 'jsonb' },
+          'xml': { template: 'otherxml', engine: 'xmlb' },
+          'foo': { format: 'foo', engine: 'foob' },
+          default: true,
+        });
+      }
+      
+      TestController.respondWithOptionsUsingExtKeyAndDefaultsToYAML = function() {
+        var self = this;
+        this.respond({
+          'json': { engine: 'jsonb' },
+          'xml': { template: 'otherxml', engine: 'xmlb' },
+          'foo': { format: 'foo', engine: 'foob' },
+          default: { format: 'yaml', engine: 'yamlb' },
+        });
+      }
+      
       TestController.redirectHome = function() {
         this.redirect('/home');
       }
@@ -144,7 +271,7 @@ vows.describe('Controller').addBatch({
       
       'should assign properties to req': function(err, c, req, res) {
         assert.isObject(req._locomotive);
-        assert.equal(req._locomotive.app.name, 'application');
+        assert.instanceOf(req._locomotive.app, MockLocomotive);
         assert.equal(req._locomotive.controller, 'TestController');
         assert.equal(req._locomotive.action, 'home');
       },
@@ -170,6 +297,9 @@ vows.describe('Controller').addBatch({
       },
       'should render view': function(err, c, req, res) {
         assert.equal(res._view, 'test/show_on_the_road.html.ejs');
+      },
+      'should not set content-type': function(err, c, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
       },
     },
     
@@ -213,6 +343,9 @@ vows.describe('Controller').addBatch({
       
       'should render view': function(err, req, res) {
         assert.equal(res._view, 'test/render_with_format.xml.ejs');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
       },
     },
     
@@ -358,6 +491,722 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    'invoking an action which responds to request that accepts JSON using function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'application/json';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingMimeKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_mime_key.json.jsonb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
+      },
+      'should set vary header': function(err, req, res) {
+        assert.equal(res._headers['Vary'], 'Accept');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts XML using function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'application/xml';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingMimeKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_mime_key.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that wants XML by extension using function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = { format: 'xml' };
+        req.accepts = function(keys) {
+          // format param overrides this
+          return 'application/json';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingMimeKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_mime_key.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts an unsupported format using function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          //return 'application/x-foo';
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(new Error('should not be called'));
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithFunctionUsingMimeKey');
+      },
+      
+      'should not send response' : function(err, e) {
+        assert.isNull(err);
+      },
+      'should call next with error': function(err, e) {
+        assert.instanceOf(e, Error);
+        assert.equal(e.message, 'Not Acceptable');
+        assert.equal(e.status, 406);
+        assert.lengthOf(e.types, 2);
+        assert.equal(e.types[0], 'application/json');
+        assert.equal(e.types[1], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts an unsupported format using default function and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithFunctionUsingMimeKeyAndDefault');
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_mime_key_and_default.foo.foob');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts JSON using function and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'json';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingExtKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_ext_key.json.jsonb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts XML using function and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'xml';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingExtKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_ext_key.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that wants XML by extension using function and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = { format: 'xml' };
+        req.accepts = function(keys) {
+          // format param overrides this
+          return 'json';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithFunctionUsingExtKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_ext_key.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts an unsupported format using function and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          //return 'foo';
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(new Error('should not be called'));
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithFunctionUsingExtKey');
+      },
+      
+      'should not send response' : function(err, e) {
+        assert.isNull(err);
+      },
+      'should call next with error': function(err, e) {
+        assert.instanceOf(e, Error);
+        assert.equal(e.message, 'Not Acceptable');
+        assert.equal(e.status, 406);
+        assert.lengthOf(e.types, 2);
+        assert.equal(e.types[0], 'application/json');
+        assert.equal(e.types[1], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts an unsupported format using default function and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithFunctionUsingExtKeyAndDefault');
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_function_using_ext_key_and_default.foo.foob');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts JSON using object and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'application/json';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithOptionsUsingMimeKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_mime_key.json.jsonb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts XML using object and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'application/xml';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithOptionsUsingMimeKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/otherxml.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts X-Foo using object and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'application/x-foo';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithOptionsUsingMimeKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_mime_key.foo.foob');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
+      },
+    },
+    
+    'invoking an action which responds to request for unsupported type using object and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(new Error('should not be called'));
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithOptionsUsingMimeKey');
+      },
+      
+      'should not send response' : function(err, e) {
+        assert.isNull(err);
+      },
+      'should call next with error': function(err, e) {
+        assert.instanceOf(e, Error);
+        assert.equal(e.message, 'Not Acceptable');
+        assert.equal(e.status, 406);
+        assert.lengthOf(e.types, 3);
+        assert.equal(e.types[0], 'application/json');
+        assert.equal(e.types[1], 'application/xml');
+        assert.equal(e.types[2], 'application/x-foo');
+      },
+    },
+    
+    'invoking an action which responds to request for unsupported type using default object and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithOptionsUsingMimeKeyAndDefaults');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_mime_key_and_defaults.html.ejs');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
+    },
+    
+    'invoking an action which responds to request for unsupported type using default true and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithOptionsUsingMimeKeyAndDefaultsTrue');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_mime_key_and_defaults_true.html.ejs');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
+    },
+    
+    'invoking an action which responds to request for unsupported type using default object with YAML format and mime types as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithOptionsUsingMimeKeyAndDefaultsToYAML');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_mime_key_and_defaults_to_yaml.yaml.yamlb');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts JSON using object and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'json';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithOptionsUsingExtKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_ext_key.json.jsonb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/json');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts XML using object and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'xml';
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res);
+        controller._invoke('respondWithOptionsUsingExtKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/otherxml.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'invoking an action which responds to request that accepts X-Foo using object and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return 'foo';
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res, next);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithOptionsUsingExtKey');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_ext_key.foo.foob');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
+      },
+    },
+    
+    'invoking an action which responds to request for unsupported type using object and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(new Error('should not be called'));
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithOptionsUsingExtKey');
+      },
+      
+      'should not send response' : function(err, e) {
+        assert.isNull(err);
+      },
+      'should call next with error': function(err, e) {
+        assert.instanceOf(e, Error);
+        assert.equal(e.message, 'Not Acceptable');
+        assert.equal(e.status, 406);
+        assert.lengthOf(e.types, 3);
+        assert.equal(e.types[0], 'application/json');
+        assert.equal(e.types[1], 'application/xml');
+        assert.equal(e.types[2], 'application/octet-stream');
+      },
+    },
+    
+    'invoking an action which responds to request for unsupported type using default object and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithOptionsUsingExtKeyAndDefaults');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_ext_key_and_defaults.html.ejs');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
+    },
+    
+    'invoking an action which responds to request for unsupported type using default true and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithOptionsUsingExtKeyAndDefaultsTrue');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_ext_key_and_defaults_true.html.ejs');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
+    },
+    
+    'invoking an action which responds to request for unsupported type using default object with YAML format and extensions as keys': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+        
+        req = new MockRequest();
+        req.params = {};
+        req.accepts = function(keys) {
+          return undefined;
+        }
+        next = function(err) {
+          self.callback(null, err);
+        }
+        
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        
+        controller._init(req, res, next);
+        controller._invoke('respondWithOptionsUsingExtKeyAndDefaultsToYAML');
+      },
+      
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/respond_with_options_using_ext_key_and_defaults_to_yaml.yaml.yamlb');
+      },
+    },
+    
     'invoking an action which redirects': {
       topic: function(controller) {
         var self = this;
@@ -478,10 +1327,274 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  'controller instance in app with registered formats': {
+    topic: function() {
+      var app = new MockLocomotive();
+      app.format('html', { extension: 'jade' });
+      app.format('xml', { engine: 'xmlb' });
+      app.format('foo', { extension: '.bar' });
+    
+      var TestController = new Controller();
+      TestController._load(app, 'TestController');
+    
+      TestController.renderHTML = function() {
+        this.render();
+      }
+      TestController.renderHTMLWithEngine = function() {
+        this.render({ engine: 'dust' });
+      }
+      TestController.renderHTMLWithExtension = function() {
+        this.render({ extension: 'stache' });
+      }
+      TestController.renderXML = function() {
+        this.render({ format: 'xml' });
+      }
+      TestController.renderXMLWithEngine = function() {
+        this.render({ format: 'xml', engine: 'ltxb' });
+      }
+      TestController.renderXMLWithExtension = function() {
+        this.render({ format: 'xml', extension: 'xtxb' });
+      }
+      TestController.renderXMLWithDotExtension = function() {
+        this.render({ format: 'xml', extension: '.dxtxb' });
+      }
+      TestController.renderFoo = function() {
+        this.render({ format: 'foo' });
+      }
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'rendering HTML using application engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderHTML');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_html.jade');
+      },
+      'should not set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
+    },
+    
+    'rendering HTML using override engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderHTMLWithEngine');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_html_with_engine.html.dust');
+      },
+      'should not set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
+    },
+    
+    'rendering HTML using override extension': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderHTMLWithExtension');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_html_with_extension.stache');
+      },
+      'should not set content-type': function(err, req, res) {
+        assert.isUndefined(res._headers['Content-Type']);
+      },
+    },
+    
+    'rendering XML using application engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderXML');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_xml.xml.xmlb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'rendering XML using override engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderXMLWithEngine');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_xml_with_engine.xml.ltxb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'rendering XML using override extension': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderXMLWithExtension');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_xml_with_extension.xtxb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'rendering XML using override dot extension': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderXMLWithDotExtension');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_xml_with_dot_extension.dxtxb');
+      },
+      'should set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/xml');
+      },
+    },
+    
+    'rendering foo using application engine': {
+      topic: function(controller) {
+        var self = this;
+        var req, res, next;
+
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          self.callback(null, req, res);
+        });
+        next = function(err) {
+          self.callback(err, null, null);
+        }
+
+        controller._init(req, res, next);
+        controller._invoke('renderFoo');
+      },
+
+      'should not error': function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should render view': function(err, req, res) {
+        assert.equal(res._view, 'test/render_foo.bar');
+      },
+      'should not set content-type': function(err, req, res) {
+        assert.equal(res._headers['Content-Type'], 'application/octet-stream');
+      },
+    },
+  },
+  
   'controller instance with before filters': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -528,7 +1641,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -598,7 +1711,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filter on all actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -668,7 +1781,7 @@ vows.describe('Controller').addBatch({
   'controller instance with middleware as before filter': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -712,7 +1825,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filters that error': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -762,7 +1875,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filters': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -814,7 +1927,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -893,7 +2006,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filter on all actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -972,7 +2085,7 @@ vows.describe('Controller').addBatch({
   'controller instance with middleware as after filter': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1019,7 +2132,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filters that error': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load({ name: 'application' }, 'TestController');
+      TestController._load(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';

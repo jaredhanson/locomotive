@@ -68,6 +68,33 @@ vows.describe('Module').addBatch({
     },
   },
   
+  'format registration': {
+    topic: function() {
+      var app = new locomotive.Locomotive();
+      return app;
+    },
+    
+    'should register format to engine as string argument': function (app) {
+      app.format('json', 'jsonb');
+      assert.lengthOf(Object.keys(app._formats), 1);
+      assert.isObject(app._formats['json']);
+      assert.equal(app._formats['json'].engine, 'jsonb');
+    },
+    'should register format to engine as engine option': function (app) {
+      app.format('xml', { engine: 'xmlb' });
+      assert.lengthOf(Object.keys(app._formats), 2);
+      assert.isObject(app._formats['xml']);
+      assert.equal(app._formats['xml'].engine, 'xmlb');
+    },
+    'should register format to engine as extension option': function (app) {
+      app.format('html', { extension: '.jade' });
+      assert.lengthOf(Object.keys(app._formats), 3);
+      assert.isObject(app._formats['html']);
+      assert.equal(app._formats['html'].extension, '.jade');
+      assert.isUndefined(app._formats['html'].engine);
+    },
+  },
+  
   'helper registration': {
     topic: function() {
       var app = new locomotive.Locomotive();

@@ -31,6 +31,9 @@ vows.describe('TagHelpers').addBatch({
     'should build correct tag when callback returns an empty string': function () {
       assert.equal(helpers.tag('p', function() { return '' }), '<p/>');
     },
+    'should build correct tag with multiple nested tag calls': function () {
+      assert.equal(helpers.tag('ul', function() { return helpers.tag('li', function() { return 'item' }) }), '<ul><li>item</li></ul>');
+    },
   },
   
   'openTag': {
