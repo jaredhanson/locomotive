@@ -163,4 +163,38 @@ vows.describe('URLDynamicHelpers').addBatch({
     },
   },
   
+  'request handling with https protocol': {
+    topic: function() {
+      var app = new MockLocomotive();
+      var req = new MockRequest();
+      req.protocol = 'https';
+      req.headers = { 'host': 'www.example.com' };
+      req._locomotive = {};
+      req._locomotive.app = app;
+      req._locomotive.controller = 'TestController';
+      req._locomotive.action = 'show';
+      var res = new MockResponse();
+      var view = new Object();
+      var dynHelpers = {};
+      for (var key in dynamicHelpers) {
+        dynHelpers[key] = dynamicHelpers[key].call(this, req, res);
+      }
+      
+      augment(view, helpers);
+      augment(view, dynHelpers);
+      return view;
+    },
+    
+    'urlFor': {
+      topic: function(view) {
+        return view;
+      },
+      
+      'should build correct https url for request controller': function (view) {
+        assert.isFunction(view.urlFor);
+        assert.equal(view.urlFor({ action: 'index' }), 'https://www.example.com/test');
+      },
+    },
+  },
+  
 }).export(module);
