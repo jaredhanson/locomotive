@@ -269,6 +269,14 @@ vows.describe('Controller').addBatch({
         controller._invoke('home');
       },
       
+      'should assign properties to controller': function(err, c, req, res) {
+        assert.isObject(c.app);
+        assert.instanceOf(c.app, MockLocomotive);
+        assert.isObject(c.req);
+        assert.equal(c.req, c.request);
+        assert.isObject(c.res);
+        assert.equal(c.res, c.response);
+      },
       'should assign properties to req': function(err, c, req, res) {
         assert.isObject(req._locomotive);
         assert.instanceOf(req._locomotive.app, MockLocomotive);
