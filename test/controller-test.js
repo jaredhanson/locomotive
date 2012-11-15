@@ -269,6 +269,14 @@ vows.describe('Controller').addBatch({
         controller._invoke('home');
       },
       
+      'should assign properties to controller': function(err, c, req, res) {
+        assert.isObject(c.app);
+        assert.instanceOf(c.app, MockLocomotive);
+        assert.isObject(c.req);
+        assert.equal(c.req, c.request);
+        assert.isObject(c.res);
+        assert.equal(c.res, c.response);
+      },
       'should assign properties to req': function(err, c, req, res) {
         assert.isObject(req._locomotive);
         assert.instanceOf(req._locomotive.app, MockLocomotive);
@@ -2176,6 +2184,31 @@ vows.describe('Controller').addBatch({
       'should render view': function(err, c, req, res) {
         assert.equal(res._view, 'test/foo.html.ejs');
       },
+    },
+  },
+  
+  'controller instance with "private" functions': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load(new MockLocomotive(), 'TestController');
+      
+      TestController.foo = function() {
+        this.render();
+      }
+      TestController.bar = function() {
+        this.render();
+      }
+      TestController._private = function() {
+        var i = 1 + 1;
+      }
+      
+      return TestController;
+    },
+    
+    'should assign controller properties as response locals': function(TestController) {
+      assert.lengthOf(TestController._actions(), 2);
+      assert.equal(TestController._actions()[0], 'foo');
+      assert.equal(TestController._actions()[1], 'bar');
     },
   },
   
