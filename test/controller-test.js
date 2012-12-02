@@ -2191,6 +2191,56 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  'controller instance with after error filters': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load(new MockLocomotive(), 'TestController');
+      
+      TestController.foo = function() {
+        this.error(new Error('something bad'))
+      }
+      TestController.after('foo', function(next) {
+        this.band = 'counting-crows';
+        next();
+      });
+      TestController.after('foo', function(next) {
+        this.album = 'august-and-everything-after';
+        next();
+      });
+      TestController.after('foo', function(err, req, res, next) {
+        this.errorMessage = err.message;
+        this.finished();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'invoking an action with after filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should not assign controller properties in after filters': function(err, c, req, res) {
+        assert.isUndefined(c.band);
+        assert.isUndefined(c.album);
+      },
+      'should assign message from error in after error filter': function(err, c, req, res) {
+        assert.equal(c.errorMessage, 'something bad');
+      },
+    },
+  },
+    
   'controller instance with "private" functions': {
     topic: function() {
       var TestController = new Controller();
