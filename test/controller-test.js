@@ -2166,11 +2166,15 @@ vows.describe('Controller').addBatch({
         
         req = new MockRequest();
         res = new MockResponse();
-        
-        controller._init(req, res, function() {
+        controller.finished = function() {
           self.callback(null, controller, req, res);
-        });
+        }
+        
+        controller._init(req, res);
         controller._invoke('foo');
+        process.nextTick(function() {
+          controller.finished();
+        })
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
@@ -2209,17 +2213,6 @@ vows.describe('Controller').addBatch({
       assert.lengthOf(TestController._actions(), 2);
       assert.equal(TestController._actions()[0], 'foo');
       assert.equal(TestController._actions()[1], 'bar');
-    },
-  },
-  
-  'controller hooks': {
-    topic: function() {
-      return new Controller();
-    },
-    
-    'should have pre and post hooks': function (controller) {
-      assert.isFunction(controller.pre);
-      assert.isFunction(controller.post);
     },
   },
   
