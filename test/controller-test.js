@@ -2240,6 +2240,65 @@ vows.describe('Controller').addBatch({
       },
     },
   },
+  
+  'controller instance with after error filters that are not triggered': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load(new MockLocomotive(), 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'mr-jones';
+        this.render();
+      }
+      TestController.after('foo', function(err, req, res, next) {
+        this.errorMessage = 'should not be assigned';
+        next();
+      });
+      TestController.after('foo', function(next) {
+        this.band = 'counting-crows';
+        next();
+      });
+      TestController.after('foo', function(next) {
+        this.album = 'august-and-everything-after';
+        next();
+        this.finished();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'invoking an action with after filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'mr-jones');
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'counting-crows');
+        assert.equal(c.album, 'august-and-everything-after');
+      },
+      'should not assign controller properties in after error filter': function(err, c, req, res) {
+        assert.isUndefined(c.errorMessage);
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+  },
     
   'controller instance with "private" functions': {
     topic: function() {
