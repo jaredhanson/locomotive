@@ -1932,6 +1932,57 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  'controller instance with after filters triggered by calling done': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load(new MockLocomotive(), 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'mr-jones';
+        this.done();
+      }
+      TestController.after('foo', function(next) {
+        this.band = 'counting-crows';
+        next();
+      });
+      TestController.after('foo', function(next) {
+        this.album = 'august-and-everything-after';
+        this.finished();
+        next();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'invoking an action with after filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should not assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 0);
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'counting-crows');
+        assert.equal(c.album, 'august-and-everything-after');
+      },
+      'should not render view': function(err, c, req, res) {
+        assert.isUndefined(res._view);
+      },
+    },
+  },
+  
   'controller instance with after filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
