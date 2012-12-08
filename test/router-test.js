@@ -784,6 +784,80 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with resource route and only one action': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resource('profile', { only: 'show' });
+      return router;
+    },
+  },
+  
+  'router with resource route and only some actions': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resource('profile', { only: [ 'show', 'edit', 'update' ] });
+      return router;
+    },
+    
+    'should mount six routes': function (router) {
+      assert.lengthOf(router._http._routes, 3);
+    },
+    'should create route to show action': function (router) {
+      var route = router.find('ProfileController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/profile.:format?');
+    },
+    'should create route to edit action': function (router) {
+      var route = router.find('ProfileController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/profile/edit.:format?');
+    },
+    'should create route to update action': function (router) {
+      var route = router.find('ProfileController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/profile');
+    },
+  },
+  
+  'router with resource route excepting one action': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resource('profile', { except: 'destroy' });
+      return router;
+    },
+    
+    'should mount six routes': function (router) {
+      assert.lengthOf(router._http._routes, 5);
+    },
+  },
+  
+  'router with resource route excepting some actions': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resource('profile', { except: [ 'new', 'create', 'destroy' ] });
+      return router;
+    },
+    
+    'should mount six routes': function (router) {
+      assert.lengthOf(router._http._routes, 3);
+    },
+    'should create route to show action': function (router) {
+      var route = router.find('ProfileController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/profile.:format?');
+    },
+    'should create route to edit action': function (router) {
+      var route = router.find('ProfileController', 'edit');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/profile/edit.:format?');
+    },
+    'should create route to update action': function (router) {
+      var route = router.find('ProfileController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/profile');
+    },
+  },
+  
   'router with resources route': {
     topic: function() {
       var router = intializedRouter()
@@ -1087,7 +1161,7 @@ vows.describe('Router').addBatch({
   'router with resources route and only one action': {
     topic: function() {
       var router = intializedRouter()
-      router.resources('bands', { only: [ 'show' ] });
+      router.resources('bands', { only: 'show' });
       return router;
     },
     
@@ -1126,7 +1200,7 @@ vows.describe('Router').addBatch({
   'router with resources route excepting one action': {
     topic: function() {
       var router = intializedRouter()
-      router.resources('bands', { except: [ 'destroy' ] });
+      router.resources('bands', { except: 'destroy' });
       return router;
     },
     
