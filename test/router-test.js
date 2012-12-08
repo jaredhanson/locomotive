@@ -1084,6 +1084,79 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with resources route and only one action': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resources('bands', { only: [ 'show' ] });
+      return router;
+    },
+    
+    'should mount seven routes': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+    },
+    'should create route to show action': function (router) {
+      var route = router.find('BandsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:id.:format?');
+    },
+  },
+  
+  'router with resources route and only some actions': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resources('bands', { only: [ 'index', 'show' ] });
+      return router;
+    },
+    
+    'should mount seven routes': function (router) {
+      assert.lengthOf(router._http._routes, 2);
+    },
+    'should create route to index action': function (router) {
+      var route = router.find('BandsController', 'index');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands.:format?');
+    },
+    'should create route to show action': function (router) {
+      var route = router.find('BandsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:id.:format?');
+    },
+  },
+  
+  'router with resources route excepting one action': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resources('bands', { except: [ 'destroy' ] });
+      return router;
+    },
+    
+    'should mount seven routes': function (router) {
+      assert.lengthOf(router._http._routes, 6);
+    },
+  },
+  
+  'router with resources route excepting some actions': {
+    topic: function() {
+      var router = intializedRouter()
+      router.resources('bands', { except: [ 'new', 'create', 'edit', 'update', 'destroy' ] });
+      return router;
+    },
+    
+    'should mount seven routes': function (router) {
+      assert.lengthOf(router._http._routes, 2);
+    },
+    'should create route to index action': function (router) {
+      var route = router.find('BandsController', 'index');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands.:format?');
+    },
+    'should create route to show action': function (router) {
+      var route = router.find('BandsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands/:id.:format?');
+    },
+  },
+  
   'router with resource nested under resource': {
     topic: function() {
       var router = intializedRouter()
