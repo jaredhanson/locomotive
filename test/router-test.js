@@ -573,6 +573,162 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with get route given shorthand': {
+    topic: function() {
+      var router = intializedRouter()
+      router.get('songs/:title', 'songs#show');
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('SongsController', 'show');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/songs/:title');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/songs/:title');
+      assert.equal(router._http._routes[0].fn().controller, 'SongsController');
+      assert.equal(router._http._routes[0].fn().action, 'show');
+    },
+  },
+  
+  'router with get route given controller and action options': {
+    topic: function() {
+      var router = intializedRouter()
+      router.get('bands', { controller: 'bands', action: 'list' });
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('BandsController', 'list');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/bands');
+      assert.equal(router._http._routes[0].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[0].fn().action, 'list');
+    },
+  },
+  
+  'router with get route using shorthand that declares helpers': {
+    topic: function() {
+      var router = intializedRouter()
+      router.get('songs', 'songs#list', { as: 'songs' });
+      return router;
+    },
+    
+    'should declare routing helpers': function (router) {
+      assert.isFunction(router._app._helpers.songsPath);
+      assert.isFunction(router._app._dynamicHelpers.songsURL);
+      var songsURL = router._app._dynamicHelpers.songsURL({}, {});
+      assert.isFunction(songsURL);
+    },
+  },
+  
+  'router with get route given controller and action options that declares helpers': {
+    topic: function() {
+      var router = intializedRouter()
+      router.get('bands', { controller: 'bands', action: 'list', as: 'bands' });
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('BandsController', 'list');
+      assert.equal(route.method, 'get');
+      assert.equal(route.pattern, '/bands');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'GET');
+      assert.equal(router._http._routes[0].path, '/bands');
+      assert.equal(router._http._routes[0].fn().controller, 'BandsController');
+      assert.equal(router._http._routes[0].fn().action, 'list');
+    },
+    'should declare routing helpers': function (router) {
+      assert.isFunction(router._app._helpers.bandsPath);
+      assert.isFunction(router._app._dynamicHelpers.bandsURL);
+      var bandsURL = router._app._dynamicHelpers.bandsURL({}, {});
+      assert.isFunction(bandsURL);
+    },
+  },
+  
+  'router with get route to middleware': {
+    topic: function() {
+      function middleware1(req, res, next) {};
+      
+      var router = intializedRouter()
+      router.get('lyrics', middleware1);
+      return router;
+    },
+    
+    'should mount route directly on express': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      var route = router._http._routes[0];
+      assert.equal(route.method, 'GET');
+      assert.equal(route.path, '/lyrics');
+      assert.equal(route.fn.name, 'middleware1');
+    },
+    'should not mount locomotive routes': function (router) {
+      assert.lengthOf(Object.keys(router._app._routes), 1);
+      assert.isFunction(router._app._routes.find);
+    },
+  },
+  
+  'router with get route to array of middleware': {
+    topic: function() {
+      function middleware1(req, res, next) {};
+      function middleware2(req, res, next) {};
+      
+      var router = intializedRouter()
+      router.get('lyrics', [ middleware1, middleware2 ]);
+      return router;
+    },
+    
+    'should mount route directly on express': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      var route = router._http._routes[0];
+      assert.equal(route.method, 'GET');
+      assert.equal(route.path, '/lyrics');
+      assert.lengthOf(route.fn, 2);
+      assert.equal(route.fn[0].name, 'middleware1');
+      assert.equal(route.fn[1].name, 'middleware2');
+    },
+    'should not mount locomotive routes': function (router) {
+      assert.lengthOf(Object.keys(router._app._routes), 1);
+      assert.isFunction(router._app._routes.find);
+    },
+  },
+  
+  'router with get route to multiple middleware function arguments': {
+    topic: function() {
+      function middleware1(req, res, next) {};
+      function middleware2(req, res, next) {};
+      
+      var router = intializedRouter()
+      router.get('lyrics', middleware1, middleware2);
+      return router;
+    },
+    
+    'should mount route directly on express': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      var route = router._http._routes[0];
+      assert.equal(route.method, 'GET');
+      assert.equal(route.path, '/lyrics');
+      assert.lengthOf(route.fn, 2);
+      assert.equal(route.fn[0].name, 'middleware1');
+      assert.equal(route.fn[1].name, 'middleware2');
+    },
+    'should not mount locomotive routes': function (router) {
+      assert.lengthOf(Object.keys(router._app._routes), 1);
+      assert.isFunction(router._app._routes.find);
+    },
+  },
+  
   'router with resource route': {
     topic: function() {
       var router = intializedRouter()
