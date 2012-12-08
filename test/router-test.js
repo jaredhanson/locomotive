@@ -508,6 +508,56 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with match route to multiple middleware function arguments': {
+    topic: function() {
+      function middleware1(req, res, next) {};
+      function middleware2(req, res, next) {};
+      
+      var router = intializedRouter()
+      router.match('lyrics', middleware1, middleware2);
+      return router;
+    },
+    
+    'should mount route directly on express': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      var route = router._http._routes[0];
+      assert.equal(route.method, 'GET');
+      assert.equal(route.path, '/lyrics');
+      assert.lengthOf(route.fn, 2);
+      assert.equal(route.fn[0].name, 'middleware1');
+      assert.equal(route.fn[1].name, 'middleware2');
+    },
+    'should not mount locomotive routes': function (router) {
+      assert.lengthOf(Object.keys(router._app._routes), 1);
+      assert.isFunction(router._app._routes.find);
+    },
+  },
+  
+  'router with match route to multiple middleware function arguments with via option': {
+    topic: function() {
+      function middleware1(req, res, next) {};
+      function middleware2(req, res, next) {};
+      
+      var router = intializedRouter()
+      router.match('lyrics', middleware1, middleware2, { via: 'post' });
+      return router;
+    },
+    
+    'should mount route directly on express': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      var route = router._http._routes[0];
+      assert.equal(route.method, 'POST');
+      assert.equal(route.path, '/lyrics');
+      assert.lengthOf(route.fn, 2);
+      assert.equal(route.fn[0].name, 'middleware1');
+      assert.equal(route.fn[1].name, 'middleware2');
+    },
+    'should not mount locomotive routes': function (router) {
+      assert.lengthOf(Object.keys(router._app._routes), 1);
+      assert.isFunction(router._app._routes.find);
+    },
+  },
+  
   'router with match route that declares helpers': {
     topic: function() {
       var router = intializedRouter()
