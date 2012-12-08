@@ -885,6 +885,69 @@ vows.describe('Router').addBatch({
     },
   },
   
+  'router with put route given shorthand': {
+    topic: function() {
+      var router = intializedRouter()
+      router.put('songs/:title', 'songs#update');
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('SongsController', 'update');
+      assert.equal(route.method, 'put');
+      assert.equal(route.pattern, '/songs/:title');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'PUT');
+      assert.equal(router._http._routes[0].path, '/songs/:title');
+      assert.equal(router._http._routes[0].fn().controller, 'SongsController');
+      assert.equal(router._http._routes[0].fn().action, 'update');
+    },
+  },
+  
+  'router with del route given shorthand': {
+    topic: function() {
+      var router = intializedRouter()
+      router.del('songs/:title', 'songs#destroy');
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('SongsController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/songs/:title');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'DELETE');
+      assert.equal(router._http._routes[0].path, '/songs/:title');
+      assert.equal(router._http._routes[0].fn().controller, 'SongsController');
+      assert.equal(router._http._routes[0].fn().action, 'destroy');
+    },
+  },
+  
+  'router with delete route given shorthand': {
+    topic: function() {
+      var router = intializedRouter()
+      router.delete('songs/:title', 'songs#destroy');
+      return router;
+    },
+    
+    'should create route': function (router) {
+      var route = router.find('SongsController', 'destroy');
+      assert.equal(route.method, 'del');
+      assert.equal(route.pattern, '/songs/:title');
+    },
+    'should mount route': function (router) {
+      assert.lengthOf(router._http._routes, 1);
+      assert.equal(router._http._routes[0].method, 'DELETE');
+      assert.equal(router._http._routes[0].path, '/songs/:title');
+      assert.equal(router._http._routes[0].fn().controller, 'SongsController');
+      assert.equal(router._http._routes[0].fn().action, 'destroy');
+    },
+  },
+  
   'router with resource route': {
     topic: function() {
       var router = intializedRouter()
