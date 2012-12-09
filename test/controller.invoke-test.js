@@ -32,6 +32,9 @@ vows.describe('Controller.invoke').addBatch({
       TestController.invokeWithControllerAndActionArguments = function() {
         this.invoke('foo', 'bar');
       }
+      TestController.invokeWithSlashNamespacedControllerAndActionArguments = function() {
+        this.invoke('admin/foo', 'bar');
+      }
       TestController.invokeWithActionArgument = function() {
         this.invoke('other');
       }
@@ -76,6 +79,26 @@ vows.describe('Controller.invoke').addBatch({
       },
       'should invoke correct controller and action': function(err, req, res) {
         assert.equal(req.invokedController, 'FooController');
+        assert.equal(req.invokedAction, 'bar');
+      },
+    },
+    
+    'invoking an action that invokes with slash namespaced controller and action arguments': {
+      topic: function(controller) {
+        var self = this;
+        var req = new MockRequest();
+        var res = new MockResponse();
+        controller._init(req, res, function(err) {
+          self.callback(err, req, res);
+        });
+        controller._invoke('invokeWithSlashNamespacedControllerAndActionArguments');
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should invoke correct controller and action': function(err, req, res) {
+        assert.equal(req.invokedController, 'Admin::FooController');
         assert.equal(req.invokedAction, 'bar');
       },
     },
