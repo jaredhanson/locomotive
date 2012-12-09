@@ -25,7 +25,6 @@ vows.describe('invoke').addBatch({
 
   'middleware': {
     topic: function() {
-      // mock
       return invoke().bind(new MockLocomotive());
     },
     
@@ -49,12 +48,62 @@ vows.describe('invoke').addBatch({
       'should expose invoke on req' : function(err, req, res) {
         assert.isFunction(req.invoke);
       },
+      
+      'when invoking a controller and action': {
+        topic: function(req, res) {
+          var self = this;
+          function next(err) {
+            self.callback(err, req, res);
+          }
+          process.nextTick(function() {
+            req.invoke('foo', 'bar', next)
+          });
+        },
+        
+        'should invoke correct controller and action': function(err, req, res) {
+          assert.equal(req.invokedController, 'FooController');
+          assert.equal(req.invokedAction, 'bar');
+        },
+      },
+      
+      'when invoking a namespaced controller and action': {
+        topic: function(req, res) {
+          var self = this;
+          function next(err) {
+            self.callback(err, req, res);
+          }
+          process.nextTick(function() {
+            req.invoke('admin/foo', 'bar', next)
+          });
+        },
+        
+        'should invoke correct controller and action': function(err, req, res) {
+          assert.equal(req.invokedController, 'Admin::FooController');
+          assert.equal(req.invokedAction, 'bar');
+        },
+      },
+      
+      'when invoking a controller and action using shorthand': {
+        topic: function(req, res) {
+          var self = this;
+          function next(err) {
+            self.callback(err, req, res);
+          }
+          process.nextTick(function() {
+            req.invoke('lorem#ipsum', next)
+          });
+        },
+        
+        'should invoke correct controller and action': function(err, req, res) {
+          assert.equal(req.invokedController, 'LoremController');
+          assert.equal(req.invokedAction, 'ipsum');
+        },
+      },
     },
   },
   
   'middleware with name option': {
     topic: function() {
-      // mock
       return invoke({ name: 'invokeit' }).bind(new MockLocomotive());
     },
     
