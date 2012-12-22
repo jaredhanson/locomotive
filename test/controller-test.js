@@ -269,6 +269,14 @@ vows.describe('Controller').addBatch({
         controller._invoke('home');
       },
       
+      'should assign properties to controller': function(err, c, req, res) {
+        assert.isObject(c.app);
+        assert.instanceOf(c.app, MockLocomotive);
+        assert.isObject(c.req);
+        assert.equal(c.req, c.request);
+        assert.isObject(c.res);
+        assert.equal(c.res, c.response);
+      },
       'should assign properties to req': function(err, c, req, res) {
         assert.isObject(req._locomotive);
         assert.instanceOf(req._locomotive.app, MockLocomotive);
@@ -1924,6 +1932,57 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  'controller instance with after filters triggered by calling done': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load(new MockLocomotive(), 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'mr-jones';
+        this.done();
+      }
+      TestController.after('foo', function(next) {
+        this.band = 'counting-crows';
+        next();
+      });
+      TestController.after('foo', function(next) {
+        this.album = 'august-and-everything-after';
+        this.finished();
+        next();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'invoking an action with after filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should not assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 0);
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'counting-crows');
+        assert.equal(c.album, 'august-and-everything-after');
+      },
+      'should not render view': function(err, c, req, res) {
+        assert.isUndefined(res._view);
+      },
+    },
+  },
+  
   'controller instance with after filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
@@ -2158,11 +2217,15 @@ vows.describe('Controller').addBatch({
         
         req = new MockRequest();
         res = new MockResponse();
-        
-        controller._init(req, res, function() {
+        controller.finished = function() {
           self.callback(null, controller, req, res);
-        });
+        }
+        
+        controller._init(req, res);
         controller._invoke('foo');
+        process.nextTick(function() {
+          controller.finished();
+        })
       },
       
       'should assign controller properties as response locals': function(err, c, req, res) {
@@ -2179,14 +2242,137 @@ vows.describe('Controller').addBatch({
     },
   },
   
-  'controller hooks': {
+  'controller instance with after error filters': {
     topic: function() {
-      return new Controller();
+      var TestController = new Controller();
+      TestController._load(new MockLocomotive(), 'TestController');
+      
+      TestController.foo = function() {
+        this.error(new Error('something bad'))
+      }
+      TestController.after('foo', function(next) {
+        this.band = 'counting-crows';
+        next();
+      });
+      TestController.after('foo', function(next) {
+        this.album = 'august-and-everything-after';
+        next();
+      });
+      TestController.after('foo', function(err, req, res, next) {
+        this.errorMessage = err.message;
+        this.finished();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
     },
     
-    'should have pre and post hooks': function (controller) {
-      assert.isFunction(controller.pre);
-      assert.isFunction(controller.post);
+    'invoking an action with after filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should not assign controller properties in after filters': function(err, c, req, res) {
+        assert.isUndefined(c.band);
+        assert.isUndefined(c.album);
+      },
+      'should assign message from error in after error filter': function(err, c, req, res) {
+        assert.equal(c.errorMessage, 'something bad');
+      },
+    },
+  },
+  
+  'controller instance with after error filters that are not triggered': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load(new MockLocomotive(), 'TestController');
+      
+      TestController.foo = function() {
+        this.song = 'mr-jones';
+        this.render();
+      }
+      TestController.after('foo', function(err, req, res, next) {
+        this.errorMessage = 'should not be assigned';
+        next();
+      });
+      TestController.after('foo', function(next) {
+        this.band = 'counting-crows';
+        next();
+      });
+      TestController.after('foo', function(next) {
+        this.album = 'august-and-everything-after';
+        next();
+        this.finished();
+      });
+      
+      var instance = Object.create(TestController);
+      return instance;
+    },
+    
+    'invoking an action with after filters': {
+      topic: function(controller) {
+        var self = this;
+        var req, res;
+        
+        req = new MockRequest();
+        res = new MockResponse();
+        controller.finished = function() {
+          self.callback(null, controller, req, res);
+        }
+        
+        controller._init(req, res);
+        controller._invoke('foo');
+      },
+      
+      'should assign controller properties as response locals': function(err, c, req, res) {
+        assert.lengthOf(Object.keys(res.locals), 1);
+        assert.equal(res.locals.song, 'mr-jones');
+      },
+      'should assign controller properties in after filters': function(err, c, req, res) {
+        assert.equal(c.band, 'counting-crows');
+        assert.equal(c.album, 'august-and-everything-after');
+      },
+      'should not assign controller properties in after error filter': function(err, c, req, res) {
+        assert.isUndefined(c.errorMessage);
+      },
+      'should render view': function(err, c, req, res) {
+        assert.equal(res._view, 'test/foo.html.ejs');
+      },
+    },
+  },
+    
+  'controller instance with "private" functions': {
+    topic: function() {
+      var TestController = new Controller();
+      TestController._load(new MockLocomotive(), 'TestController');
+      
+      TestController.foo = function() {
+        this.render();
+      }
+      TestController.bar = function() {
+        this.render();
+      }
+      TestController._private = function() {
+        var i = 1 + 1;
+      }
+      
+      return TestController;
+    },
+    
+    'should assign controller properties as response locals': function(TestController) {
+      assert.lengthOf(TestController._actions(), 2);
+      assert.equal(TestController._actions()[0], 'foo');
+      assert.equal(TestController._actions()[1], 'bar');
     },
   },
   
