@@ -16,6 +16,8 @@
   "dependencies": {
     "pkginfo": "0.2.x",
     "commander": "1.x.x",
+    "bootable": "0.1.x",
+    "bootable-environment": "0.1.x",
     "mkdirp": "0.3.x",
     "diveSync": "0.2.0",
     "express": "3.x.x",
