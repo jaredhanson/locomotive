@@ -96,6 +96,7 @@ function intializedRouter() {
 
 vows.describe('Router').addBatch({
   
+  // OK
   'router with root route': {
     topic: function() {
       var router = intializedRouter()
@@ -117,6 +118,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -180,6 +182,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given controller and action options': {
     topic: function() {
       var router = intializedRouter()
@@ -201,6 +204,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given shorthand and via option': {
     topic: function() {
       var router = intializedRouter()
@@ -222,6 +226,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given shorthand and capitalized via option': {
     topic: function() {
       var router = intializedRouter()
@@ -243,6 +248,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given shorthand and via option using array of methods': {
     topic: function() {
       var router = intializedRouter()
@@ -268,6 +274,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given controller, action, and via options': {
     topic: function() {
       var router = intializedRouter()
@@ -558,6 +565,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -948,6 +956,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route': {
     topic: function() {
       var router = intializedRouter()
@@ -1283,6 +1292,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route': {
     topic: function() {
       var router = intializedRouter()
