@@ -1218,6 +1218,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route and only one action': {
     topic: function() {
       var router = intializedRouter()
@@ -1226,6 +1227,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route and only some actions': {
     topic: function() {
       var router = intializedRouter()
@@ -1253,6 +1255,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route excepting one action': {
     topic: function() {
       var router = intializedRouter()
@@ -1265,6 +1268,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route excepting some actions': {
     topic: function() {
       var router = intializedRouter()
@@ -1593,6 +1597,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route and only one action': {
     topic: function() {
       var router = intializedRouter()
@@ -1610,6 +1615,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route and only some actions': {
     topic: function() {
       var router = intializedRouter()
@@ -1632,6 +1638,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route excepting one action': {
     topic: function() {
       var router = intializedRouter()
@@ -1644,6 +1651,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route excepting some actions': {
     topic: function() {
       var router = intializedRouter()
@@ -1666,6 +1674,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource nested under resource': {
     topic: function() {
       var router = intializedRouter()
@@ -1764,6 +1773,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource nested under resource using namespace option': {
     topic: function() {
       var router = intializedRouter()
