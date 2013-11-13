@@ -594,6 +594,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -615,6 +616,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route given controller and action options': {
     topic: function() {
       var router = intializedRouter()
@@ -636,6 +638,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route using shorthand that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -651,6 +654,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route given controller and action options that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -678,6 +682,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route to middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -700,6 +705,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route to array of middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -725,6 +731,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route to multiple middleware function arguments': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -750,6 +757,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -771,6 +779,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route given controller and action options': {
     topic: function() {
       var router = intializedRouter()
@@ -792,6 +801,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route using shorthand that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -807,6 +817,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route given controller and action options that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -834,6 +845,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route to middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -856,6 +868,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route to array of middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -881,6 +894,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route to multiple middleware function arguments': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -906,6 +920,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with put route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -927,6 +942,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with del route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -948,6 +964,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with delete route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -1057,6 +1074,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route with underscored path': {
     topic: function() {
       var router = intializedRouter()
@@ -1144,6 +1162,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route with dasherized path': {
     topic: function() {
       var router = intializedRouter()
@@ -1410,6 +1429,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route with underscored path': {
     topic: function() {
       var router = intializedRouter()
@@ -1510,6 +1530,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route with dasherized path': {
     topic: function() {
       var router = intializedRouter()
@@ -2380,6 +2401,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route specified with preceeding slash in a namespace': {
     topic: function() {
       var router = intializedRouter()
