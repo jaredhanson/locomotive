@@ -140,6 +140,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route with underscored path': {
     topic: function() {
       var router = intializedRouter()
@@ -161,6 +162,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route with dasherized path': {
     topic: function() {
       var router = intializedRouter()
@@ -296,6 +298,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route specified with a preceding slash': {
     topic: function() {
       var router = intializedRouter()
@@ -1872,6 +1875,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources nested under resource': {
     topic: function() {
       var router = intializedRouter()
@@ -1983,6 +1987,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource nested under resources': {
     topic: function() {
       var router = intializedRouter()
@@ -2083,6 +2088,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources nested under resources': {
     topic: function() {
       var router = intializedRouter()
@@ -2196,6 +2202,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources nested under resources using namespace option': {
     topic: function() {
       var router = intializedRouter()
@@ -2309,6 +2316,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with root route in a namespace': {
     topic: function() {
       var router = intializedRouter()
@@ -2332,6 +2340,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route in a namespace': {
     topic: function() {
       var router = intializedRouter()
