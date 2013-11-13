@@ -320,6 +320,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -342,6 +343,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to middleware with via option': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -364,6 +366,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to middleware with capitalized via option': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -386,6 +389,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to middleware with via option using array of methods': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -412,6 +416,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to array of middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -437,6 +442,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to array of middleware with via option': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -462,6 +468,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to array of middleware with capitalized via option': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -487,6 +494,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to array of middleware with via option using array of methods': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -518,6 +526,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to multiple middleware function arguments': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -543,6 +552,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to multiple middleware function arguments with via option': {
     topic: function() {
       function middleware1(req, res, next) {};
