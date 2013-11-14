@@ -23,7 +23,8 @@
     "express": "3.x.x",
     "methods": "0.0.1",
     "lingo": "0.0.x",
-    "debug": "0.7.x"
+    "debug": "0.7.x",
+    "actionrouter": "git://github.com/jaredhanson/node-actionrouter.git"
   },
   "devDependencies": {
     "vows": "0.6.x",
