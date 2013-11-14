@@ -26,6 +26,8 @@ function MockResponse() {
 
 vows.describe('handle').addBatch({
 
+  // FIXME: Port these tests
+  /*
   'middleware': {
     topic: function() {
       // mock
@@ -94,5 +96,6 @@ vows.describe('handle').addBatch({
       },
     },
   },
+  */
 
 }).export(module);
