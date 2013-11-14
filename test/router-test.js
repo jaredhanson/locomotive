@@ -2425,6 +2425,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route in a namespace': {
     topic: function() {
       var router = intializedRouter();
