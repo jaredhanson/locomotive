@@ -1,5 +1,5 @@
 var chai = require('chai')
-  , handle = require('../../lib/locomotive/middleware/handle');
+  , dispatch = require('../../../../lib/locomotive/underlay/express/middleware/dispatch');
 
 
 function MockApplication() {
@@ -38,10 +38,10 @@ MockController.prototype._invoke = function(action) {
 
 
 
-describe('middleware/handle', function() {
+describe('middleware/dispatch', function() {
   
-  it('should be named handle', function() {
-    expect(handle().name).to.equal('handle');
+  it('should be named dispatch', function() {
+    expect(dispatch().name).to.equal('dispatch');
   });
   
   describe('dispatching to controller prototype', function() {
@@ -54,7 +54,7 @@ describe('middleware/handle', function() {
     app.controller('foo', proto);
 
     before(function(done) {
-      chai.connect(handle(app, 'foo', 'bar'))
+      chai.connect(dispatch(app, 'foo', 'bar'))
         .req(function(req) {
           request = req;
         })
@@ -82,7 +82,7 @@ describe('middleware/handle', function() {
     var app = new MockApplication();
 
     before(function(done) {
-      chai.connect(handle(app, 'invalid', 'index'))
+      chai.connect(dispatch(app, 'invalid', 'index'))
         .req(function(req) {
           request = req;
         })

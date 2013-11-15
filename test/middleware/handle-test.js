@@ -1,6 +1,6 @@
 var vows = require('vows');
 var assert = require('assert');
-var handle = require('locomotive/middleware/handle');
+//var handle = require('locomotive/middleware/handle');
 
 
 function MockController() {
