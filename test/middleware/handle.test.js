@@ -76,7 +76,7 @@ describe('middleware/handle', function() {
     });
   });
   
-  describe('dispatching to nonexistant controller', function() {
+  describe('dispatching to non-existant controller', function() {
     var err;
     
     var app = new MockApplication();
