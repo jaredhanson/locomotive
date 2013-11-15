@@ -38,7 +38,7 @@ MockController.prototype._invoke = function(action) {
 
 
 
-describe('middleware/dispatch', function() {
+describe('underlay/express/middleware/dispatch', function() {
   
   it('should be named dispatch', function() {
     expect(dispatch().name).to.equal('dispatch');
