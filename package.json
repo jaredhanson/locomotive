@@ -29,7 +29,8 @@
   "devDependencies": {
     "vows": "0.6.x",
     "mocha": "1.x.x",
-    "chai": "1.x.x"
+    "chai": "1.x.x",
+    "chai-connect-middleware": "0.2.x"
   },
   "scripts": {
     "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js test/**/*-test.js test/**/**/*-test.js"
