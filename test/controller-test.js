@@ -53,6 +53,7 @@ MockResponse.prototype.end = function() {
 
 vows.describe('Controller').addBatch({
   
+  // OK
   'controller initialization': {
     topic: function() {
       var TestController = new Controller();
