@@ -1,5 +1,5 @@
 var chai = require('chai')
-  , dispatch = require('../../../../lib/locomotive/underlay/express/middleware/dispatch');
+  , dispatch = require('../../lib/locomotive/middleware/dispatch');
 
 
 function MockApplication() {
