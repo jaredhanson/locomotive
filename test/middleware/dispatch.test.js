@@ -81,6 +81,11 @@ describe('middleware/dispatch', function() {
         .dispatch();
     });
     
+    it('should initialize controller', function() {
+      expect(controller.__app).to.equal(app);
+      expect(controller.__id).to.equal('robots');
+    });
+    
     it('should respond', function() {
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.equal('/robots/noise -> beepBoop');
@@ -101,6 +106,11 @@ describe('middleware/dispatch', function() {
           done();
         })
         .dispatch();
+    });
+    
+    it('should initialize controller', function() {
+      expect(controller.__app).to.equal(app);
+      expect(controller.__id).to.equal('robots');
     });
     
     it('should call next without error', function() {
