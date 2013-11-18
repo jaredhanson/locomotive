@@ -13,6 +13,8 @@ vows.describe('Module').addBatch({
     },
   },
   
+  // TODO: Port or remove these test cases
+  /*
   'controller registration': {
     topic: function() {
       return new locomotive.Locomotive();
@@ -67,6 +69,7 @@ vows.describe('Module').addBatch({
       assert.equal(TestController.__viewDir, 'baz/foo_bar');
     },
   },
+  */
   
   'format registration': {
     topic: function() {
