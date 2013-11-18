@@ -10,10 +10,10 @@ function MockApplication() {
 
 describe('Controller', function() {
   
-  describe('#_load', function() {
+  describe('#_init', function() {
     var app = new MockApplication();
     var controller = new Controller();
-    controller._load(app, 'fooBar');
+    controller._init(app, 'fooBar');
     
     it('should assign controller app', function() {
       expect(controller.__app).to.equal(app);

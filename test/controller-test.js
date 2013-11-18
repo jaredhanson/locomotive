@@ -57,7 +57,7 @@ vows.describe('Controller').addBatch({
   'controller initialization': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'FooBarController');
+      TestController._init(new MockLocomotive(), 'FooBarController');
       return TestController;
     },
     
@@ -75,7 +75,7 @@ vows.describe('Controller').addBatch({
   'controller instance': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.home = function() {
         this.render();
@@ -1344,7 +1344,7 @@ vows.describe('Controller').addBatch({
       app.format('foo', { extension: '.bar' });
     
       var TestController = new Controller();
-      TestController._load(app, 'TestController');
+      TestController._init(app, 'TestController');
     
       TestController.renderHTML = function() {
         this.render();
@@ -1603,7 +1603,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filters': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1650,7 +1650,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -1720,7 +1720,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filter on all actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -1790,7 +1790,7 @@ vows.describe('Controller').addBatch({
   'controller instance with middleware as before filter': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1834,7 +1834,7 @@ vows.describe('Controller').addBatch({
   'controller instance with before filters that error': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1884,7 +1884,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filters': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1936,7 +1936,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filters triggered by calling done': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -1987,7 +1987,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -2066,7 +2066,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filter on all actions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'the-end';
@@ -2145,7 +2145,7 @@ vows.describe('Controller').addBatch({
   'controller instance with middleware as after filter': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -2192,7 +2192,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after filters that error': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -2246,7 +2246,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after error filters': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.error(new Error('something bad'))
@@ -2296,7 +2296,7 @@ vows.describe('Controller').addBatch({
   'controller instance with after error filters that are not triggered': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.song = 'mr-jones';
@@ -2355,7 +2355,7 @@ vows.describe('Controller').addBatch({
   'controller instance with "private" functions': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       
       TestController.foo = function() {
         this.render();

@@ -18,6 +18,11 @@ MockApplication.prototype._controller = function(id, cb) {
 function ReqResController() {
 }
 
+ReqResController.prototype._init = function(app, id) {
+  this.__app = app;
+  this.__id = id;
+}
+
 ReqResController.prototype._prepare = function(req, res, next) {
   this.req = req;
   this.res = res;
@@ -30,6 +35,11 @@ ReqResController.prototype._invoke = function(action) {
 
 
 function NextController() {
+}
+
+NextController.prototype._init = function(app, id) {
+  this.__app = app;
+  this.__id = id;
 }
 
 NextController.prototype._prepare = function(req, res, next) {

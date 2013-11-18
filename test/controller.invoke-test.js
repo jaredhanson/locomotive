@@ -25,7 +25,7 @@ vows.describe('Controller.invoke').addBatch({
   'controller instance': {
     topic: function() {
       var TestController = new Controller();
-      TestController._load(new MockLocomotive(), 'TestController');
+      TestController._init(new MockLocomotive(), 'TestController');
       TestController.invokeWithShorthand = function() {
         this.invoke('lorem#ipsum');
       }
