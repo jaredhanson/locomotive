@@ -48,7 +48,7 @@ vows.describe('Controller.invoke').addBatch({
         var self = this;
         var req = new MockRequest();
         var res = new MockResponse();
-        controller._init(req, res, function(err) {
+        controller._prepare(req, res, function(err) {
           self.callback(err, req, res);
         });
         controller._invoke('invokeWithShorthand');
@@ -68,7 +68,7 @@ vows.describe('Controller.invoke').addBatch({
         var self = this;
         var req = new MockRequest();
         var res = new MockResponse();
-        controller._init(req, res, function(err) {
+        controller._prepare(req, res, function(err) {
           self.callback(err, req, res);
         });
         controller._invoke('invokeWithControllerAndActionArguments');
@@ -88,7 +88,7 @@ vows.describe('Controller.invoke').addBatch({
         var self = this;
         var req = new MockRequest();
         var res = new MockResponse();
-        controller._init(req, res, function(err) {
+        controller._prepare(req, res, function(err) {
           self.callback(err, req, res);
         });
         controller._invoke('invokeWithSlashNamespacedControllerAndActionArguments');
@@ -108,7 +108,7 @@ vows.describe('Controller.invoke').addBatch({
         var self = this;
         var req = new MockRequest();
         var res = new MockResponse();
-        controller._init(req, res, function(err) {
+        controller._prepare(req, res, function(err) {
           self.callback(err, req, res);
         });
         controller._invoke('invokeWithActionArgument');

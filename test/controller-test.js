@@ -266,7 +266,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('home');
       },
       
@@ -295,7 +295,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('showOnTheRoad');
       },
       
@@ -322,7 +322,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('showBook');
       },
       
@@ -346,7 +346,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('renderWithFormat');
       },
       
@@ -368,7 +368,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('renderWithEngine');
       },
       
@@ -387,7 +387,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('renderTemplate');
       },
       
@@ -406,7 +406,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('renderTemplatePath');
       },
       
@@ -425,7 +425,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('renderTemplateWithFormat');
       },
       
@@ -444,7 +444,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('renderToCallback');
       },
       
@@ -466,7 +466,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('renderTemplateToCallback');
       },
       
@@ -488,7 +488,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('renderTemplateAndOptionsToCallback');
       },
       
@@ -515,7 +515,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithFunctionUsingMimeKey');
       },
       
@@ -545,7 +545,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithFunctionUsingMimeKey');
       },
       
@@ -573,7 +573,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithFunctionUsingMimeKey');
       },
       
@@ -604,7 +604,7 @@ vows.describe('Controller').addBatch({
           self.callback(new Error('should not be called'));
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithFunctionUsingMimeKey');
       },
       
@@ -639,7 +639,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithFunctionUsingMimeKeyAndDefault');
       },
       
@@ -669,7 +669,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithFunctionUsingExtKey');
       },
       
@@ -696,7 +696,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithFunctionUsingExtKey');
       },
       
@@ -724,7 +724,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithFunctionUsingExtKey');
       },
       
@@ -755,7 +755,7 @@ vows.describe('Controller').addBatch({
           self.callback(new Error('should not be called'));
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithFunctionUsingExtKey');
       },
       
@@ -790,7 +790,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithFunctionUsingExtKeyAndDefault');
       },
       
@@ -820,7 +820,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithOptionsUsingMimeKey');
       },
       
@@ -847,7 +847,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithOptionsUsingMimeKey');
       },
       
@@ -874,7 +874,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithOptionsUsingMimeKey');
       },
       
@@ -904,7 +904,7 @@ vows.describe('Controller').addBatch({
           self.callback(new Error('should not be called'));
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithOptionsUsingMimeKey');
       },
       
@@ -940,7 +940,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithOptionsUsingMimeKeyAndDefaults');
       },
       
@@ -970,7 +970,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithOptionsUsingMimeKeyAndDefaultsTrue');
       },
       
@@ -1000,7 +1000,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithOptionsUsingMimeKeyAndDefaultsToYAML');
       },
       
@@ -1024,7 +1024,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithOptionsUsingExtKey');
       },
       
@@ -1051,7 +1051,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('respondWithOptionsUsingExtKey');
       },
       
@@ -1081,7 +1081,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res, next);
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithOptionsUsingExtKey');
       },
       
@@ -1111,7 +1111,7 @@ vows.describe('Controller').addBatch({
           self.callback(new Error('should not be called'));
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithOptionsUsingExtKey');
       },
       
@@ -1147,7 +1147,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithOptionsUsingExtKeyAndDefaults');
       },
       
@@ -1177,7 +1177,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithOptionsUsingExtKeyAndDefaultsTrue');
       },
       
@@ -1207,7 +1207,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, req, res);
         });
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('respondWithOptionsUsingExtKeyAndDefaultsToYAML');
       },
       
@@ -1229,7 +1229,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, status, url);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('redirectHome');
       },
       
@@ -1252,7 +1252,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, status, url);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('redirectHomeWithStatus');
       },
       
@@ -1275,7 +1275,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, status, url);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('redirectHomeWithStatusAsLastArg');
       },
       
@@ -1298,7 +1298,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, err);
         }
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('internalError');
       },
       
@@ -1323,7 +1323,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, err);
         }
         
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('unknown');
       },
       
@@ -1388,7 +1388,7 @@ vows.describe('Controller').addBatch({
           self.callback(err, null, null);
         }
 
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('renderHTML');
       },
 
@@ -1416,7 +1416,7 @@ vows.describe('Controller').addBatch({
           self.callback(err, null, null);
         }
 
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('renderHTMLWithEngine');
       },
 
@@ -1444,7 +1444,7 @@ vows.describe('Controller').addBatch({
           self.callback(err, null, null);
         }
 
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('renderHTMLWithExtension');
       },
 
@@ -1472,7 +1472,7 @@ vows.describe('Controller').addBatch({
           self.callback(err, null, null);
         }
 
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('renderXML');
       },
 
@@ -1500,7 +1500,7 @@ vows.describe('Controller').addBatch({
           self.callback(err, null, null);
         }
 
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('renderXMLWithEngine');
       },
 
@@ -1528,7 +1528,7 @@ vows.describe('Controller').addBatch({
           self.callback(err, null, null);
         }
 
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('renderXMLWithExtension');
       },
 
@@ -1556,7 +1556,7 @@ vows.describe('Controller').addBatch({
           self.callback(err, null, null);
         }
 
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('renderXMLWithDotExtension');
       },
 
@@ -1584,7 +1584,7 @@ vows.describe('Controller').addBatch({
           self.callback(err, null, null);
         }
 
-        controller._init(req, res, next);
+        controller._prepare(req, res, next);
         controller._invoke('renderFoo');
       },
 
@@ -1631,7 +1631,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -1678,7 +1678,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -1702,7 +1702,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('bar');
       },
       
@@ -1748,7 +1748,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -1772,7 +1772,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('bar');
       },
       
@@ -1814,7 +1814,7 @@ vows.describe('Controller').addBatch({
         res = new MockResponse(function() {
           self.callback(null, controller, req, res);
         });
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -1863,7 +1863,7 @@ vows.describe('Controller').addBatch({
           self.callback(new Error('should not be called'));
         });
         
-        controller._init(req, res, function() {
+        controller._prepare(req, res, function() {
           self.callback(null, controller, req, res);
         });
         controller._invoke('foo');
@@ -1915,7 +1915,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -1967,7 +1967,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -2018,7 +2018,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -2046,7 +2046,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('bar');
       },
       
@@ -2097,7 +2097,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -2125,7 +2125,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('bar');
       },
       
@@ -2172,7 +2172,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -2222,7 +2222,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
         process.nextTick(function() {
           controller.finished();
@@ -2279,7 +2279,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
@@ -2331,7 +2331,7 @@ vows.describe('Controller').addBatch({
           self.callback(null, controller, req, res);
         }
         
-        controller._init(req, res);
+        controller._prepare(req, res);
         controller._invoke('foo');
       },
       
