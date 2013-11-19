@@ -590,7 +590,7 @@ describe('Controller#respond', function() {
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
-        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
+        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
     }
     
@@ -648,7 +648,7 @@ describe('Controller#respond', function() {
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
-        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
+        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
     }
     
@@ -706,7 +706,7 @@ describe('Controller#respond', function() {
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
-        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
+        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
     }
     
@@ -737,7 +737,7 @@ describe('Controller#respond', function() {
     });
     
     it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('application/x-foo');
+      expect(res.getHeader('Content-Type')).to.equal('application/vnd.acme.foo');
     });
     
     it('should set vary header', function() {
@@ -764,7 +764,7 @@ describe('Controller#respond', function() {
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
-        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
+        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
     }
     
