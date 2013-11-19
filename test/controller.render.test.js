@@ -135,4 +135,45 @@ describe('Controller#render', function() {
     });
   });
   
+  describe('with engine option', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.renderWithEngine = function() {
+      this.render({ engine: 'haml' });
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderWithEngine');
+    });
+    
+    it.skip('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/render_with_engine.html.haml');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+    
+    it('should not render with callback', function() {
+      expect(res._fn).to.be.undefined;
+    });
+  });
+  
 });

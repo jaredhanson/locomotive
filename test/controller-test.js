@@ -341,6 +341,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which renders with format option': {
       topic: function(controller) {
         var self = this;
@@ -363,6 +364,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which renders with engine option': {
       topic: function(controller) {
         var self = this;
