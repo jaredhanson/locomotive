@@ -1624,6 +1624,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'rendering foo using application engine': {
       topic: function(controller) {
         var self = this;
