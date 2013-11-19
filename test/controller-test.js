@@ -980,6 +980,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request for unsupported type using default true and mime types as keys': {
       topic: function(controller) {
         var self = this;
@@ -1010,6 +1011,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request for unsupported type using default object with YAML format and mime types as keys': {
       topic: function(controller) {
         var self = this;
