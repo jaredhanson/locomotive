@@ -312,4 +312,87 @@ describe('Controller#render', function() {
     });
   });
   
+  describe('to callback using specific template', function() {
+    var app = new MockApplication();
+    var req, res;
+    
+    before(function(done) {
+      var controller = new Controller();
+      controller.renderTemplateToCallback = function() {
+        this.render('show', function() {
+          return done();
+        });
+      }
+      
+      req = new MockRequest();
+      res = new MockResponse(function() {
+        return done(new Error('should not call res#end'));
+      });
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderTemplateToCallback');
+    });
+    
+    it('should not set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.be.undefined;
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/show.html.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  describe('to callback using specific template and options', function() {
+    var app = new MockApplication();
+    var req, res;
+    
+    before(function(done) {
+      var controller = new Controller();
+      controller.renderTemplateAndOptionsToCallback = function() {
+        this.render('show', { layout: 'email' }, function() {
+          return done();
+        });
+      }
+      
+      req = new MockRequest();
+      res = new MockResponse(function() {
+        return done(new Error('should not call res#end'));
+      });
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderTemplateAndOptionsToCallback');
+    });
+    
+    it('should not set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.be.undefined;
+    });
+    
+    it('should render view with options', function() {
+      expect(res._view).to.equal('test/show.html.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(1);
+      expect(res._options.layout).to.equal('email');
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
 });

@@ -444,6 +444,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which renders to callback': {
       topic: function(controller) {
         var self = this;
@@ -466,6 +467,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which renders template to callback': {
       topic: function(controller) {
         var self = this;
@@ -488,6 +490,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which renders template with options to callback': {
       topic: function(controller) {
         var self = this;
