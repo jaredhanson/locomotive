@@ -82,6 +82,35 @@ describe('Controller', function() {
       });
     });
     
+    describe('an action that throws an error', function() {
+      var app = new MockApplication();
+      var controller = new Controller();
+      controller.show = function() {
+        throw new Error('something was thrown')
+      };
+    
+      var req, res, error;
+    
+      before(function(done) {
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          return done(new Error('should not call res#end'));
+        });
+      
+        controller._init(app, 'test');
+        controller._prepare(req, res, function(err) {
+          error = err;
+          return done();
+        });
+        controller._invoke('show');
+      });
+    
+      it('should next with error', function() {
+        expect(error).to.be.an.instanceOf(Error);
+        expect(error.message).to.be.equal('something was thrown');
+      });
+    });
+    
     describe('an action that does not exist', function() {
       var app = new MockApplication();
       var controller = new Controller();

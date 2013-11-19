@@ -760,4 +760,65 @@ describe('Controller#before', function() {
     });
   });
   
+  
+  /* error handling */
+  
+  describe('filters, one of which errors early', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.order = [];
+    
+    controller.before('show', function(next) {
+      this.order.push(1);
+      this.band = 'Counting Crows';
+      next(new Error('something went wrong'));
+    });
+    controller.before('show', function(next) {
+      this.order.push(2);
+      this.album = 'August and Everything After';
+      next();
+    });
+    controller.show = function() {
+      this.order.push('a');
+      this.song = 'Mr. Jones';
+      this.render();
+    }
+    
+    var req, res, error;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(function() {
+        return done(new Error('should not call res#end'));
+      });
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        error = err;
+        return done();
+      });
+      controller._invoke('show');
+    });
+    
+    it('should next with error', function() {
+      expect(error).to.be.an.instanceOf(Error);
+      expect(error.message).to.be.equal('something went wrong');
+    });
+    
+    it('should apply filters in correct order', function() {
+      expect(controller.order).to.have.length(1);
+      expect(controller.order[0]).to.equal(1);
+    });
+    
+    it('should not render view', function() {
+      expect(res._view).to.be.undefined;
+      expect(res._options).to.be.undefined;
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
 });

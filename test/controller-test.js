@@ -1894,6 +1894,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // OK
   'controller instance with before filters that error': {
     topic: function() {
       var TestController = new Controller();
@@ -1916,6 +1917,7 @@ vows.describe('Controller').addBatch({
       return instance;
     },
     
+    // OK
     'invoking an action with before filters': {
       topic: function(controller) {
         var self = this;
