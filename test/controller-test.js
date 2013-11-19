@@ -54,6 +54,7 @@ MockResponse.prototype.end = function() {
 vows.describe('Controller').addBatch({
   
   // OK
+  /*
   'controller initialization': {
     topic: function() {
       var TestController = new Controller();
@@ -71,6 +72,7 @@ vows.describe('Controller').addBatch({
       assert.equal(controller.__viewDir, 'foo_bar');
     },
   },
+  */
   
   'controller instance': {
     topic: function() {
