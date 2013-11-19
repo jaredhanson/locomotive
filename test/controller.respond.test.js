@@ -22,11 +22,12 @@ describe('Controller#respond', function() {
       });
     }
     
-    var req, res;
+    var req, res, types;
     
     before(function(done) {
       req = new MockRequest();
-      req.accepts = function(keys) {
+      req.accepts = function(type) {
+        types = type;
         return 'application/json';
       }
       res = new MockResponse(done);
@@ -37,6 +38,13 @@ describe('Controller#respond', function() {
         return done(new Error('should not call next'));
       });
       controller._invoke('respondUsingFunctionKeyedByMimeType');
+    });
+    
+    it('should check for accepted content types', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
     });
     
     it('should set content-type header', function() {
@@ -70,11 +78,12 @@ describe('Controller#respond', function() {
       });
     }
     
-    var req, res;
+    var req, res, types;
     
     before(function(done) {
       req = new MockRequest();
-      req.accepts = function(keys) {
+      req.accepts = function(type) {
+        types = type;
         return 'application/xml';
       }
       res = new MockResponse(done);
@@ -85,6 +94,68 @@ describe('Controller#respond', function() {
         return done(new Error('should not call next'));
       });
       controller._invoke('respondUsingFunctionKeyedByMimeType');
+    });
+    
+    it('should check for accepted content types', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/xml');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/respond_using_function_keyed_by_mime_type.xml.xmlb');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  describe('to request that specifies XML extension based on MIME type using function', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondUsingFunctionKeyedByMimeType = function() {
+      var self = this;
+      this.respond({
+        'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+        'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+      });
+    }
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'application/json';
+      }
+      // format extension overrides accept header
+      req.params = { format: 'xml' };
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondUsingFunctionKeyedByMimeType');
+    });
+    
+    it('should not check for accepted content types', function() {
+      expect(types).to.be.undefined;
     });
     
     it('should set content-type header', function() {

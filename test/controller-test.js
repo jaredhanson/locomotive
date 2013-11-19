@@ -572,6 +572,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that wants XML by extension using function and mime types as keys': {
       topic: function(controller) {
         var self = this;
