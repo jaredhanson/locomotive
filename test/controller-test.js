@@ -1329,6 +1329,7 @@ vows.describe('Controller').addBatch({
     },
     */
     
+    // OK
     'invoking an action which encounters an error': {
       topic: function(controller) {
         var self = this;
@@ -1354,6 +1355,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which does not exist': {
       topic: function(controller) {
         var self = this;

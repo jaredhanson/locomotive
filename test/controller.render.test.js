@@ -160,6 +160,43 @@ describe('Controller#render', function() {
     });
   });
   
+  describe('with format and engine option', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.renderWithFormatAndEngine = function() {
+      this.render({ format: 'xml', engine: 'xmlb' });
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderWithFormatAndEngine');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/xml');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/render_with_format_and_engine.xml.xmlb');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
   describe('specific template', function() {
     var app = new MockApplication();
     var controller = new Controller();
