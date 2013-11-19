@@ -756,4 +756,64 @@ describe('Controller#respond', function() {
     });
   });
   
+  describe('to request that accepts an unsupported format based on MIME type using options', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondUsingOptionsKeyedByMimeType = function() {
+      var self = this;
+      this.respond({
+        'application/json': { engine: 'jsonb' },
+        'application/xml': { template: 'feed', engine: 'xmlb' },
+        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
+      });
+    }
+    
+    var req, res, error, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return undefined;
+      }
+      res = new MockResponse(function() {
+        return done(new Error('should not call res#end'));
+      });
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        error = err;
+        return done();
+      });
+      controller._invoke('respondUsingOptionsKeyedByMimeType');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(3);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
+      expect(types[2]).to.equal('application/vnd.acme.foo');
+    });
+    
+    it('should not set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.be.undefined;
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should next with error', function() {
+      expect(error).to.be.an.instanceOf(Error);
+      expect(error.message).to.be.equal('Not Acceptable');
+      expect(error.status).to.be.equal(406);
+      expect(error.types).to.be.an('array');
+      expect(error.types).to.have.lengthOf(3);
+      expect(error.types[0]).to.equal('application/json');
+      expect(error.types[1]).to.equal('application/xml');
+      expect(error.types[2]).to.equal('application/vnd.acme.foo');
+    });
+  });
+  
 });
