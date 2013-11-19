@@ -1039,6 +1039,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts JSON using object and extensions as keys': {
       topic: function(controller) {
         var self = this;
@@ -1066,6 +1067,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts XML using object and extensions as keys': {
       topic: function(controller) {
         var self = this;
@@ -1093,6 +1095,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts X-Foo using object and extensions as keys': {
       topic: function(controller) {
         var self = this;
@@ -1123,6 +1126,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request for unsupported type using object and extensions as keys': {
       topic: function(controller) {
         var self = this;
@@ -1159,6 +1163,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request for unsupported type using default object and extensions as keys': {
       topic: function(controller) {
         var self = this;
@@ -1189,6 +1194,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request for unsupported type using default true and extensions as keys': {
       topic: function(controller) {
         var self = this;
@@ -1219,6 +1225,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request for unsupported type using default object with YAML format and extensions as keys': {
       topic: function(controller) {
         var self = this;
