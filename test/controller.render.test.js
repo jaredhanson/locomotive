@@ -28,6 +28,11 @@ describe('Controller#render', function() {
       controller._invoke('renderWithoutArguments');
     });
     
+    // TODO: Figure out strategy for setting content-type, and apply it to all test cases
+    it.skip('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    });
+    
     it('should render view without options', function() {
       expect(res._view).to.equal('test/render_without_arguments.html.ejs');
       expect(res._options).to.be.an('object');
