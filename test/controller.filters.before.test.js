@@ -131,6 +131,7 @@ describe('Controller#before', function() {
     });
   });
   
+  
   describe('filters for multiple actions declared above action', function() {
     var app = new MockApplication();
     var proto = new Controller();
@@ -701,6 +702,61 @@ describe('Controller#before', function() {
         expect(res.locals.address).to.equal('Berkeley, CA');
         expect(res.locals.band).to.equal('The Doors');
       });
+    });
+  });
+  
+  
+  /* variations of callback function signature */
+  
+  describe('filters using middleware-style callback', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.order = [];
+    
+    controller.before('show', function(req, res, next) {
+      this.order.push(1);
+      this.reqMethod = req.method;
+      this.resStatus = res.statusCode;
+      next();
+    });
+    controller.show = function() {
+      this.order.push('a');
+      this.song = 'Mr. Jones';
+      this.render();
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('show');
+    });
+    
+    it('should apply filters in correct order', function() {
+      expect(controller.order).to.have.length(2);
+      expect(controller.order[0]).to.equal(1);
+      expect(controller.order[1]).to.equal('a');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/show.html.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(3);
+      expect(res.locals.reqMethod).to.equal('GET');
+      expect(res.locals.resStatus).to.equal(200);
+      expect(res.locals.song).to.equal('Mr. Jones');
     });
   });
   

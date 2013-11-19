@@ -1849,6 +1849,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // OK
   'controller instance with middleware as before filter': {
     topic: function() {
       var TestController = new Controller();
