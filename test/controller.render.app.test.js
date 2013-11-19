@@ -274,7 +274,7 @@ describe('Controller#render', function() {
       });
     });
     
-    describe('with extension overrride prefixed with dot', function() {
+    describe('with extension overrride prefixed by dot', function() {
       var controller = new Controller();
       controller.renderWithEngineOverride = function() {
         this.render('feed', { format: 'xml', extension: '.xbuilder' });
@@ -300,6 +300,49 @@ describe('Controller#render', function() {
     
       it('should render view without options', function() {
         expect(res._view).to.equal('test/feed.xbuilder');
+        expect(res._options).to.be.an('object');
+        expect(Object.keys(res._options)).to.have.length(0);
+      });
+    
+      it('should not assign locals', function() {
+        expect(res.locals).to.be.an('object');
+        expect(Object.keys(res.locals)).to.have.length(0);
+      });
+    });
+  });
+  
+  
+  describe('using application mapping of proprietary format to extension prefixed by dot', function() {
+    
+    var app = new MockApplication();
+    app.format('foo', { extension: '.bar' });
+    
+    describe('with defaults', function() {
+      var controller = new Controller();
+      controller.renderDefaults = function() {
+        this.render({ format: 'foo' });
+      }
+    
+      var req, res;
+    
+      before(function(done) {
+        req = new MockRequest();
+        res = new MockResponse(done);
+      
+        controller._init(app, 'test');
+        controller._prepare(req, res, function(err) {
+          if (err) { return done(err); }
+          return done(new Error('should not call next'));
+        });
+        controller._invoke('renderDefaults');
+      });
+    
+      it('should set content-type header', function() {
+        expect(res.getHeader('Content-Type')).to.equal('application/octet-stream');
+      });
+    
+      it('should render view without options', function() {
+        expect(res._view).to.equal('test/render_defaults.bar');
         expect(res._options).to.be.an('object');
         expect(Object.keys(res._options)).to.have.length(0);
       });
