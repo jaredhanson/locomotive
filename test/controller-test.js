@@ -1278,6 +1278,7 @@ vows.describe('Controller').addBatch({
     },
     
     // OK
+    /*
     'invoking an action which redirects with a status code': {
       topic: function(controller) {
         var self = this;
@@ -1300,8 +1301,10 @@ vows.describe('Controller').addBatch({
         assert.equal(url, '/home');
       },
     },
+    */
     
     // OK
+    /*
     'invoking an action which redirects with a status code as last argument': {
       topic: function(controller) {
         var self = this;
@@ -1324,6 +1327,7 @@ vows.describe('Controller').addBatch({
         assert.equal(url, '/home');
       },
     },
+    */
     
     'invoking an action which encounters an error': {
       topic: function(controller) {
