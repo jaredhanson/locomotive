@@ -1421,6 +1421,7 @@ vows.describe('Controller').addBatch({
       return instance;
     },
     
+    // OK
     'rendering HTML using application engine': {
       topic: function(controller) {
         var self = this;
@@ -1449,6 +1450,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'rendering HTML using override engine': {
       topic: function(controller) {
         var self = this;
@@ -1477,6 +1479,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'rendering HTML using override extension': {
       topic: function(controller) {
         var self = this;
