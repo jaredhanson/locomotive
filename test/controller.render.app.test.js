@@ -143,13 +143,163 @@ describe('Controller#render', function() {
         controller._invoke('renderUnconfiguredFormat');
       });
     
-      // TODO: Figure out strategy for setting content-type, and apply it to all test cases
-      it.skip('should set content-type header', function() {
-        expect(res.getHeader('Content-Type')).to.equal('text/html');
+      it('should set content-type header', function() {
+        expect(res.getHeader('Content-Type')).to.equal('application/xml');
       });
     
       it('should render view without options', function() {
         expect(res._view).to.equal('test/render_unconfigured_format.xml.ejs');
+        expect(res._options).to.be.an('object');
+        expect(Object.keys(res._options)).to.have.length(0);
+      });
+    
+      it('should not assign locals', function() {
+        expect(res.locals).to.be.an('object');
+        expect(Object.keys(res.locals)).to.have.length(0);
+      });
+    });
+  });
+  
+  
+  describe('using application mapping of XML format to engine', function() {
+    
+    var app = new MockApplication();
+    app.format('xml', { engine: 'xmlb' });
+  
+    describe('with defaults', function() {
+      var controller = new Controller();
+      controller.renderDefaults = function() {
+        this.render('feed', { format: 'xml' });
+      }
+    
+      var req, res;
+    
+      before(function(done) {
+        req = new MockRequest();
+        res = new MockResponse(done);
+      
+        controller._init(app, 'test');
+        controller._prepare(req, res, function(err) {
+          if (err) { return done(err); }
+          return done(new Error('should not call next'));
+        });
+        controller._invoke('renderDefaults');
+      });
+    
+      it('should set content-type header', function() {
+        expect(res.getHeader('Content-Type')).to.equal('application/xml');
+      });
+    
+      it('should render view without options', function() {
+        expect(res._view).to.equal('test/feed.xml.xmlb');
+        expect(res._options).to.be.an('object');
+        expect(Object.keys(res._options)).to.have.length(0);
+      });
+    
+      it('should not assign locals', function() {
+        expect(res.locals).to.be.an('object');
+        expect(Object.keys(res.locals)).to.have.length(0);
+      });
+    });
+    
+    describe('with engine overrride', function() {
+      var controller = new Controller();
+      controller.renderWithEngineOverride = function() {
+        this.render('feed', { format: 'xml', engine: 'ltxb' });
+      }
+    
+      var req, res;
+    
+      before(function(done) {
+        req = new MockRequest();
+        res = new MockResponse(done);
+      
+        controller._init(app, 'test');
+        controller._prepare(req, res, function(err) {
+          if (err) { return done(err); }
+          return done(new Error('should not call next'));
+        });
+        controller._invoke('renderWithEngineOverride');
+      });
+    
+      it('should set content-type header', function() {
+        expect(res.getHeader('Content-Type')).to.equal('application/xml');
+      });
+    
+      it('should render view without options', function() {
+        expect(res._view).to.equal('test/feed.xml.ltxb');
+        expect(res._options).to.be.an('object');
+        expect(Object.keys(res._options)).to.have.length(0);
+      });
+    
+      it('should not assign locals', function() {
+        expect(res.locals).to.be.an('object');
+        expect(Object.keys(res.locals)).to.have.length(0);
+      });
+    });
+    
+    describe('with extension overrride', function() {
+      var controller = new Controller();
+      controller.renderWithEngineOverride = function() {
+        this.render('feed', { format: 'xml', extension: 'builder' });
+      }
+    
+      var req, res;
+    
+      before(function(done) {
+        req = new MockRequest();
+        res = new MockResponse(done);
+      
+        controller._init(app, 'test');
+        controller._prepare(req, res, function(err) {
+          if (err) { return done(err); }
+          return done(new Error('should not call next'));
+        });
+        controller._invoke('renderWithEngineOverride');
+      });
+    
+      it('should set content-type header', function() {
+        expect(res.getHeader('Content-Type')).to.equal('application/xml');
+      });
+    
+      it('should render view without options', function() {
+        expect(res._view).to.equal('test/feed.builder');
+        expect(res._options).to.be.an('object');
+        expect(Object.keys(res._options)).to.have.length(0);
+      });
+    
+      it('should not assign locals', function() {
+        expect(res.locals).to.be.an('object');
+        expect(Object.keys(res.locals)).to.have.length(0);
+      });
+    });
+    
+    describe('with extension overrride prefixed with dot', function() {
+      var controller = new Controller();
+      controller.renderWithEngineOverride = function() {
+        this.render('feed', { format: 'xml', extension: '.xbuilder' });
+      }
+    
+      var req, res;
+    
+      before(function(done) {
+        req = new MockRequest();
+        res = new MockResponse(done);
+      
+        controller._init(app, 'test');
+        controller._prepare(req, res, function(err) {
+          if (err) { return done(err); }
+          return done(new Error('should not call next'));
+        });
+        controller._invoke('renderWithEngineOverride');
+      });
+    
+      it('should set content-type header', function() {
+        expect(res.getHeader('Content-Type')).to.equal('application/xml');
+      });
+    
+      it('should render view without options', function() {
+        expect(res._view).to.equal('test/feed.xbuilder');
         expect(res._options).to.be.an('object');
         expect(Object.keys(res._options)).to.have.length(0);
       });
