@@ -1253,6 +1253,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which redirects': {
       topic: function(controller) {
         var self = this;

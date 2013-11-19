@@ -21,6 +21,13 @@ MockResponse.prototype.render = function(view, options, fn) {
   this.end();
 }
 
+MockResponse.prototype.redirect = function(url, status) {
+  this.statusCode = status || 302;
+  this.setHeader('Location', url);
+  this.end();
+};
+
+
 MockResponse.prototype.end = function(data, encoding) {
   if (data) { this._data += data; }
   if (this._data.length) { this.body = this._data; }
