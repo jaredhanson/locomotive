@@ -235,7 +235,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts an unsupported format based on default format using function', function() {
+  describe('to request that accepts an unsupported format based on default MIME type using function', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingFunctionKeyedByMimeTypeWithDefault = function() {
@@ -457,6 +457,63 @@ describe('Controller#respond', function() {
     it('should not assign locals', function() {
       expect(res.locals).to.be.an('object');
       expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  describe('to request that accepts unsupported format based on extension using function', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondUsingFunctionKeyedByExtension = function() {
+      var self = this;
+      this.respond({
+        'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+        'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+      });
+    }
+    
+    var req, res, error, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return undefined;
+      }
+      res = new MockResponse(function() {
+        return done(new Error('should not call res#end'));
+      });
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        error = err;
+        return done();
+      });
+      controller._invoke('respondUsingFunctionKeyedByExtension');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('json');
+      expect(types[1]).to.equal('xml');
+    });
+    
+    it('should not set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.be.undefined;
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should next with error', function() {
+      expect(error).to.be.an.instanceOf(Error);
+      expect(error.message).to.be.equal('Not Acceptable');
+      expect(error.status).to.be.equal(406);
+      expect(error.types).to.be.an('array');
+      expect(error.types).to.have.lengthOf(2);
+      expect(error.types[0]).to.equal('application/json');
+      expect(error.types[1]).to.equal('application/xml');
     });
   });
   
