@@ -513,6 +513,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts JSON using function and mime types as keys': {
       topic: function(controller) {
         var self = this;
@@ -543,6 +544,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts XML using function and mime types as keys': {
       topic: function(controller) {
         var self = this;
