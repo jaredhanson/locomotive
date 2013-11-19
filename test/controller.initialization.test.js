@@ -1,9 +1,7 @@
-var Controller = require('../lib/locomotive/controller');
-
-
-function MockApplication() {
-  this._controllers = {};
-}
+var Controller = require('../lib/locomotive/controller')
+  , MockApplication = require('./mocks/application')
+  , MockRequest = require('./mocks/request')
+  , MockResponse = require('./mocks/response');
 
 
 
@@ -51,6 +49,69 @@ describe('Controller', function() {
       expect(controller.res).to.equal(res);
       expect(controller.response).to.equal(res);
     });
+  });
+  
+  describe('#_invoke', function() {
+    
+    describe('an action that exists', function() {
+      var app = new MockApplication();
+      var controller = new Controller();
+      controller.show = function() {
+        this.render();
+      };
+    
+      var req, res;
+    
+      before(function(done) {
+        req = new MockRequest();
+        res = new MockResponse(done);
+      
+        controller._init(app, 'test');
+        controller._prepare(req, res, function(err) {
+          if (err) { return done(err); }
+          return done(new Error('should not call next'));
+        });
+        controller._invoke('show');
+      });
+    
+      it('should assign _locomotive properties to req', function() {
+        expect(req._locomotive).to.be.an('object');
+        expect(req._locomotive.app).to.equal(app);
+        expect(req._locomotive.controller).to.equal('test');
+        expect(req._locomotive.action).to.equal('show');
+      });
+    });
+    
+    describe('an action that does not exist', function() {
+      var app = new MockApplication();
+      var controller = new Controller();
+      controller.show = function() {
+        this.render();
+      };
+    
+      var req, res, error;
+    
+      before(function(done) {
+        req = new MockRequest();
+        res = new MockResponse(function() {
+          return done(new Error('should not call res#end'));
+        });
+      
+        controller._init(app, 'test');
+        controller._prepare(req, res, function(err) {
+          error = err;
+          return done();
+        });
+        controller._invoke('destroy');
+      });
+    
+      it('should next with error', function() {
+        expect(error).to.be.an.instanceOf(Error);
+        expect(error.constructor.name).to.be.equal('ControllerError');
+        expect(error.message).to.be.equal('test#destroy is not a function');
+      });
+    });
+    
   });
   
 });
