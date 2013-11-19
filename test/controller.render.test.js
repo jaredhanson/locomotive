@@ -43,10 +43,6 @@ describe('Controller#render', function() {
       expect(res.locals).to.be.an('object');
       expect(Object.keys(res.locals)).to.have.length(0);
     });
-    
-    it('should not render with callback', function() {
-      expect(res._fn).to.be.undefined;
-    });
   });
   
   describe('without arguments after assigning locals', function() {
@@ -88,10 +84,6 @@ describe('Controller#render', function() {
       expect(res.locals.title).to.equal('On The Road');
       expect(res.locals.author).to.equal('Jack Kerouac');
     });
-    
-    it('should not render with callback', function() {
-      expect(res._fn).to.be.undefined;
-    });
   });
   
   describe('with format option', function() {
@@ -128,10 +120,6 @@ describe('Controller#render', function() {
     it('should not assign locals', function() {
       expect(res.locals).to.be.an('object');
       expect(Object.keys(res.locals)).to.have.length(0);
-    });
-    
-    it('should not render with callback', function() {
-      expect(res._fn).to.be.undefined;
     });
   });
   
@@ -170,10 +158,6 @@ describe('Controller#render', function() {
       expect(res.locals).to.be.an('object');
       expect(Object.keys(res.locals)).to.have.length(0);
     });
-    
-    it('should not render with callback', function() {
-      expect(res._fn).to.be.undefined;
-    });
   });
   
   describe('specific template', function() {
@@ -210,10 +194,6 @@ describe('Controller#render', function() {
     it('should not assign locals', function() {
       expect(res.locals).to.be.an('object');
       expect(Object.keys(res.locals)).to.have.length(0);
-    });
-    
-    it('should not render with callback', function() {
-      expect(res._fn).to.be.undefined;
     });
   });
   
@@ -252,10 +232,6 @@ describe('Controller#render', function() {
       expect(res.locals).to.be.an('object');
       expect(Object.keys(res.locals)).to.have.length(0);
     });
-    
-    it('should not render with callback', function() {
-      expect(res._fn).to.be.undefined;
-    });
   });
   
   describe('specific template path', function() {
@@ -293,9 +269,46 @@ describe('Controller#render', function() {
       expect(res.locals).to.be.an('object');
       expect(Object.keys(res.locals)).to.have.length(0);
     });
+  });
+  
+  describe('to callback', function() {
+    var app = new MockApplication();
+    var req, res;
     
-    it('should not render with callback', function() {
-      expect(res._fn).to.be.undefined;
+    before(function(done) {
+      var controller = new Controller();
+      controller.renderToCallback = function() {
+        this.render(function() {
+          return done();
+        });
+      }
+      
+      req = new MockRequest();
+      res = new MockResponse(function() {
+        return done(new Error('should not call res#end'));
+      });
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderToCallback');
+    });
+    
+    it('should not set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.be.undefined;
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/render_to_callback.html.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
     });
   });
   

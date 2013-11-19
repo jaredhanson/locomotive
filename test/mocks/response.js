@@ -17,7 +17,7 @@ MockResponse.prototype.setHeader = function(name, value) {
 MockResponse.prototype.render = function(view, options, fn) {
   this._view = view;
   this._options = options;
-  this._fn = fn;
+  if (fn) { return fn(); }
   this.end();
 }
 
