@@ -1654,6 +1654,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // OK
   'controller instance with before filters': {
     topic: function() {
       var TestController = new Controller();
@@ -1676,6 +1677,7 @@ vows.describe('Controller').addBatch({
       return instance;
     },
     
+    // OK
     'invoking an action with before filters': {
       topic: function(controller) {
         var self = this;
@@ -1701,6 +1703,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // OK
   'controller instance with before filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
@@ -1722,6 +1725,7 @@ vows.describe('Controller').addBatch({
       return TestController;
     },
     
+    // OK
     'invoking first action with before filter': {
       topic: function(TestController) {
         var controller = Object.create(TestController);
@@ -1746,6 +1750,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking second action with before filter': {
       topic: function(TestController) {
         var controller = Object.create(TestController);
