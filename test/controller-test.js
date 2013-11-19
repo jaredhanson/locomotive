@@ -757,6 +757,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts an unsupported format using function and extensions as keys': {
       topic: function(controller) {
         var self = this;
@@ -793,6 +794,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts an unsupported format using default function and extensions as keys': {
       topic: function(controller) {
         var self = this;
