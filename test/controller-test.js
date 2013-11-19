@@ -259,6 +259,7 @@ vows.describe('Controller').addBatch({
       return instance;
     },
     
+    // OK
     'invoking an action': {
       topic: function(controller) {
         var self = this;
@@ -288,6 +289,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which sets properties and renders': {
       topic: function(controller) {
         var self = this;
