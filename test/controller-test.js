@@ -601,6 +601,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts an unsupported format using function and mime types as keys': {
       topic: function(controller) {
         var self = this;
