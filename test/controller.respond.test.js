@@ -589,8 +589,8 @@ describe('Controller#respond', function() {
       var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
-        'application/xml': { template: 'otherxml', engine: 'xmlb' },
-        'application/x-foo': { format: 'foo', engine: 'foob' },
+        'application/xml': { template: 'feed', engine: 'xmlb' },
+        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
       });
     }
     
@@ -617,7 +617,7 @@ describe('Controller#respond', function() {
       expect(types).to.have.lengthOf(3);
       expect(types[0]).to.equal('application/json');
       expect(types[1]).to.equal('application/xml');
-      expect(types[2]).to.equal('application/x-foo');
+      expect(types[2]).to.equal('application/vnd.acme.foo');
     });
     
     it('should set content-type header', function() {
@@ -630,6 +630,122 @@ describe('Controller#respond', function() {
     
     it('should render view without options', function() {
       expect(res._view).to.equal('test/respond_using_options_keyed_by_mime_type.json.jsonb');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  describe('to request that accepts XML based on MIME type using options', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondUsingOptionsKeyedByMimeType = function() {
+      var self = this;
+      this.respond({
+        'application/json': { engine: 'jsonb' },
+        'application/xml': { template: 'feed', engine: 'xmlb' },
+        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
+      });
+    }
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'application/xml';
+      }
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondUsingOptionsKeyedByMimeType');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(3);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
+      expect(types[2]).to.equal('application/vnd.acme.foo');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/xml');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/feed.xml.xmlb');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  describe('to request that accepts proprietary format based on MIME type using options', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondUsingOptionsKeyedByMimeType = function() {
+      var self = this;
+      this.respond({
+        'application/json': { engine: 'jsonb' },
+        'application/xml': { template: 'feed', engine: 'xmlb' },
+        'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
+      });
+    }
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'application/vnd.acme.foo';
+      }
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondUsingOptionsKeyedByMimeType');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(3);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
+      expect(types[2]).to.equal('application/vnd.acme.foo');
+    });
+    
+    it.skip('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/x-foo');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/respond_using_options_keyed_by_mime_type.foo.foob');
       expect(res._options).to.be.an('object');
       expect(Object.keys(res._options)).to.have.length(0);
     });

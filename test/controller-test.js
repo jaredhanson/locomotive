@@ -856,6 +856,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts XML using object and mime types as keys': {
       topic: function(controller) {
         var self = this;
@@ -883,6 +884,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts X-Foo using object and mime types as keys': {
       topic: function(controller) {
         var self = this;
