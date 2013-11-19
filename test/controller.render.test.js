@@ -176,4 +176,127 @@ describe('Controller#render', function() {
     });
   });
   
+  describe('specific template', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.renderTemplate = function() {
+      this.render('show');
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderTemplate');
+    });
+    
+    it.skip('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/show.html.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+    
+    it('should not render with callback', function() {
+      expect(res._fn).to.be.undefined;
+    });
+  });
+  
+  describe('specific template with format option', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.renderTemplateWithFormat = function() {
+      this.render('show', { format: 'json' });
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderTemplateWithFormat');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/json');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/show.json.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+    
+    it('should not render with callback', function() {
+      expect(res._fn).to.be.undefined;
+    });
+  });
+  
+  describe('specific template path', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.renderTemplatePath = function() {
+      this.render('other/show');
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderTemplatePath');
+    });
+    
+    it.skip('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('other/show.html.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+    
+    it('should not render with callback', function() {
+      expect(res._fn).to.be.undefined;
+    });
+  });
+  
 });

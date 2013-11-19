@@ -384,6 +384,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which renders template': {
       topic: function(controller) {
         var self = this;
@@ -403,6 +404,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which renders template path': {
       topic: function(controller) {
         var self = this;
@@ -422,6 +424,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which renders template with format option': {
       topic: function(controller) {
         var self = this;
