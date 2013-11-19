@@ -828,6 +828,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking an action which responds to request that accepts JSON using object and mime types as keys': {
       topic: function(controller) {
         var self = this;
