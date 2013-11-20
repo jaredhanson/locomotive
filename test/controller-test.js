@@ -2000,6 +2000,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // TODO: Port this test
   'controller instance with after filters triggered by calling done': {
     topic: function() {
       var TestController = new Controller();
@@ -2051,6 +2052,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // OK
   'controller instance with after filter on multiple actions': {
     topic: function() {
       var TestController = new Controller();
@@ -2073,6 +2075,7 @@ vows.describe('Controller').addBatch({
       return TestController;
     },
     
+    // OK
     'invoking first action with after filter': {
       topic: function(TestController) {
         var controller = Object.create(TestController);
@@ -2101,6 +2104,7 @@ vows.describe('Controller').addBatch({
       },
     },
     
+    // OK
     'invoking second action with after filter': {
       topic: function(TestController) {
         var controller = Object.create(TestController);
