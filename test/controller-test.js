@@ -1946,6 +1946,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // OK
   'controller instance with after filters': {
     topic: function() {
       var TestController = new Controller();
@@ -1969,6 +1970,7 @@ vows.describe('Controller').addBatch({
       return instance;
     },
     
+    // OK
     'invoking an action with after filters': {
       topic: function(controller) {
         var self = this;
