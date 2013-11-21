@@ -245,6 +245,46 @@ describe('Controller#after', function() {
         expect(res.locals.song).to.equal('Love Me Two Times');
       });
     });
+    
+    describe('invoking unrelated action', function() {
+      var controller = Object.create(proto);
+      controller.order = [];
+      var req, res;
+    
+      before(function(done) {
+        req = new MockRequest();
+        res = new MockResponse();
+      
+        controller.after('index', function(next) {
+          return done();
+        });
+      
+        controller._init(app, 'test');
+        controller._prepare(req, res, function(err) {
+          if (err) { return done(err); }
+          return done(new Error('should not call next'));
+        });
+        controller._invoke('index');
+      });
+    
+      it('should apply filters in correct order', function() {
+        expect(controller.order).to.have.length(2);
+        expect(controller.order[0]).to.equal('a');
+        expect(controller.order[1]).to.equal('x');
+      });
+    
+      it('should render view without options', function() {
+        expect(res._view).to.equal('test/index.html.ejs');
+        expect(res._options).to.be.an('object');
+        expect(Object.keys(res._options)).to.have.length(0);
+      });
+    
+      it('should assign locals', function() {
+        expect(res.locals).to.be.an('object');
+        expect(Object.keys(res.locals)).to.have.length(1);
+        expect(res.locals.address).to.equal('Berkeley, CA');
+      });
+    });
   });
   
 });
