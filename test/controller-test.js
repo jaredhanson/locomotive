@@ -2319,6 +2319,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // OK
   'controller instance with after error filters': {
     topic: function() {
       var TestController = new Controller();
@@ -2344,6 +2345,7 @@ vows.describe('Controller').addBatch({
       return instance;
     },
     
+    // OK
     'invoking an action with after filters': {
       topic: function(controller) {
         var self = this;
@@ -2369,6 +2371,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // OK
   'controller instance with after error filters that are not triggered': {
     topic: function() {
       var TestController = new Controller();
@@ -2396,6 +2399,7 @@ vows.describe('Controller').addBatch({
       return instance;
     },
     
+    // OK
     'invoking an action with after filters': {
       topic: function(controller) {
         var self = this;
