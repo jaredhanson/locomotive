@@ -743,4 +743,68 @@ describe('Controller#after', function() {
     });
   });
   
+  
+  // TODO: filter chain that halts due to error
+  // TODO: filter chain that halts due to exception
+  
+  
+  describe('filters using middleware-style callback', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.order = [];
+    
+    controller.show = function() {
+      this.order.push('a');
+      this.song = 'Mr. Jones';
+      this.render();
+    }
+    controller.after('show', function(req, res, next) {
+      this.order.push(1);
+      this.reqMethod = req.method;
+      this.resStatus = res.statusCode;
+      next();
+    });
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse();
+      
+      controller.after('show', function(next) {
+        return done();
+      });
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('show');
+    });
+    
+    it('should apply filters in correct order', function() {
+      expect(controller.order).to.have.length(2);
+      expect(controller.order[0]).to.equal('a');
+      expect(controller.order[1]).to.equal(1);
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/show.html.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(1);
+      expect(res.locals.song).to.equal('Mr. Jones');
+    });
+    
+    it('should assign properties to controller', function() {
+      expect(controller.reqMethod).to.equal('GET');
+      expect(controller.resStatus).to.equal(200);
+    });
+  });
+  
 });
