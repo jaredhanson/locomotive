@@ -2264,6 +2264,7 @@ vows.describe('Controller').addBatch({
     },
   },
   
+  // OK
   'controller instance with after filters that error': {
     topic: function() {
       var TestController = new Controller();
