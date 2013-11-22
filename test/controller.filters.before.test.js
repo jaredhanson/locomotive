@@ -30,6 +30,7 @@ describe('Controller#before', function() {
     controller.show = function() {
       this.order.push('a');
       this.song = 'Mr. Jones';
+      this._private = 'Untitled';
       this.render();
     }
     
