@@ -2432,6 +2432,8 @@ vows.describe('Controller').addBatch({
     },
   },
     
+  // NO LONGER RELEVANT
+  /*
   'controller instance with "private" functions': {
     topic: function() {
       var TestController = new Controller();
@@ -2456,5 +2458,6 @@ vows.describe('Controller').addBatch({
       assert.equal(TestController._actions()[1], 'bar');
     },
   },
+  */
   
 }).export(module);
