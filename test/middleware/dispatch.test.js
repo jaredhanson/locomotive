@@ -134,7 +134,7 @@ describe('middleware/dispatch', function() {
     
     it('should error', function() {
       expect(error).to.be.an.instanceOf(Error);
-      expect(error.constructor.name).to.equal('DispatchError');
+      expect(error.constructor.name).to.equal('Error');
       expect(error.message).to.equal("Unable to create controller 'invalid'");
     });
   });
