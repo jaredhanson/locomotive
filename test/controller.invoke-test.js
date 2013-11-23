@@ -22,6 +22,8 @@ function MockResponse() {
 
 vows.describe('Controller.invoke').addBatch({
 
+  // TODO: Port these tests to Mocha, and refactored code base
+  /*
   'controller instance': {
     topic: function() {
       var TestController = new Controller();
@@ -123,5 +125,6 @@ vows.describe('Controller.invoke').addBatch({
       },
     },
   },
+  */
 
 }).export(module);
