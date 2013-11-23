@@ -45,6 +45,7 @@ vows.describe('Controller.invoke').addBatch({
       return instance;
     },
     
+    // OK
     'invoking an action that invokes with shorthand': {
       topic: function(controller) {
         var self = this;
@@ -86,6 +87,7 @@ vows.describe('Controller.invoke').addBatch({
       },
     },
     
+    // OK
     'invoking an action that invokes with slash namespaced controller and action arguments': {
       topic: function(controller) {
         var self = this;
@@ -106,6 +108,7 @@ vows.describe('Controller.invoke').addBatch({
       },
     },
     
+    // OK
     'invoking an action that invokes with action argument': {
       topic: function(controller) {
         var self = this;
