@@ -65,4 +65,36 @@ describe('Controller#error', function() {
     });
   });
   
+  describe('implicitly due to exception with non-matching after filter', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.causeTypeError = function() {
+      this.lol.wat;
+    }
+    controller.after('index', function(next) {
+      return next();
+    });
+    
+    var req, res, error;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(function() {
+        return done(new Error('should not call res#end'));
+      });
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        error = err;
+        return done();
+      });
+      controller._invoke('causeTypeError');
+    });
+    
+    it('should next with error', function() {
+      expect(error).to.be.an.instanceOf(TypeError);
+      expect(error.message).to.match(/wat/);
+    });
+  });
+  
 });
