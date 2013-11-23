@@ -24,6 +24,7 @@
     "methods": "0.0.1",
     "lingo": "0.0.x",
     "debug": "0.7.x",
+    "syntax-error": "0.0.1",
     "actionrouter": "git://github.com/jaredhanson/node-actionrouter.git"
   },
   "devDependencies": {
