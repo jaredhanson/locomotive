@@ -65,6 +65,7 @@ vows.describe('Controller.invoke').addBatch({
       },
     },
     
+    // OK
     'invoking an action that invokes with controller and action arguments': {
       topic: function(controller) {
         var self = this;
