@@ -288,4 +288,49 @@ describe('Controller#invoke', function() {
     });
   });
   
+  describe('with controller and action from controller that has after filter', function() {
+    var app = new MockApplication();
+    var otherController = new MockController();
+    app._controllers['other'] = otherController;
+    
+    var controller = new Controller();
+    controller.order = [];
+    
+    controller.withControllerAndAction = function() {
+      this.invoke('other', 'show');
+    }
+    controller.after('withControllerAndAction', function(next) {
+      this.order.push(1);
+      next();
+    });
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('withControllerAndAction');
+    });
+    
+    it('should not apply after filters', function() {
+      expect(controller.order).to.have.length(0);
+    });
+    
+    it('should initialize other controller', function() {
+      expect(otherController.__app).to.equal(app);
+      expect(otherController.__id).to.equal('other');
+    });
+    
+    it('should respond', function() {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal('/ -> other#show');
+    });
+  });
+  
 });
