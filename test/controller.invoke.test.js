@@ -148,4 +148,144 @@ describe('Controller#invoke', function() {
     });
   });
   
+  describe('with namespaced controller and action using snake case style', function() {
+    var app = new MockApplication();
+    var otherController = new MockController();
+    app._controllers['fulanoSutano/fooBar'] = otherController;
+    
+    var controller = new Controller();
+    controller.withNamespacedControllerAndActionUsingSnakeCaseStyle = function() {
+      this.invoke('fulano_sutano/foo_bar', 'show');
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('withNamespacedControllerAndActionUsingSnakeCaseStyle');
+    });
+    
+    it('should initialize other controller', function() {
+      expect(otherController.__app).to.equal(app);
+      expect(otherController.__id).to.equal('fulanoSutano/fooBar');
+    });
+    
+    it('should respond', function() {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal('/ -> fulanoSutano/fooBar#show');
+    });
+  });
+  
+  describe('with namespaced controller and action using snake case style ending with controller', function() {
+    var app = new MockApplication();
+    var otherController = new MockController();
+    app._controllers['fulanoSutano/fooBar'] = otherController;
+    
+    var controller = new Controller();
+    controller.withNamespacedControllerAndActionUsingSnakeCaseControllerStyle = function() {
+      this.invoke('fulano_sutano/foo_bar_controller', 'show');
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('withNamespacedControllerAndActionUsingSnakeCaseControllerStyle');
+    });
+    
+    it('should initialize other controller', function() {
+      expect(otherController.__app).to.equal(app);
+      expect(otherController.__id).to.equal('fulanoSutano/fooBar');
+    });
+    
+    it('should respond', function() {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal('/ -> fulanoSutano/fooBar#show');
+    });
+  });
+  
+  describe('with namespaced controller and action using Ruby style', function() {
+    var app = new MockApplication();
+    var otherController = new MockController();
+    app._controllers['fulanoSutano/fooBar'] = otherController;
+    
+    var controller = new Controller();
+    controller.withNamespacedControllerAndActionUsingRubyStyle = function() {
+      this.invoke('FulanoSutano::FooBar', 'show');
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('withNamespacedControllerAndActionUsingRubyStyle');
+    });
+    
+    it('should initialize other controller', function() {
+      expect(otherController.__app).to.equal(app);
+      expect(otherController.__id).to.equal('fulanoSutano/fooBar');
+    });
+    
+    it('should respond', function() {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal('/ -> fulanoSutano/fooBar#show');
+    });
+  });
+  
+  describe('with namespaced controller and action using Ruby style ending with controller', function() {
+    var app = new MockApplication();
+    var otherController = new MockController();
+    app._controllers['fulanoSutano/fooBar'] = otherController;
+    
+    var controller = new Controller();
+    controller.withNamespacedControllerAndActionUsingRubyControllerStyle = function() {
+      this.invoke('FulanoSutano::FooBarController', 'show');
+    }
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('withNamespacedControllerAndActionUsingRubyControllerStyle');
+    });
+    
+    it('should initialize other controller', function() {
+      expect(otherController.__app).to.equal(app);
+      expect(otherController.__id).to.equal('fulanoSutano/fooBar');
+    });
+    
+    it('should respond', function() {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal('/ -> fulanoSutano/fooBar#show');
+    });
+  });
+  
 });
