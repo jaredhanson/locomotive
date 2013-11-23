@@ -1,7 +1,7 @@
 var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
-var Router = require('locomotive/router');
+//var Router = require('locomotive/router');
 var Route = require('locomotive/route');
 var dynamicHelpers = require('locomotive/helpers/dynamic');
 
