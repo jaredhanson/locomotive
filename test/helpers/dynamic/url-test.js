@@ -87,18 +87,22 @@ vows.describe('URLDynamicHelpers').addBatch({
         return view;
       },
       
+      // OK
       'should build correct url for request controller': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ action: 'index' }), 'http://www.example.com/test');
       },
+      // OK
       'should build correct path-only url for request controller': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ action: 'index', onlyPath: true }), '/test');
       },
+      // OK
       'should build correct url for request controller using protocol and host options': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ action: 'index', protocol: 'https', host: 'www.example.net' }), 'https://www.example.net/test');
       },
+      // OK
       'should build correct url to protocol, host, and pathname': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ protocol: 'https', host: 'www.example.net', pathname: 'welcome' }), 'https://www.example.net/welcome');
