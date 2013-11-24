@@ -225,7 +225,7 @@ describe('Controller#invoke', function() {
     
     var controller = new Controller();
     controller.withNamespacedControllerAndActionUsingRubyStyle = function() {
-      this.invoke('FulanoSutano::FooBar', 'show');
+      this.invoke('FulanoSutano::FooBar', 'show_something');
     }
     
     var req, res;
@@ -249,7 +249,7 @@ describe('Controller#invoke', function() {
     
     it('should respond', function() {
       expect(res.statusCode).to.equal(200);
-      expect(res.body).to.equal('/ -> fulanoSutano/fooBar#show');
+      expect(res.body).to.equal('/ -> fulanoSutano/fooBar#showSomething');
     });
   });
   
@@ -260,7 +260,7 @@ describe('Controller#invoke', function() {
     
     var controller = new Controller();
     controller.withNamespacedControllerAndActionUsingRubyControllerStyle = function() {
-      this.invoke('FulanoSutano::FooBarController', 'show');
+      this.invoke('FulanoSutano::FooBarController', 'show_something');
     }
     
     var req, res;
@@ -284,7 +284,7 @@ describe('Controller#invoke', function() {
     
     it('should respond', function() {
       expect(res.statusCode).to.equal(200);
-      expect(res.body).to.equal('/ -> fulanoSutano/fooBar#show');
+      expect(res.body).to.equal('/ -> fulanoSutano/fooBar#showSomething');
     });
   });
   

@@ -52,6 +52,7 @@ vows.describe('invoke').addBatch({
         assert.isFunction(req.invoke);
       },
       
+      // OK
       'when invoking a controller and action': {
         topic: function(req, res) {
           var self = this;
