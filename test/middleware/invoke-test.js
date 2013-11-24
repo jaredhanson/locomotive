@@ -70,6 +70,7 @@ vows.describe('invoke').addBatch({
         },
       },
       
+      // OK
       'when invoking a namespaced controller and action': {
         topic: function(req, res) {
           var self = this;
@@ -87,6 +88,7 @@ vows.describe('invoke').addBatch({
         },
       },
       
+      // OK
       'when invoking a controller and action using shorthand': {
         topic: function(req, res) {
           var self = this;

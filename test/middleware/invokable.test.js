@@ -132,5 +132,77 @@ describe('middleware/invokable', function() {
       });
     });
   });
+  
+  describe('invoking with shorthand notation', function() {
+    var test, request, response;
+    
+    var app = new MockApplication()
+    app._controllers['lorem'] = ReqResController;
+
+    before(function(done) {
+      test = chai.connect(invokable(app));
+      test
+        .req(function(req) {
+          request = req;
+        })
+        .res(function(res) {
+          response = res;
+        })
+        .next(function(err) {
+          if (err) { return done(err); }
+          done();
+        })
+        .dispatch();
+    });
+    
+    it('should expose invoke on request', function() {
+      expect(request.invoke).to.be.a('function');
+    });
+    
+    describe('calling invoke', function() {
+      before(function(done) {
+        test.end(function() {
+          done();
+        });
+        
+        request.invoke('lorem#ipsum', function(err) {
+          if (err) { return done(err); }
+          return done(new Error('should not call next'))
+        });
+      });
+      
+      it('should respond', function() {
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.equal('/ -> lorem#ipsum');
+      });
+    });
+  });
+  
+  
+  describe('with name option', function() {
+    var test, request, response;
+    
+    var app = new MockApplication()
+
+    before(function(done) {
+      test = chai.connect(invokable(app, { name: 'invokeit' }));
+      test
+        .req(function(req) {
+          request = req;
+        })
+        .res(function(res) {
+          response = res;
+        })
+        .next(function(err) {
+          if (err) { return done(err); }
+          done();
+        })
+        .dispatch();
+    });
+    
+    it('should expose invoke on request', function() {
+      expect(request.invokeit).to.be.a('function');
+    });
+  });
 
 });
