@@ -4,7 +4,6 @@ var helpers = require('../../lib/locomotive/helpers/tag');
 describe('helpers/tag', function() {
   
   describe('tag', function() {
-    
     it('should build correct tag', function() {
       expect(helpers.tag('br')).to.equal('<br>');
     });
@@ -34,7 +33,23 @@ describe('helpers/tag', function() {
     it('should build correct tag with multiple nested tag calls', function() {
       expect(helpers.tag('ul', function() { return helpers.tag('li', function() { return 'item' }) })).to.equal('<ul><li>item</li></ul>');
     });
-    
-  })
+  });
+  
+  
+  describe('openTag', function() {
+    it('should build correct tag', function() {
+      expect(helpers.openTag('br')).to.equal('<br>');
+    });
+    it('should build correct tag with options', function() {
+      expect(helpers.openTag('img', { src: '/image.png', width: 100, height: 60 })).to.equal('<img src="/image.png" width="100" height="60">');
+    });
+  });
+  
+  
+  describe('closeTag', function() {
+    it('should build correct tag', function() {
+      expect(helpers.closeTag('p')).to.equal('</p>');
+    });
+  });
   
 });
