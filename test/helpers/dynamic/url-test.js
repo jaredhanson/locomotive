@@ -107,30 +107,36 @@ vows.describe('URLDynamicHelpers').addBatch({
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ protocol: 'https', host: 'www.example.net', pathname: 'welcome' }), 'https://www.example.net/welcome');
       },
+      // OK
       'should build correct url to controller action and id': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ controller: 'animals', action: 'show', id: '1234' }), 'http://www.example.com/animals/1234');
       },
+      // OK
       'should throw error with unknown controller and action': function (view) {
         assert.throws(function() { view.urlFor({ controller: 'unknown', action: 'unknown' }) });
       },
+      // OK
       'should invoke routing helper methods when given an object argument': function (view) {
         function Animal() {};
         var animal = new Animal();
         animal.id = '123';
         assert.equal(view.urlFor(animal), 'http://www.example.com/animals/123');
       },
+      // OK
       'should invoke routing helper methods when given an object argument and onlyPath option': function (view) {
         function Animal() {};
         var animal = new Animal();
         animal.id = '123';
         assert.equal(view.urlFor(animal, { onlyPath: true }), '/animals/123');
       },
+      // OK
       'should throw error when unable to find routing helper for object': function (view) {
         function Dog() {};
         var dog = new Dog();
         assert.throws(function() { view.urlFor(dog) });
       },
+      // OK
       'should throw error when unable to determine record of object': function (view) {
         assert.throws(function() { view.urlFor('invalid-record') });
       },

@@ -13,6 +13,13 @@ describe('helpers/dynamic/url', function() {
         .app(function(app) {
           app.route('/test', 'test', 'index');
           app.route('/animals/:id', 'animals', 'show');
+          
+          app.helper('animalURL', function(obj) {
+            return this.urlFor({ controller: 'animals', action: 'show', id: obj.id });
+          });
+          app.helper('animalPath', function(obj) {
+            return this.urlFor({ controller: 'animals', action: 'show', id: obj.id, onlyPath: true });
+          });
         })
         .req(function(req) {
           req.headers.host = 'www.example.com';
@@ -40,6 +47,40 @@ describe('helpers/dynamic/url', function() {
     
     it('should build correct URL for controller action with id', function() {
       expect(urlFor({ controller: 'animals', action: 'show', id: '1234' })).to.equal('http://www.example.com/animals/1234');
+    });
+    
+    it('should invoke routing helper to build URL when given an object', function() {
+      function Animal() {};
+      var animal = new Animal();
+      animal.id = '123';
+      
+      expect(urlFor(animal)).to.equal('http://www.example.com/animals/123');
+    });
+    it('should invoke routing helper to build path when given an object', function() {
+      function Animal() {};
+      var animal = new Animal();
+      animal.id = '123';
+      
+      expect(urlFor(animal, { onlyPath: true })).to.equal('/animals/123');
+    });
+    
+    it('should throw if unknown controller action specified', function() {
+      expect(function() {
+        urlFor({ controller: 'unknown', action: 'unknown' })
+      }).to.throw("No route to 'unknown#unknown'");
+    });
+    it('should throw if unknown routing helper for object', function() {
+      expect(function() {
+        function Dog() {};
+        var dog = new Dog();
+        
+        urlFor(dog);
+      }).to.throw("No routing helper named 'dogURL'");
+    });
+    it('should throw if unable to determine type of record', function() {
+      expect(function() {
+        urlFor('unknown-record');
+      }).to.throw("Unable to determine record type of 'String'");
     });
   });
   
