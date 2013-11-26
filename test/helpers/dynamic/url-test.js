@@ -178,6 +178,7 @@ vows.describe('URLDynamicHelpers').addBatch({
     },
   },
   
+  // OK
   'request handling with https protocol': {
     topic: function() {
       var app = new MockLocomotive();
