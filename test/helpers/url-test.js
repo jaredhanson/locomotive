@@ -80,7 +80,7 @@ vows.describe('URLHelpers').addBatch({
       },
     },
     
-    // TODO: port these tests
+    // OK
     'route awareness': {
       topic: function() {
         var app = new MockLocomotive();
