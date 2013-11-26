@@ -14,6 +14,7 @@ describe('helpers/dynamic/url', function() {
           .app(function(app) {
             app.route('/test', 'test', 'index');
             app.route('/animals/:id', 'animals', 'show');
+            app.route('/ns/fulano-sutano/show', 'fulanoSutano/fooBar', 'showSomething');
           
             app.helper('animalURL', function(obj) {
               return this.urlFor({ controller: 'animals', action: 'show', id: obj.id });
@@ -48,6 +49,10 @@ describe('helpers/dynamic/url', function() {
     
       it('should build correct URL for controller action with resource ID', function() {
         expect(urlFor({ controller: 'animals', action: 'show', id: '1234' })).to.equal('http://www.example.com/animals/1234');
+      });
+      
+      it('should build correct URL for namespaced controller action using Ruby style', function() {
+        expect(urlFor({ controller: 'FulanoSutano::FooBar', action: 'show_something' })).to.equal('http://www.example.com/ns/fulano-sutano/show');
       });
     
       it('should invoke routing helper to build URL when given an object', function() {
