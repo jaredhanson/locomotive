@@ -143,6 +143,7 @@ vows.describe('URLDynamicHelpers').addBatch({
     },
   },
   
+  // OK
   'request handling without Host header': {
     topic: function() {
       var app = new MockLocomotive();
@@ -163,11 +164,13 @@ vows.describe('URLDynamicHelpers').addBatch({
       return view;
     },
     
+    // OK
     'urlFor': {
       topic: function(view) {
         return view;
       },
     
+      // OK
       'should build correct path-only url for request controller': function (view) {
         assert.isFunction(view.urlFor);
         assert.equal(view.urlFor({ action: 'index' }), '/test');
