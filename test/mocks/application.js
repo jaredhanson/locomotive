@@ -1,6 +1,11 @@
+var snakeCase = snakeCase = require('../../lib/locomotive/resolvers/any/snakeCase')();
+
+
 function MockApplication() {
   this._controllers = {};
   this._formats = {};
+  
+  this.views = { resolve: snakeCase };
 }
 
 MockApplication.prototype.format = function(fmt, options) {
