@@ -22,7 +22,6 @@
     "scripts": "0.1.x",
     "express": "3.x.x",
     "methods": "0.0.1",
-    "lingo": "0.0.x",
     "debug": "0.7.x",
     "syntax-error": "0.0.1",
     "actionrouter": "git://github.com/jaredhanson/node-actionrouter.git"
