@@ -35,7 +35,7 @@
     "chai-locomotive-helpers": "git://github.com/jaredhanson/chai-locomotive-helpers.git"
   },
   "scripts": {
-    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js test/**/*-test.js"
+    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
   },
   "engines": { "node": ">= 0.6.0" },
   "licenses": [ {
