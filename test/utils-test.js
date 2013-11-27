@@ -15,20 +15,6 @@ vows.describe('util').addBatch({
     'should underscore dasherized words': function () {
       assert.equal(utils.underscore('foo-bar'), 'foo_bar');
     },
-  },
-  
-  'pathize': {
-    'should denormalize to underscore notation': function () {
-      assert.equal(utils.pathize('FooController'), 'foo');
-      assert.equal(utils.pathize('FooBarBazController'), 'foo_bar_baz');
-      assert.equal(utils.pathize('Fulano::FooController'), 'fulano/foo');
-      assert.equal(utils.pathize('FulanoSutano::FooBarController'), 'fulano_sutano/foo_bar');
-      assert.equal(utils.pathize('Hoge::Fulano::FooController'), 'hoge/fulano/foo');
-      assert.equal(utils.pathize('HogePage::FulanoSutano::FooBarController'), 'hoge_page/fulano_sutano/foo_bar');
-    },
-    'should return null if argument is undefined': function () {
-      assert.isNull(utils.pathize());
-    },
-  },
+  }
   
 }).export(module);
