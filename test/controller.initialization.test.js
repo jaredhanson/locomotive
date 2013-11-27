@@ -20,10 +20,6 @@ describe('Controller', function() {
     it('should assign __id', function() {
       expect(controller.__id).to.equal('fooBar');
     });
-    
-    it('should assign __viewDir', function() {
-      expect(controller.__viewDir).to.equal('foo_bar');
-    });
   });
   
   describe('#_prepare', function() {
