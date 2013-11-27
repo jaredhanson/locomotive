@@ -69,7 +69,7 @@ describe('middleware/dispatch', function() {
     app._controllers['robots'] = controller;
 
     before(function(done) {
-      chai.connect(dispatch(app, 'robots', 'beepBoop'))
+      chai.connect.use(dispatch(app, 'robots', 'beepBoop'))
         .req(function(req) {
           request = req;
           req.url = '/robots/noise';
@@ -100,7 +100,7 @@ describe('middleware/dispatch', function() {
     app._controllers['robots'] = controller;
 
     before(function(done) {
-      chai.connect(dispatch(app, 'robots', 'beepBoop'))
+      chai.connect.use(dispatch(app, 'robots', 'beepBoop'))
         .next(function(err) {
           error = err;
           done();
@@ -124,7 +124,7 @@ describe('middleware/dispatch', function() {
     var app = new MockApplication();
 
     before(function(done) {
-      chai.connect(dispatch(app, 'invalid', 'index'))
+      chai.connect.use(dispatch(app, 'invalid', 'index'))
         .next(function(err) {
           error = err;
           done();

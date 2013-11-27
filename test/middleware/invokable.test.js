@@ -84,7 +84,7 @@ describe('middleware/invokable', function() {
     app._controllers['robots'] = ReqResController;
 
     before(function(done) {
-      test = chai.connect(invokable(app));
+      test = chai.connect.use(invokable(app));
       test
         .req(function(req) {
           request = req;
@@ -130,7 +130,7 @@ describe('middleware/invokable', function() {
     app._controllers['admin/foo'] = ReqResController;
 
     before(function(done) {
-      test = chai.connect(invokable(app));
+      test = chai.connect.use(invokable(app));
       test
         .req(function(req) {
           request = req;
@@ -176,7 +176,7 @@ describe('middleware/invokable', function() {
     app._controllers['lorem'] = ReqResController;
 
     before(function(done) {
-      test = chai.connect(invokable(app));
+      test = chai.connect.use(invokable(app));
       test
         .req(function(req) {
           request = req;
@@ -222,7 +222,7 @@ describe('middleware/invokable', function() {
     app._controllers['lorem'] = NextController;
 
     before(function(done) {
-      test = chai.connect(invokable(app));
+      test = chai.connect.use(invokable(app));
       test
         .req(function(req) {
           request = req;
@@ -263,7 +263,7 @@ describe('middleware/invokable', function() {
     app._controllers['lorem'] = ErrorController;
 
     before(function(done) {
-      test = chai.connect(invokable(app));
+      test = chai.connect.use(invokable(app));
       test
         .req(function(req) {
           request = req;
@@ -306,7 +306,7 @@ describe('middleware/invokable', function() {
     app._controllers['lorem'] = ErrorController;
 
     before(function(done) {
-      test = chai.connect(invokable(app));
+      test = chai.connect.use(invokable(app));
       test
         .req(function(req) {
           request = req;
@@ -343,7 +343,7 @@ describe('middleware/invokable', function() {
     var app = new MockApplication()
 
     before(function(done) {
-      test = chai.connect(invokable(app, { name: 'invokeit' }));
+      test = chai.connect.use(invokable(app, { name: 'invokeit' }));
       test
         .req(function(req) {
           request = req;

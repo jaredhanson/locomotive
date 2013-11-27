@@ -31,7 +31,7 @@
     "vows": "0.6.x",
     "mocha": "1.x.x",
     "chai": "1.x.x",
-    "chai-connect-middleware": "0.2.x",
+    "chai-connect-middleware": "0.3.x",
     "chai-locomotive-helpers": "git://github.com/jaredhanson/chai-locomotive-helpers.git"
   },
   "scripts": {
