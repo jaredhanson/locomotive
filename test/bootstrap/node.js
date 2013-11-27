@@ -1,8 +1,6 @@
-var chai = require('chai')
-  , connect = require('chai-connect-middleware')
-  , helpers = require('chai-locomotive-helpers');
+var chai = require('chai');
 
-chai.use(connect);
-chai.use(helpers);
+chai.use(require('chai-connect-middleware'));
+chai.use(require('chai-locomotive-helpers'));
 
 global.expect = chai.expect;
