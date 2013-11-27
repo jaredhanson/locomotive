@@ -44,37 +44,6 @@ vows.describe('util').addBatch({
     },
   },
   
-  'controllerize': {
-    'should normalize underscore notation': function () {
-      assert.equal(utils.controllerize('foo_bar_baz'), 'FooBarBazController');
-      assert.equal(utils.controllerize('foo_bar_baz_controller'), 'FooBarBazController');
-      assert.equal(utils.controllerize('fulano/foo'), 'Fulano::FooController');
-      assert.equal(utils.controllerize('fulano_sutano/foo_bar'), 'FulanoSutano::FooBarController');
-      assert.equal(utils.controllerize('hoge/fulano/foo'), 'Hoge::Fulano::FooController');
-      assert.equal(utils.controllerize('hoge_page/fulano_sutano/foo_bar'), 'HogePage::FulanoSutano::FooBarController');
-    },
-    'should normalize lower camelcase notation': function () {
-      assert.equal(utils.controllerize('fooBarBaz'), 'FooBarBazController');
-      assert.equal(utils.controllerize('fooBarBazController'), 'FooBarBazController');
-      assert.equal(utils.controllerize('fulanoSutano/fooBar'), 'FulanoSutano::FooBarController');
-      assert.equal(utils.controllerize('hogePage/fulanoSutano/fooBar'), 'HogePage::FulanoSutano::FooBarController');
-    },
-    'should normalize upper camelcase notation': function () {
-      assert.equal(utils.controllerize('FooBarBaz'), 'FooBarBazController');
-      assert.equal(utils.controllerize('FooBarBazController'), 'FooBarBazController');
-      assert.equal(utils.controllerize('FulanoSutano/FooBar'), 'FulanoSutano::FooBarController');
-      assert.equal(utils.controllerize('HogePage/FulanoSutano/FooBar'), 'HogePage::FulanoSutano::FooBarController');
-    },
-    'should preserve normalized forms': function () {
-      assert.equal(utils.controllerize('FooController'), 'FooController');
-      assert.equal(utils.controllerize('Bar::FooController'), 'Bar::FooController');
-      assert.equal(utils.controllerize('Baz::Bar::FooController'), 'Baz::Bar::FooController');
-    },
-    'should return null if argument is undefined': function () {
-      assert.isNull(utils.controllerize());
-    },
-  },
-  
   'actionize': {
     'should normalize underscore notation': function () {
       assert.equal(utils.actionize('foo_bar'), 'fooBar');
