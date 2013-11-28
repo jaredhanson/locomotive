@@ -353,7 +353,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts any format with extension override based on default MIME type using function', function() {
+  describe('to request that accepts any format with extension override based on selected MIME type using function', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondToAnyFormatWithDefault = function() {
@@ -410,7 +410,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts any format without default MIME type using function', function() {
+  describe('to request that accepts any format based on priority MIME type using function', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondToAnyFormatWithFirst = function() {
@@ -467,7 +467,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts any format with extension override without default MIME type using function', function() {
+  describe('to request that accepts any format with extension override based on selected MIME type using function', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondToAnyFormatWithFirst = function() {
@@ -865,7 +865,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts any format with extension override based on default extension using function', function() {
+  describe('to request that accepts any format with extension override based on selected extension using function', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondToAnyFormatWithDefault = function() {
@@ -922,7 +922,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts any format without default extension using function', function() {
+  describe('to request that accepts any format based on priority extension using function', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondToAnyFormatWithFirst = function() {
@@ -979,7 +979,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts any format with extension override without default extension using function', function() {
+  describe('to request that accepts any format with extension override based on selected extension using function', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondToAnyFormatWithFirst = function() {
@@ -1509,7 +1509,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts any format with extension override based on default MIME type using true', function() {
+  describe('to request that accepts any format with extension override based on selected MIME type using options', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
@@ -1567,7 +1567,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts any format without default MIME type using true', function() {
+  describe('to request that accepts any format based on priority MIME type using options', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
@@ -1626,7 +1626,7 @@ describe('Controller#respond', function() {
     });
   });
   
-  describe('to request that accepts any format with extension override based on default MIME type using true', function() {
+  describe('to request that accepts any format with extension override based on selected MIME type using options', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
