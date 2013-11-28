@@ -103,6 +103,7 @@ vows.describe('Module').addBatch({
     },
   },
   
+  // OK
   'helper registration': {
     topic: function() {
       var app = new locomotive.Locomotive();
@@ -116,6 +117,7 @@ vows.describe('Module').addBatch({
     },
   },
   
+  // OK
   'multiple helper registration': {
     topic: function() {
       var app = new locomotive.Locomotive();
@@ -134,6 +136,7 @@ vows.describe('Module').addBatch({
     },
   },
   
+  // OK
   'dynamic helper registration': {
     topic: function() {
       var app = new locomotive.Locomotive();
@@ -147,6 +150,7 @@ vows.describe('Module').addBatch({
     },
   },
   
+  // OK
   'multiple dynamic helper registration': {
     topic: function() {
       var app = new locomotive.Locomotive();
@@ -165,6 +169,7 @@ vows.describe('Module').addBatch({
     },
   },
   
+  // OK
   'helper and dynamic helper registration': {
     topic: function() {
       var app = new locomotive.Locomotive();
