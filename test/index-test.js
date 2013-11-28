@@ -7,6 +7,7 @@ var Controller = require('locomotive/controller');
 
 vows.describe('Module').addBatch({
   
+  // OK
   'module': {
     'should report a version': function (x) {
       assert.isString(locomotive.version);
@@ -71,24 +72,28 @@ vows.describe('Module').addBatch({
   },
   */
   
+  // OK
   'format registration': {
     topic: function() {
       var app = new locomotive.Locomotive();
       return app;
     },
     
+    // OK
     'should register format to engine as string argument': function (app) {
       app.format('json', 'jsonb');
       assert.lengthOf(Object.keys(app._formats), 1);
       assert.isObject(app._formats['json']);
       assert.equal(app._formats['json'].engine, 'jsonb');
     },
+    // OK
     'should register format to engine as engine option': function (app) {
       app.format('xml', { engine: 'xmlb' });
       assert.lengthOf(Object.keys(app._formats), 2);
       assert.isObject(app._formats['xml']);
       assert.equal(app._formats['xml'].engine, 'xmlb');
     },
+    // OK
     'should register format to engine as extension option': function (app) {
       app.format('html', { extension: '.jade' });
       assert.lengthOf(Object.keys(app._formats), 3);
