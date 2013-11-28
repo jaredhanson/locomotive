@@ -1228,4 +1228,49 @@ describe('Controller#after', function() {
     });
   });
   
+  
+  describe('filters applied after calling redirect', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.order = [];
+    
+    controller.show = function() {
+      this.order.push('a');
+      this.redirect('/');
+    }
+    controller.after('show', function(next) {
+      this.order.push(1);
+      next();
+    });
+    controller.after('show', function(next) {
+      this.order.push(2);
+      next();
+    });
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse();
+      
+      controller.after('show', function(next) {
+        return done();
+      });
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('show');
+    });
+    
+    it('should apply filters in correct order', function() {
+      expect(controller.order).to.have.length(3);
+      expect(controller.order[0]).to.equal('a');
+      expect(controller.order[1]).to.equal(1);
+      expect(controller.order[2]).to.equal(2);
+    });
+  });
+  
 });

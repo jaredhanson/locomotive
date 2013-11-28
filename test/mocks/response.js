@@ -1,10 +1,18 @@
+var events = require('events')
+  , util = require('util');
+
+
 function MockResponse(cb) {
+  events.EventEmitter.call(this);
+  
   this.statusCode = 200;
   this.locals = {};
   this._headers = {};
   this._data = '';
   this._cb = cb;
 }
+
+util.inherits(MockResponse, events.EventEmitter);
 
 MockResponse.prototype.getHeader = function(name) {
   return this._headers[name];
@@ -32,6 +40,7 @@ MockResponse.prototype.end = function(data, encoding) {
   if (data) { this._data += data; }
   if (this._data.length) { this.body = this._data; }
   if (this._cb) { this._cb(); }
+  this.emit('finish');
 };
 
 
