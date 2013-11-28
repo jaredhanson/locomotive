@@ -694,6 +694,123 @@ describe('Controller#respond', function() {
     });
   });
   
+  // WIP
+  describe('to request that accepts any format based on default extension using function', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondToAnyFormatWithDefault = function() {
+      var self = this;
+      this.respond({
+        'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+        'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
+        default: function() { self.render({ format: 'html', engine: 'dust' }); }
+      });
+    }
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.headers.accept = '*/*';
+      req.accepts = function(type) {
+        types = type;
+        return undefined;
+      }
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondToAnyFormatWithDefault');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('json');
+      expect(types[1]).to.equal('xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/respond_to_any_format_with_default.html.dust');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  // WIP
+  describe('to request that accepts any format without default extension using function', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondToAnyFormatWithFirst = function() {
+      var self = this;
+      this.respond({
+        'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+        'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+      });
+    }
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.headers.accept = '*/*';
+      req.accepts = function(type) {
+        types = type;
+        return undefined;
+      }
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondToAnyFormatWithFirst');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('json');
+      expect(types[1]).to.equal('xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/json');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/respond_to_any_format_with_first.json.jsonb');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
   
   /* options keyed by MIME type */
   
