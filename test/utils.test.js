@@ -45,4 +45,13 @@ describe('utils', function() {
     });
   });
   
+  describe('normalizeType', function() {
+    it('should extensionize extensions', function() {
+      expect(utils.extensionizeType('html')).to.equal('html');
+    });
+    it('should extensionize mime types', function() {
+      expect(utils.extensionizeType('application/xml')).to.equal('xml');
+    });
+  });
+  
 });
