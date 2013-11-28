@@ -29,6 +29,14 @@ describe('Application', function() {
       expect(app._formats['html'].extension).to.equal('.jade');
       expect(app._formats['html'].engine).to.be.undefined;
     });
+    
+    it('should register type to engine as option', function() {
+      app.format('text/plain', { engine: 'txtb' });
+      expect(Object.keys(app._formats)).to.have.length(4);
+      expect(app._formats['txt']).to.be.an('object');
+      expect(app._formats['txt'].engine).to.equal('txtb');
+      expect(app._formats['txt'].extension).to.be.undefined;
+    });
   });
   
   describe('#helper', function() {
