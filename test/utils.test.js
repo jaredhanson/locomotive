@@ -46,11 +46,15 @@ describe('utils', function() {
   });
   
   describe('normalizeType', function() {
-    it('should extensionize extensions', function() {
-      expect(utils.extensionizeType('html')).to.equal('html');
+    it('should normalize mime types', function() {
+      var obj = utils.normalizeType('application/xml');
+      expect(obj.value).to.equal('application/xml');
+      expect(obj.params).to.be.an('object');
     });
-    it('should extensionize mime types', function() {
-      expect(utils.extensionizeType('application/xml')).to.equal('xml');
+    it('should normalize extensions', function() {
+      var obj = utils.normalizeType('html');
+      expect(obj.value).to.equal('text/html');
+      expect(obj.params).to.be.an('object');
     });
   });
   
