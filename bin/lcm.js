@@ -7,8 +7,8 @@ program.version(locomotive.version);
 
 program.command('create')
   .description('-> create Locomotive application')
-  .action(function() {
-    locomotive.cli.create(program.args.shift() || '.');
+  .action(function(path) {
+    locomotive.cli.create('string' === typeof path ? path : '.');
   });
 
 program.command('server')
