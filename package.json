@@ -34,7 +34,8 @@
   "main": "./lib/locomotive",
   "dependencies": {
     "pkginfo": "0.2.x",
-    "commander": "1.x.x",
+    "commander": "2.x.x",
+    "co-prompt": "1.x.x",
     "bootable": "0.1.x",
     "bootable-environment": "0.1.x",
     "mkdirp": "0.3.x",

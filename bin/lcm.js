@@ -5,10 +5,10 @@ var program = require('commander')
 
 program.version(locomotive.version);
 
-program.command('create')
+program.command('create <dir>')
   .description('-> create Locomotive application')
   .action(function(path) {
-    locomotive.cli.create('string' === typeof path ? path : '.');
+    locomotive.cli.create(path);
   });
 
 program.command('server')
