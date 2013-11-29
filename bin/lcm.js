@@ -58,13 +58,4 @@ program.command('server')
     }
   });
 
-/*
-program.command('generate <GENERATOR>')
-  .description("-> generate new code")
-  .option('-f, --force', "overwrite files that already exist")
-  .action(function(generator, options) {
-    console.log('generate "%s" using %s mode', generator, options.force);
-  });
-*/
-
 program.parse(process.argv);
