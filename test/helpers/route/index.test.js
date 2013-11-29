@@ -59,6 +59,11 @@ describe('helpers/route', function() {
       it('should build correct path with object id', function() {
         expect(pathHelper({ id: 101 })).to.equal('/songs/101');
       });
+      it('should throw if incorrect number of arguments', function() {
+        expect(function() {
+          pathHelper()
+        }).to.throw("Incorrect number of arguments passed to route helper for songs#show");
+      });
     });
     
     describe('with two placeholders', function() {
@@ -88,6 +93,11 @@ describe('helpers/route', function() {
       });
       it('should build correct path with object id', function() {
         expect(pathHelper({ id: 101 }, { id: 202 })).to.equal('/bands/101/albums/202');
+      });
+      it('should throw if incorrect number of arguments', function() {
+        expect(function() {
+          pathHelper(7)
+        }).to.throw("Incorrect number of arguments passed to route helper for albums#show");
       });
     });
     
@@ -147,6 +157,11 @@ describe('helpers/route', function() {
       it('should build correct URL with object id', function() {
         expect(urlHelper({ id: 101 })).to.equal('http://www.example.com/songs/101');
       });
+      it('should throw if incorrect number of arguments', function() {
+        expect(function() {
+          urlHelper()
+        }).to.throw("Incorrect number of arguments passed to route helper for songs#show");
+      });
     });
     
     describe('with two placeholders', function() {
@@ -176,6 +191,11 @@ describe('helpers/route', function() {
       });
       it('should build correct path with object id', function() {
         expect(urlHelper({ id: 101 }, { id: 202 })).to.equal('http://www.example.com/bands/101/albums/202');
+      });
+      it('should throw if incorrect number of arguments', function() {
+        expect(function() {
+          urlHelper(7)
+        }).to.throw("Incorrect number of arguments passed to route helper for albums#show");
       });
     });
     
