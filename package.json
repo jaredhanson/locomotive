@@ -1,8 +1,19 @@
 {
   "name": "locomotive",
-  "version": "0.3.7",
+  "version": "0.4.0",
   "description": "Powerful MVC web framework for Node.js.",
-  "author": { "name": "Jared Hanson", "email": "jaredhanson@gmail.com", "url": "http://www.jaredhanson.net/" },
+  "keywords": [
+    "express",
+    "connect",
+    "web",
+    "mvc",
+    "rails"
+  ],
+  "author": {
+    "name": "Jared Hanson",
+    "email": "jaredhanson@gmail.com",
+    "url": "http://www.jaredhanson.net/"
+  },
   "homepage": "http://locomotivejs.org/",
   "repository": {
     "type": "git",
@@ -11,30 +22,40 @@
   "bugs": {
     "url": "http://github.com/jaredhanson/locomotive/issues"
   },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "bin" : {
+    "lcm" : "./bin/lcm.js"
+  },
   "main": "./lib/locomotive",
-  "bin" : { "lcm" : "./bin/lcm.js" },
   "dependencies": {
     "pkginfo": "0.2.x",
-    "commander": "1.x.x",
-    "bootable": "0.1.x",
-    "bootable-environment": "0.1.x",
+    "commander": "2.x.x",
+    "co-prompt": "1.x.x",
+    "bootable": "0.2.x",
+    "bootable-environment": "0.2.x",
     "mkdirp": "0.3.x",
-    "diveSync": "0.2.0",
+    "scripts": "0.1.x",
     "express": "3.x.x",
-    "methods": "0.0.1",
-    "lingo": "0.0.x",
-    "debug": "0.7.x"
+    "debug": "0.7.x",
+    "syntax-error": "0.0.1",
+    "actionrouter": "git://github.com/jaredhanson/node-actionrouter.git"
   },
   "devDependencies": {
-    "vows": "0.6.x"
+    "vows": "0.6.x",
+    "mocha": "1.x.x",
+    "chai": "1.x.x",
+    "chai-connect-middleware": "0.3.x",
+    "chai-locomotive-helpers": "git://github.com/jaredhanson/chai-locomotive-helpers.git"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
   },
   "scripts": {
-    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js test/**/*-test.js test/**/**/*-test.js"
-  },
-  "engines": { "node": ">= 0.6.0" },
-  "licenses": [ {
-    "type": "MIT",
-    "url": "http://www.opensource.org/licenses/MIT" 
-  } ],
-  "keywords": ["express", "connect", "web", "mvc", "rails"]
+    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js"
+  }
 }

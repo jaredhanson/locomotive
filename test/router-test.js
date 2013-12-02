@@ -1,8 +1,8 @@
 var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
-var Router = require('locomotive/router');
-var Route = require('locomotive/route');
+//var Router = require('locomotive/router');
+//var Route = require('locomotive/route');
 var dynamicHelpers = require('locomotive/helpers/dynamic');
 
 
@@ -96,6 +96,8 @@ function intializedRouter() {
 
 vows.describe('Router').addBatch({
   
+  /*
+  // OK
   'router with root route': {
     topic: function() {
       var router = intializedRouter()
@@ -117,6 +119,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -138,6 +141,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route with underscored path': {
     topic: function() {
       var router = intializedRouter()
@@ -159,6 +163,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route with dasherized path': {
     topic: function() {
       var router = intializedRouter()
@@ -180,6 +185,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given controller and action options': {
     topic: function() {
       var router = intializedRouter()
@@ -201,6 +207,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given shorthand and via option': {
     topic: function() {
       var router = intializedRouter()
@@ -222,6 +229,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given shorthand and capitalized via option': {
     topic: function() {
       var router = intializedRouter()
@@ -243,6 +251,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given shorthand and via option using array of methods': {
     topic: function() {
       var router = intializedRouter()
@@ -268,6 +277,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route given controller, action, and via options': {
     topic: function() {
       var router = intializedRouter()
@@ -289,6 +299,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route specified with a preceding slash': {
     topic: function() {
       var router = intializedRouter()
@@ -310,6 +321,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -332,6 +344,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to middleware with via option': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -354,6 +367,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to middleware with capitalized via option': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -376,6 +390,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to middleware with via option using array of methods': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -402,6 +417,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to array of middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -427,6 +443,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to array of middleware with via option': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -452,6 +469,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to array of middleware with capitalized via option': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -477,6 +495,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to array of middleware with via option using array of methods': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -508,6 +527,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to multiple middleware function arguments': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -533,6 +553,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route to multiple middleware function arguments with via option': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -558,6 +579,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -573,6 +595,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -594,6 +617,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route given controller and action options': {
     topic: function() {
       var router = intializedRouter()
@@ -615,6 +639,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route using shorthand that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -630,6 +655,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route given controller and action options that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -657,6 +683,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route to middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -679,6 +706,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route to array of middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -704,6 +732,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with get route to multiple middleware function arguments': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -729,6 +758,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -750,6 +780,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route given controller and action options': {
     topic: function() {
       var router = intializedRouter()
@@ -771,6 +802,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route using shorthand that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -786,6 +818,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route given controller and action options that declares helpers': {
     topic: function() {
       var router = intializedRouter()
@@ -813,6 +846,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route to middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -835,6 +869,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route to array of middleware': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -860,6 +895,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with post route to multiple middleware function arguments': {
     topic: function() {
       function middleware1(req, res, next) {};
@@ -885,6 +921,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with put route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -906,6 +943,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with del route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -927,6 +965,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with delete route given shorthand': {
     topic: function() {
       var router = intializedRouter()
@@ -948,6 +987,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route': {
     topic: function() {
       var router = intializedRouter()
@@ -1035,6 +1075,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route with underscored path': {
     topic: function() {
       var router = intializedRouter()
@@ -1122,6 +1163,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route with dasherized path': {
     topic: function() {
       var router = intializedRouter()
@@ -1209,6 +1251,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route and only one action': {
     topic: function() {
       var router = intializedRouter()
@@ -1217,6 +1260,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route and only some actions': {
     topic: function() {
       var router = intializedRouter()
@@ -1244,6 +1288,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route excepting one action': {
     topic: function() {
       var router = intializedRouter()
@@ -1256,6 +1301,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource route excepting some actions': {
     topic: function() {
       var router = intializedRouter()
@@ -1283,6 +1329,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route': {
     topic: function() {
       var router = intializedRouter()
@@ -1383,6 +1430,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route with underscored path': {
     topic: function() {
       var router = intializedRouter()
@@ -1483,6 +1531,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route with dasherized path': {
     topic: function() {
       var router = intializedRouter()
@@ -1583,6 +1632,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route and only one action': {
     topic: function() {
       var router = intializedRouter()
@@ -1600,6 +1650,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route and only some actions': {
     topic: function() {
       var router = intializedRouter()
@@ -1622,6 +1673,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route excepting one action': {
     topic: function() {
       var router = intializedRouter()
@@ -1634,6 +1686,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route excepting some actions': {
     topic: function() {
       var router = intializedRouter()
@@ -1656,6 +1709,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource nested under resource': {
     topic: function() {
       var router = intializedRouter()
@@ -1754,6 +1808,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource nested under resource using namespace option': {
     topic: function() {
       var router = intializedRouter()
@@ -1852,6 +1907,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources nested under resource': {
     topic: function() {
       var router = intializedRouter()
@@ -1963,6 +2019,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resource nested under resources': {
     topic: function() {
       var router = intializedRouter()
@@ -2063,6 +2120,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources nested under resources': {
     topic: function() {
       var router = intializedRouter()
@@ -2176,6 +2234,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources nested under resources using namespace option': {
     topic: function() {
       var router = intializedRouter()
@@ -2289,6 +2348,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with root route in a namespace': {
     topic: function() {
       var router = intializedRouter()
@@ -2312,6 +2372,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route in a namespace': {
     topic: function() {
       var router = intializedRouter()
@@ -2341,6 +2402,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with match route specified with preceeding slash in a namespace': {
     topic: function() {
       var router = intializedRouter()
@@ -2364,6 +2426,7 @@ vows.describe('Router').addBatch({
     },
   },
   
+  // OK
   'router with resources route in a namespace': {
     topic: function() {
       var router = intializedRouter();
@@ -2399,7 +2462,11 @@ vows.describe('Router').addBatch({
       assert.isFunction(router._app._dynamicHelpers.editAdminPostURL);
     },
   },
+  */
   
+  
+  // FIXME: Port this test
+  /*
   'routing helpers for patterns without a placeholder': {
     topic: function() {
       var router = intializedRouter()
@@ -2431,7 +2498,10 @@ vows.describe('Router').addBatch({
       assert.equal(songsURL(), 'http://www.example.com/songs');
     },
   },
+  */
   
+  // FIXME: Port this test
+  /*
   'routing helpers for patterns with a placeholder': {
     topic: function() {
       var router = intializedRouter()
@@ -2467,7 +2537,10 @@ vows.describe('Router').addBatch({
       assert.equal(songURL({ id: 101 }), 'http://www.example.com/songs/101');
     },
   },
+  */
   
+  // FIXME: Port this test
+  /*
   'routing helpers for resources nested under resources': {
     topic: function() {
       var router = intializedRouter()
@@ -2505,5 +2578,6 @@ vows.describe('Router').addBatch({
       assert.equal(bandAlbumURL({ id: 101 }, { id: 202 }), 'http://www.example.com/bands/101/albums/202');
     },
   },
+  */
   
 }).export(module);

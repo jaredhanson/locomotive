@@ -1,19 +1,47 @@
-NODE = node
-TEST = ./node_modules/.bin/vows
-TESTS ?= test/*-test.js test/**/*-test.js test/**/**/*-test.js
+SOURCES ?= lib/*.js lib/**/*.js
+TESTS ?= test/*.test.js test/**/*.test.js test/helpers/**/*.test.js
 
-test:
-	@NODE_ENV=test NODE_PATH=lib $(TEST) $(TEST_FLAGS) $(TESTS)
+test: test-mocha
+test-cov: test-istanbul-mocha
+view-cov: view-istanbul-report
+lint: lint-jshint
+lint-tests: lint-tests-jshint
 
-docs: docs/api.html
 
-docs/api.html: lib/locomotive/*.js
-	dox \
-		--title Locomotive \
-		--desc "Powerful MVC web framework for Node.js" \
-		$(shell find lib/locomotive/* -type f) > $@
+# ==============================================================================
+# Node.js
+# ==============================================================================
+include support/mk/node.mk
+include support/mk/mocha.mk
+include support/mk/istanbul.mk
 
-docclean:
-	rm -f docs/*.{1,html}
+# ==============================================================================
+# Analysis
+# ==============================================================================
+include support/mk/notes.mk
+include support/mk/jshint.mk
 
-.PHONY: test docs docclean
+# ==============================================================================
+# Reports
+# ==============================================================================
+include support/mk/coveralls.mk
+
+# ==============================================================================
+# Continuous Integration
+# ==============================================================================
+submit-cov-to-coveralls: submit-istanbul-lcov-to-coveralls
+
+# Travis CI
+ci-travis: test test-cov
+
+# ==============================================================================
+# Clean
+# ==============================================================================
+clean:
+	rm -rf build
+	rm -rf reports
+
+clobber: clean clobber-node
+
+
+.PHONY: test test-cov view-cov lint lint-tests submit-cov-to-coveralls ci-travis clean clobber

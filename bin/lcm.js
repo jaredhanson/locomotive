@@ -5,10 +5,10 @@ var program = require('commander')
 
 program.version(locomotive.version);
 
-program.command('create')
+program.command('create <dir>')
   .description('-> create Locomotive application')
-  .action(function() {
-    locomotive.cli.create(program.args.shift() || '.');
+  .action(function(path) {
+    locomotive.cli.create(path);
   });
 
 program.command('server')
@@ -57,14 +57,5 @@ program.command('server')
       console.log();
     }
   });
-
-/*
-program.command('generate <GENERATOR>')
-  .description("-> generate new code")
-  .option('-f, --force', "overwrite files that already exist")
-  .action(function(generator, options) {
-    console.log('generate "%s" using %s mode', generator, options.force);
-  });
-*/
 
 program.parse(process.argv);
