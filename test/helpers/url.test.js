@@ -10,6 +10,9 @@ describe('helpers/url', function() {
     it('should build correct tag with URL and text', function() {
       expect(helpers.linkTo('/account', 'My Account')).to.equal('<a href="/account">My Account</a>');
     });
+    it('should build correct tag with URL and options', function() {
+      expect(helpers.linkTo('/account', { rel: 'me' })).to.equal('<a rel="me" href="/account">/account</a>');
+    });
     it('should build correct tag with URL, text, and options', function() {
       expect(helpers.linkTo('/account', 'My Account', { rel: 'me' })).to.equal('<a rel="me" href="/account">My Account</a>');
     });
