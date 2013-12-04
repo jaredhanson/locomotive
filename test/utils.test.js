@@ -1,4 +1,4 @@
-var utils = require('../lib/locomotive/utils');
+var utils = require('../lib/utils');
   
 
 describe('utils', function() {

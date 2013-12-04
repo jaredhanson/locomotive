@@ -1,4 +1,4 @@
-var ds = require('../../lib/locomotive/datastores/object');
+var ds = require('../../lib/datastores/object');
   
 
 describe('datastores/object', function() {

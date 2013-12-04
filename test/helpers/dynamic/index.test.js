@@ -1,4 +1,4 @@
-var helpers = require('../../../lib/locomotive/helpers/dynamic');
+var helpers = require('../../../lib/helpers/dynamic');
   
 
 describe('helpers/dynamic', function() {

@@ -1,6 +1,6 @@
 var chai = require('chai')
-  , routeHelper = require('../../../lib/locomotive/helpers/route')
-  , dynamicHelpers = require('../../../lib/locomotive/helpers/dynamic');
+  , routeHelper = require('../../../lib/helpers/route')
+  , dynamicHelpers = require('../../../lib/helpers/dynamic');
   
 
 describe('helpers/route', function() {

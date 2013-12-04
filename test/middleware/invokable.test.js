@@ -1,5 +1,5 @@
 var chai = require('chai')
-  , invokable = require('../../lib/locomotive/middleware/invokable');
+  , invokable = require('../../lib/middleware/invokable');
 
 
 function MockApplication() {

@@ -1,5 +1,5 @@
 var chai = require('chai')
-  , helpers = require('../../../lib/locomotive/helpers/dynamic/url');
+  , helpers = require('../../../lib/helpers/dynamic/url');
   
 
 describe('helpers/dynamic/url', function() {

@@ -1,4 +1,4 @@
-var helpers = require('../../lib/locomotive/helpers/tag');
+var helpers = require('../../lib/helpers/tag');
   
 
 describe('helpers/tag', function() {

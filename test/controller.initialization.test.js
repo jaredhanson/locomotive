@@ -1,4 +1,4 @@
-var Controller = require('../lib/locomotive/controller')
+var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
   , MockResponse = require('./mocks/response');
