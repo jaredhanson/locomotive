@@ -1,9 +1,9 @@
 var chai = require('chai')
-  , routeHelper = require('../../../lib/helpers/route')
+  , routeHelper = require('../../../lib/helpers/route/entry')
   , dynamicHelpers = require('../../../lib/helpers/dynamic');
   
 
-describe('helpers/route', function() {
+describe('helpers/route/entry', function() {
   
   describe('Path', function() {
   
