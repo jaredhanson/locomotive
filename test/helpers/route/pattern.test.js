@@ -59,6 +59,26 @@ describe('helpers/route/pattern', function() {
       });
     });
     
+    describe('with one placeholder and one optional placeholder', function() {
+      var pathHelper;
+    
+      before(function(done) {
+        chai.locomotive.helper(patternHelper.path('/songs/:id.:format?'), 'test', 'show')
+          .req(function(req) {
+            req.headers.host = 'www.example.com';
+          })
+          .create(function(err, helper) {
+            if (err) { return done(err); }
+            pathHelper = helper;
+            return done();
+          });
+      });
+    
+      it('should build correct path without optional placeholder', function() {
+        expect(pathHelper('mr-jones')).to.equal('/songs/mr-jones');
+      });
+    });
+    
     describe('with two placeholders', function() {
       var pathHelper;
     
