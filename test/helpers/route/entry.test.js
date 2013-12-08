@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var chai = require('chai')
   , routeHelper = require('../../../lib/helpers/route/entry')
   , dynamicHelpers = require('../../../lib/helpers/dynamic');
@@ -63,7 +65,7 @@ describe('helpers/route/entry', function() {
       });
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
-          pathHelper()
+          pathHelper();
         }).to.throw("Incorrect number of arguments passed to route helper for songs#show");
       });
     });
@@ -104,7 +106,7 @@ describe('helpers/route/entry', function() {
       });
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
-          pathHelper(7)
+          pathHelper(7);
         }).to.throw("Incorrect number of arguments passed to route helper for albums#show");
       });
     });
@@ -169,7 +171,7 @@ describe('helpers/route/entry', function() {
       });
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
-          urlHelper()
+          urlHelper();
         }).to.throw("Incorrect number of arguments passed to route helper for songs#show");
       });
     });
@@ -210,7 +212,7 @@ describe('helpers/route/entry', function() {
       });
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
-          urlHelper(7)
+          urlHelper(7);
         }).to.throw("Incorrect number of arguments passed to route helper for albums#show");
       });
     });

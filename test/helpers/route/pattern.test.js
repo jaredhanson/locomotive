@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var chai = require('chai')
   , patternHelper = require('../../../lib/helpers/route/pattern');
   
@@ -54,7 +56,7 @@ describe('helpers/route/pattern', function() {
       });
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
-          pathHelper()
+          pathHelper();
         }).to.throw("Incorrect number of arguments passed to route helper for /songs/:id");
       });
     });
@@ -111,7 +113,7 @@ describe('helpers/route/pattern', function() {
       });
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
-          pathHelper(7)
+          pathHelper(7);
         }).to.throw("Incorrect number of arguments passed to route helper for /bands/:band_id/albums/:id");
       });
     });
@@ -127,7 +129,7 @@ describe('helpers/route/pattern', function() {
       before(function(done) {
         chai.locomotive.dynamicHelper(patternHelper.url('/songs', 'songs'), 'test', 'show')
           .app(function(app) {
-            app.helper('songsPath', patternHelper.path('/songs'))
+            app.helper('songsPath', patternHelper.path('/songs'));
           }).req(function(req) {
             req.headers.host = 'www.example.com';
           })
@@ -149,7 +151,7 @@ describe('helpers/route/pattern', function() {
       before(function(done) {
         chai.locomotive.dynamicHelper(patternHelper.url('/songs/:id', 'song'), 'test', 'show')
           .app(function(app) {
-            app.helper('songPath', patternHelper.path('/songs/:id'))
+            app.helper('songPath', patternHelper.path('/songs/:id'));
           }).req(function(req) {
             req.headers.host = 'www.example.com';
           })
@@ -173,7 +175,7 @@ describe('helpers/route/pattern', function() {
       });
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
-          urlHelper()
+          urlHelper();
         }).to.throw("Incorrect number of arguments passed to route helper for /songs/:id");
       });
     });
@@ -184,7 +186,7 @@ describe('helpers/route/pattern', function() {
       before(function(done) {
         chai.locomotive.dynamicHelper(patternHelper.url('/bands/:band_id/albums/:id', 'bandAlbum'), 'test', 'show')
           .app(function(app) {
-            app.helper('bandAlbumPath', patternHelper.path('/bands/:band_id/albums/:id'))
+            app.helper('bandAlbumPath', patternHelper.path('/bands/:band_id/albums/:id'));
           }).req(function(req) {
             req.headers.host = 'www.example.com';
           })
@@ -212,7 +214,7 @@ describe('helpers/route/pattern', function() {
       });
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
-          urlHelper(7)
+          urlHelper(7);
         }).to.throw("Incorrect number of arguments passed to route helper for /bands/:band_id/albums/:id");
       });
     });

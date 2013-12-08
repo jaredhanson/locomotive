@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var chai = require('chai')
   , invokable = require('../../lib/middleware/invokable');
 

@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var chai = require('chai')
   , helpers = require('../../../lib/helpers/dynamic/url');
   
@@ -56,14 +58,14 @@ describe('helpers/dynamic/url', function() {
       });
     
       it('should invoke routing helper to build URL when given an object', function() {
-        function Animal() {};
+        function Animal() {}
         var animal = new Animal();
         animal.id = '123';
       
         expect(urlFor(animal)).to.equal('http://www.example.com/animals/123');
       });
       it('should invoke routing helper to build path when given an object', function() {
-        function Animal() {};
+        function Animal() {}
         var animal = new Animal();
         animal.id = '123';
       
@@ -72,12 +74,12 @@ describe('helpers/dynamic/url', function() {
     
       it('should throw if unknown controller action specified', function() {
         expect(function() {
-          urlFor({ controller: 'unknown', action: 'unknown' })
+          urlFor({ controller: 'unknown', action: 'unknown' });
         }).to.throw("No route to 'unknown#unknown'");
       });
       it('should throw if routing helper unavailable for object', function() {
         expect(function() {
-          function Dog() {};
+          function Dog() {}
           var dog = new Dog();
         
           urlFor(dog);
@@ -106,8 +108,6 @@ describe('helpers/dynamic/url', function() {
               return this.urlFor({ controller: 'animals', action: 'show', id: obj.id, onlyPath: true });
             });
           })
-          .req(function(req) {
-          })
           .create(function(err, helper) {
             if (err) { return done(err); }
             urlFor = helper;
@@ -122,7 +122,7 @@ describe('helpers/dynamic/url', function() {
         expect(urlFor({ controller: 'animals', action: 'show', id: '1234' })).to.equal('/animals/1234');
       });
       it('should invoke routing helper to build best effort URL when given an object', function() {
-        function Animal() {};
+        function Animal() {}
         var animal = new Animal();
         animal.id = '123';
       
@@ -164,7 +164,7 @@ describe('helpers/dynamic/url', function() {
         expect(urlFor({ controller: 'animals', action: 'show', id: '1234' })).to.equal('https://www.example.com/animals/1234');
       });
       it('should invoke routing helper to build URL when given an object', function() {
-        function Animal() {};
+        function Animal() {}
         var animal = new Animal();
         animal.id = '123';
       

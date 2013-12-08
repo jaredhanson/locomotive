@@ -1,3 +1,5 @@
+/* global describe, it, expect */
+
 var helpers = require('../../../lib/helpers/dynamic');
   
 
