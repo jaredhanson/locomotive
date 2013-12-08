@@ -1,4 +1,4 @@
-/* global describe, it, before, expect */
+/* global describe, it, expect */
 
 var Resolver = require('../lib/resolver');
 
@@ -53,7 +53,7 @@ describe('Resolver', function() {
     });
   });
   
-  describe('with two mechanisms scoped to prefix', function() {
+  describe('with two mechanisms, each scoped to prefix', function() {
     var resolver = new Resolver();
     resolver.use('foo', function(id) {
       return 'ok-foo-' + id;
