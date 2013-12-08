@@ -1,4 +1,11 @@
 # Locomotive
+
+[![Build](https://travis-ci.org/jaredhanson/locomotive.png)](https://travis-ci.org/jaredhanson/locomotive)
+[![Coverage](https://coveralls.io/repos/jaredhanson/locomotive/badge.png)](https://coveralls.io/r/jaredhanson/locomotive)
+[![Quality](https://codeclimate.com/github/jaredhanson/locomotive.png)](https://codeclimate.com/github/jaredhanson/locomotive)
+[![Dependencies](https://david-dm.org/jaredhanson/locomotive.png)](https://david-dm.org/jaredhanson/locomotive)
+
+
 [http://locomotivejs.org](http://locomotivejs.org/)
 
 Locomotive is a framework that brings structure and MVC patterns to web
@@ -55,9 +62,6 @@ web applications powered by Locomotive.
 
     $ npm install
     $ make test
-
-[![Build Status](https://secure.travis-ci.org/jaredhanson/locomotive.png)](http://travis-ci.org/jaredhanson/locomotive)
-
 
 ## Credits
 
