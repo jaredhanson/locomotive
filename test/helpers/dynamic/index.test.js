@@ -1,4 +1,6 @@
-var helpers = require('../../../lib/locomotive/helpers/dynamic');
+/* global describe, it, expect */
+
+var helpers = require('../../../lib/helpers/dynamic');
   
 
 describe('helpers/dynamic', function() {

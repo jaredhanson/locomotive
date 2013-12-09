@@ -1,5 +1,5 @@
 var locomotive = require('..')
-  , Application = require('../lib/locomotive/application')
+  , Application = require('../lib/application')
 
 describe('Application', function() {
   

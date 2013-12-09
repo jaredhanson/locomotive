@@ -1,6 +1,8 @@
+/* global describe, it, before, expect */
+
 var chai = require('chai')
-  , helpers = require('../../lib/locomotive/helpers/url')
-  , dynamicHelpers = require('../../lib/locomotive/helpers/dynamic');
+  , helpers = require('../../lib/helpers/url')
+  , dynamicHelpers = require('../../lib/helpers/dynamic');
   
 
 describe('helpers/url', function() {
@@ -43,7 +45,7 @@ describe('helpers/url', function() {
         expect(linkTo({ controller: 'ProfileController', action: 'show' }, 'Profile', { rel: 'me' })).to.equal('<a rel="me" href="http://www.example.com/profile">Profile</a>');
       });
       it('should build correct tag to object', function() {
-        function Animal() {};
+        function Animal() {}
         var animal = new Animal();
         animal.id = '123';
       

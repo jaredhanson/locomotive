@@ -31,26 +31,25 @@
   "bin" : {
     "lcm" : "./bin/lcm.js"
   },
-  "main": "./lib/locomotive",
+  "main": "./lib",
   "dependencies": {
-    "pkginfo": "0.2.x",
+    "pkginfo": "0.3.x",
     "commander": "2.x.x",
     "co-prompt": "1.x.x",
+    "express": "3.x.x",
+    "actionrouter": "0.1.x",
     "bootable": "0.2.x",
     "bootable-environment": "0.2.x",
     "mkdirp": "0.3.x",
     "scripts": "0.1.x",
-    "express": "3.x.x",
-    "debug": "0.7.x",
     "syntax-error": "0.0.1",
-    "actionrouter": "git://github.com/jaredhanson/node-actionrouter.git"
+    "debug": "0.7.x"
   },
   "devDependencies": {
-    "vows": "0.6.x",
     "mocha": "1.x.x",
     "chai": "1.x.x",
     "chai-connect-middleware": "0.3.x",
-    "chai-locomotive-helpers": "git://github.com/jaredhanson/chai-locomotive-helpers.git"
+    "chai-locomotive-helpers": "0.1.x"
   },
   "engines": {
     "node": ">= 0.6.0"

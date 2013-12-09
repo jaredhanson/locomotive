@@ -1,5 +1,7 @@
+/* global describe, it, before, expect */
+
 var chai = require('chai')
-  , dispatch = require('../../lib/locomotive/middleware/dispatch');
+  , dispatch = require('../../lib/middleware/dispatch');
 
 
 function MockApplication() {
@@ -12,7 +14,7 @@ MockApplication.prototype._controller = function(id, cb) {
     return cb(new Error("Unable to create controller '" + id + "'"));
   }
   return cb(null, ctrl);
-}
+};
 
 
 function ReqResController() {
@@ -21,17 +23,17 @@ function ReqResController() {
 ReqResController.prototype._init = function(app, id) {
   this.__app = app;
   this.__id = id;
-}
+};
 
 ReqResController.prototype._prepare = function(req, res, next) {
   this.req = req;
   this.res = res;
   this.next = next;
-}
+};
 
 ReqResController.prototype._invoke = function(action) {
   this.res.end(this.req.url + ' -> ' + action);
-}
+};
 
 
 function NextController() {
@@ -40,17 +42,17 @@ function NextController() {
 NextController.prototype._init = function(app, id) {
   this.__app = app;
   this.__id = id;
-}
+};
 
 NextController.prototype._prepare = function(req, res, next) {
   this.req = req;
   this.res = res;
   this.next = next;
-}
+};
 
 NextController.prototype._invoke = function(action) {
   this.next();
-}
+};
 
 
 

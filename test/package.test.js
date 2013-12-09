@@ -1,7 +1,7 @@
 /* global describe, it, expect */
 
 var locomotive = require('..')
-  , Application = require('../lib/locomotive/application')
+  , Application = require('../lib/application')
 
 describe('locomotive', function() {
   
@@ -18,6 +18,14 @@ describe('locomotive', function() {
     expect(locomotive.Application).to.equal(locomotive.Locomotive);
     expect(locomotive.Application).to.be.a('function');
     expect(locomotive.Controller).to.be.a('function');
+  });
+  
+  it('should export boot phases', function() {
+    expect(locomotive.boot.controllers).to.be.a('function');
+    expect(locomotive.boot.views).to.be.a('function');
+    expect(locomotive.boot.routes).to.be.a('function');
+    expect(locomotive.boot.httpServer).to.be.a('function');
+    expect(locomotive.boot.httpServerCluster).to.be.a('function');
   });
   
 });

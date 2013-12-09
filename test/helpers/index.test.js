@@ -1,4 +1,6 @@
-var helpers = require('../../lib/locomotive/helpers');
+/* global describe, it, expect */
+
+var helpers = require('../../lib/helpers');
   
 
 describe('helpers', function() {

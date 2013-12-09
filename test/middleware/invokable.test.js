@@ -1,5 +1,7 @@
+/* global describe, it, before, expect */
+
 var chai = require('chai')
-  , invokable = require('../../lib/locomotive/middleware/invokable');
+  , invokable = require('../../lib/middleware/invokable');
 
 
 function MockApplication() {
@@ -12,7 +14,7 @@ MockApplication.prototype._controller = function(id, cb) {
     return cb(new Error("Unable to create controller '" + id + "'"));
   }
   return cb(null, new ctrl());
-}
+};
 
 
 function ReqResController() {
@@ -21,17 +23,17 @@ function ReqResController() {
 ReqResController.prototype._init = function(app, id) {
   this.__app = app;
   this.__id = id;
-}
+};
 
 ReqResController.prototype._prepare = function(req, res, next) {
   this.req = req;
   this.res = res;
   this.next = next;
-}
+};
 
 ReqResController.prototype._invoke = function(action) {
   this.res.end(this.req.url + ' -> ' + this.__id + '#' + action);
-}
+};
 
 function NextController() {
 }
@@ -39,17 +41,17 @@ function NextController() {
 NextController.prototype._init = function(app, id) {
   this.__app = app;
   this.__id = id;
-}
+};
 
 NextController.prototype._prepare = function(req, res, next) {
   this.req = req;
   this.res = res;
   this.next = next;
-}
+};
 
 NextController.prototype._invoke = function(action) {
   this.next();
-}
+};
 
 function ErrorController() {
 }
@@ -57,17 +59,17 @@ function ErrorController() {
 ErrorController.prototype._init = function(app, id) {
   this.__app = app;
   this.__id = id;
-}
+};
 
 ErrorController.prototype._prepare = function(req, res, next) {
   this.req = req;
   this.res = res;
   this.next = next;
-}
+};
 
 ErrorController.prototype._invoke = function(action) {
   this.next(new Error('something went horribly wrong'));
-}
+};
 
 
 
@@ -80,7 +82,7 @@ describe('middleware/invokable', function() {
   describe('invoking with controller and action', function() {
     var test, request, response;
     
-    var app = new MockApplication()
+    var app = new MockApplication();
     app._controllers['robots'] = ReqResController;
 
     before(function(done) {
@@ -112,7 +114,7 @@ describe('middleware/invokable', function() {
         
         request.invoke('robots', 'beepBoop', function(err) {
           if (err) { return done(err); }
-          return done(new Error('should not call next'))
+          return done(new Error('should not call next'));
         });
       });
       
@@ -126,7 +128,7 @@ describe('middleware/invokable', function() {
   describe('invoking with namespaced controller and action using Ruby style', function() {
     var test, request, response;
     
-    var app = new MockApplication()
+    var app = new MockApplication();
     app._controllers['admin/foo'] = ReqResController;
 
     before(function(done) {
@@ -158,7 +160,7 @@ describe('middleware/invokable', function() {
         
         request.invoke('Admin::FooController', 'bar_baz', function(err) {
           if (err) { return done(err); }
-          return done(new Error('should not call next'))
+          return done(new Error('should not call next'));
         });
       });
       
@@ -172,7 +174,7 @@ describe('middleware/invokable', function() {
   describe('invoking with shorthand notation', function() {
     var test, request, response;
     
-    var app = new MockApplication()
+    var app = new MockApplication();
     app._controllers['lorem'] = ReqResController;
 
     before(function(done) {
@@ -203,7 +205,7 @@ describe('middleware/invokable', function() {
         
         request.invoke('lorem#ipsum', function(err) {
           if (err) { return done(err); }
-          return done(new Error('should not call next'))
+          return done(new Error('should not call next'));
         });
       });
       
@@ -218,7 +220,7 @@ describe('middleware/invokable', function() {
   describe('invoking controller that calls next', function() {
     var test, request, response;
     
-    var app = new MockApplication()
+    var app = new MockApplication();
     app._controllers['lorem'] = NextController;
 
     before(function(done) {
@@ -245,7 +247,7 @@ describe('middleware/invokable', function() {
       before(function(done) {
         request.invoke('lorem', 'ipsum', function(err) {
           if (err) { return done(err); }
-          return done()
+          return done();
         });
       });
       
@@ -259,7 +261,7 @@ describe('middleware/invokable', function() {
   describe('invoking controller that calls next with error to invoke that does supply callback', function() {
     var test, request, response;
     
-    var app = new MockApplication()
+    var app = new MockApplication();
     app._controllers['lorem'] = ErrorController;
 
     before(function(done) {
@@ -302,7 +304,7 @@ describe('middleware/invokable', function() {
   describe('invoking controller that calls next with error to invoke that does not supply callback', function() {
     var test, request, response;
     
-    var app = new MockApplication()
+    var app = new MockApplication();
     app._controllers['lorem'] = ErrorController;
 
     before(function(done) {
@@ -340,7 +342,7 @@ describe('middleware/invokable', function() {
   describe('with name option', function() {
     var test, request, response;
     
-    var app = new MockApplication()
+    var app = new MockApplication();
 
     before(function(done) {
       test = chai.connect.use(invokable(app, { name: 'invokeit' }));

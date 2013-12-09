@@ -1,4 +1,4 @@
-var snakeCase = snakeCase = require('../../lib/locomotive/resolvers/any/snakecase')();
+var snakeCase = snakeCase = require('../../lib/resolvers/any/snakecase')();
 
 
 function MockApplication() {
