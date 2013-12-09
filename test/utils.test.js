@@ -1,3 +1,5 @@
+/* global describe, it, expect */
+
 var utils = require('../lib/utils');
   
 

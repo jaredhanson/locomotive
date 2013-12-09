@@ -48,7 +48,7 @@ describe('Instantiator', function() {
     describe('that throws an exception', function() {
       var instantiator = new Instantiator();
       instantiator.use(function(mod) {
-        throw new Error('something went horribly wrong')
+        throw new Error('something went horribly wrong');
       });
     
       var instance, error;

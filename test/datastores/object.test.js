@@ -1,5 +1,7 @@
+/* global describe, it, expect */
+
 var ds = require('../../lib/datastores/object');
-  
+
 
 describe('datastores/object', function() {
   
@@ -9,7 +11,7 @@ describe('datastores/object', function() {
   });
   
   it('should return Animal for instances of Animal', function() {
-    function Animal() {};
+    function Animal() {}
     var obj = new Animal();
     expect(ds.recordOf(obj)).to.equal('Animal');
   });

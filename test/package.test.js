@@ -1,7 +1,7 @@
 /* global describe, it, expect */
 
 var locomotive = require('..')
-  , Application = require('../lib/application')
+  , Application = require('../lib/application');
 
 describe('locomotive', function() {
   
