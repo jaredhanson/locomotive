@@ -28,7 +28,7 @@ describe('Controller#before', function() {
       this.order.push(1);
       next(err, data);
     });
-    controller.before('show', function(next, data) {
+    controller.before('show', function(data, next) {
       data.album = 'August and Everything After';
       this.order.push(2);
       next(err, data);
@@ -101,7 +101,7 @@ describe('Controller#before', function() {
 
       next(err, data);
     });
-    controller.before('show', function(next, data) {
+    controller.before('show', function(data, next) {
       data.album = 'August and Everything After';
       this.order.push(2);
       next(err, data);
@@ -475,7 +475,7 @@ describe('Controller#before', function() {
       this.band = data.band;
       this.render();
     }
-    proto.before('*', function(next, data) {
+    proto.before('*', function(data, next) {
       data = data || {};
       data.band = 'The Doors';
 
@@ -630,7 +630,7 @@ describe('Controller#before', function() {
       this.band = data.band;
       this.render();
     }
-    proto.before('*', function(next, data) {
+    proto.before('*', function(data, next) {
       data = data || {};
 
       this.order.push(1);
@@ -645,7 +645,7 @@ describe('Controller#before', function() {
       this.band = data.band;
       this.render();
     }
-    proto.before('index', function(next, data) {
+    proto.before('index', function(data, next) {
       data = data || {};
 
       this.order.push('x');
@@ -780,7 +780,7 @@ describe('Controller#before', function() {
 
       next(new Error('something went wrong'), data);
     });
-    controller.before('show', function(next, data) {
+    controller.before('show', function(data, next) {
       this.order.push(2);
       data.album = 'August and Everything After';
 
@@ -846,7 +846,7 @@ describe('Controller#before', function() {
 
       throw new Error('something was thrown');
     });
-    controller.before('show', function(next, data) {
+    controller.before('show', function(data, next) {
       this.order.push(2);
       data.album = 'August and Everything After';
       next(err, data);
@@ -897,6 +897,7 @@ describe('Controller#before', function() {
     });
   });
   
+  /*
   describe('filters using middleware-style callback that use data arguments', function() {
     var app = new MockApplication();
     var controller = new Controller();
@@ -959,7 +960,9 @@ describe('Controller#before', function() {
       expect(res.locals.song).to.equal('Mr. Jones');
     });
   });
+  */
   
+  /*
   describe('filters using middleware-style callback and data arguments that next error', function() {
     var app = new MockApplication();
     var controller = new Controller();
@@ -1033,7 +1036,9 @@ describe('Controller#before', function() {
       expect(Object.keys(res.locals)).to.have.length(0);
     });
   });
+  */
   
+  /*
   describe('filters using middleware-style callback and data arguments that throw exception', function() {
     var app = new MockApplication();
     var controller = new Controller();
@@ -1103,5 +1108,6 @@ describe('Controller#before', function() {
       expect(Object.keys(res.locals)).to.have.length(0);
     });
   });
+  */
   
 });
