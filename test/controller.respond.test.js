@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
@@ -23,7 +25,7 @@ describe('Controller#respond', function() {
         'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -32,7 +34,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -79,7 +81,7 @@ describe('Controller#respond', function() {
         'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -88,7 +90,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/xml';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -135,7 +137,7 @@ describe('Controller#respond', function() {
         'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -144,7 +146,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       // format extension overrides accept header
       req.params = { format: 'xml' };
       res = new MockResponse(done);
@@ -190,7 +192,7 @@ describe('Controller#respond', function() {
         'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, error, types;
     
@@ -199,7 +201,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(function() {
         return done(new Error('should not call res#end'));
       });
@@ -248,7 +250,7 @@ describe('Controller#respond', function() {
         'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
         default: function() { self.render({ format: 'foo', engine: 'foob' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -257,7 +259,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -305,7 +307,7 @@ describe('Controller#respond', function() {
         'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
         default: function() { self.render({ format: 'html', engine: 'dust' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -315,7 +317,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -363,7 +365,7 @@ describe('Controller#respond', function() {
         'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
         default: function() { self.render({ format: 'html', engine: 'dust' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -373,7 +375,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       // format extension overrides accept header
       req.params = { format: 'xml' };
       res = new MockResponse(done);
@@ -419,7 +421,7 @@ describe('Controller#respond', function() {
         'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -429,7 +431,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -476,7 +478,7 @@ describe('Controller#respond', function() {
         'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -486,7 +488,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       // format extension overrides accept header
       req.params = { format: 'xml' };
       res = new MockResponse(done);
@@ -535,7 +537,7 @@ describe('Controller#respond', function() {
         'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -544,7 +546,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -591,7 +593,7 @@ describe('Controller#respond', function() {
         'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -600,7 +602,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'xml';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -647,7 +649,7 @@ describe('Controller#respond', function() {
         'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -656,7 +658,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'json';
-      }
+      };
       // format extension overrides accept header
       req.params = { format: 'xml' };
       res = new MockResponse(done);
@@ -702,7 +704,7 @@ describe('Controller#respond', function() {
         'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, error, types;
     
@@ -711,7 +713,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(function() {
         return done(new Error('should not call res#end'));
       });
@@ -760,7 +762,7 @@ describe('Controller#respond', function() {
         'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
         default: function() { self.render({ format: 'foo', engine: 'foob' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -769,7 +771,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -817,7 +819,7 @@ describe('Controller#respond', function() {
         'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
         default: function() { self.render({ format: 'html', engine: 'dust' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -827,7 +829,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -875,7 +877,7 @@ describe('Controller#respond', function() {
         'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); },
         default: function() { self.render({ format: 'html', engine: 'dust' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -885,7 +887,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       // format extension overrides accept header
       req.params = { format: 'xml' };
       res = new MockResponse(done);
@@ -931,7 +933,7 @@ describe('Controller#respond', function() {
         'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -941,7 +943,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -988,7 +990,7 @@ describe('Controller#respond', function() {
         'json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
         'xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -998,7 +1000,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       // format extension overrides accept header
       req.params = { format: 'xml' };
       res = new MockResponse(done);
@@ -1042,13 +1044,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeType = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1057,7 +1058,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1100,13 +1101,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeType = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1115,7 +1115,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/xml';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1158,13 +1158,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeType = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1173,7 +1172,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/vnd.acme.foo';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1216,13 +1215,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeType = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, error, types;
     
@@ -1231,7 +1229,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(function() {
         return done(new Error('should not call res#end'));
       });
@@ -1276,14 +1274,13 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
         default: true
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1292,7 +1289,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1335,14 +1332,13 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
         default: {}
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1351,7 +1347,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1394,14 +1390,13 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
         default: { format: 'yaml', engine: 'yamlb' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1410,7 +1405,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1453,14 +1448,13 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
         default: true
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1470,7 +1464,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1513,14 +1507,13 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
         default: true
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1530,7 +1523,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       // format extension overrides accept header
       req.params = { format: 'xml' };
       res = new MockResponse(done);
@@ -1571,13 +1564,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1587,7 +1579,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1630,13 +1622,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByMimeTypeWithDefault = function() {
-      var self = this;
       this.respond({
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1646,7 +1637,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       // format extension overrides accept header
       req.params = { format: 'xml' };
       res = new MockResponse(done);
@@ -1690,13 +1681,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByExtension = function() {
-      var self = this;
       this.respond({
         'json': { engine: 'jsonb' },
         'xml': { template: 'feed', engine: 'xmlb' },
         'foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1705,7 +1695,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1748,13 +1738,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByExtension = function() {
-      var self = this;
       this.respond({
         'json': { engine: 'jsonb' },
         'xml': { template: 'feed', engine: 'xmlb' },
         'foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1763,7 +1752,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'xml';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1806,13 +1795,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByExtension = function() {
-      var self = this;
       this.respond({
         'json': { engine: 'jsonb' },
         'xml': { template: 'feed', engine: 'xmlb' },
         'foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1821,7 +1809,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'foo';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1864,13 +1852,12 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByExtension = function() {
-      var self = this;
       this.respond({
         'json': { engine: 'jsonb' },
         'xml': { template: 'feed', engine: 'xmlb' },
         'foo': { format: 'foo', engine: 'foob' }
       });
-    }
+    };
     
     var req, res, error, types;
     
@@ -1879,7 +1866,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(function() {
         return done(new Error('should not call res#end'));
       });
@@ -1924,14 +1911,13 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByExtensionWithDefault = function() {
-      var self = this;
       this.respond({
         'json': { engine: 'jsonb' },
         'xml': { template: 'feed', engine: 'xmlb' },
         'foo': { format: 'foo', engine: 'foob' },
         default: true
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1940,7 +1926,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -1983,14 +1969,13 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByExtensionWithDefault = function() {
-      var self = this;
       this.respond({
         'json': { engine: 'jsonb' },
         'xml': { template: 'feed', engine: 'xmlb' },
         'foo': { format: 'foo', engine: 'foob' },
         default: {}
       });
-    }
+    };
     
     var req, res, types;
     
@@ -1999,7 +1984,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -2042,14 +2027,13 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingOptionsKeyedByExtensionWithDefault = function() {
-      var self = this;
       this.respond({
         'json': { engine: 'jsonb' },
         'xml': { template: 'feed', engine: 'xmlb' },
         'foo': { format: 'foo', engine: 'foob' },
         default: { format: 'yaml', engine: 'yamlb' }
       });
-    }
+    };
     
     var req, res, types;
     
@@ -2058,7 +2042,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return undefined;
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -2104,12 +2088,11 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingDefaultsKeyedByMimeType = function() {
-      var self = this;
       this.respond({
         'application/json': true,
         'application/xml': true
       });
-    }
+    };
     
     var req, res, types;
     
@@ -2118,7 +2101,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -2160,12 +2143,11 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingDefaultsKeyedByMimeType = function() {
-      var self = this;
       this.respond({
         'application/json': true,
         'application/xml': true
       });
-    }
+    };
     
     var req, res, types;
     
@@ -2174,7 +2156,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'application/xml';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -2219,12 +2201,11 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingDefaultsKeyedByExtension = function() {
-      var self = this;
       this.respond({
         'json': true,
         'xml': true
       });
-    }
+    };
     
     var req, res, types;
     
@@ -2233,7 +2214,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'json';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
@@ -2275,12 +2256,11 @@ describe('Controller#respond', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.respondUsingDefaultsKeyedByExtension = function() {
-      var self = this;
       this.respond({
         'json': true,
         'xml': true
       });
-    }
+    };
     
     var req, res, types;
     
@@ -2289,7 +2269,7 @@ describe('Controller#respond', function() {
       req.accepts = function(type) {
         types = type;
         return 'xml';
-      }
+      };
       res = new MockResponse(done);
       
       controller._init(app, 'test');
