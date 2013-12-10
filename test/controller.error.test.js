@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
@@ -12,7 +14,7 @@ describe('Controller#error', function() {
     var controller = new Controller();
     controller.redirectWithUrl = function() {
       this.error(new Error('something went wrong'));
-    }
+    };
     
     var req, res, error;
     
@@ -43,7 +45,7 @@ describe('Controller#error', function() {
     
     controller.redirectWithUrl = function() {
       this.error(new Error('something went wrong'));
-    }
+    };
     controller.after('redirectWithUrl', function(err, req, res, next) {
       this.order.push({ i: 1, message: err.message });
       next(err);
@@ -83,7 +85,7 @@ describe('Controller#error', function() {
     
     controller.redirectWithUrl = function() {
       this.error(new Error('something went wrong'));
-    }
+    };
     controller.after('redirectWithUrl', function(err, req, res, next) {
       this.order.push({ i: 1, message: err.message });
       res.end();
@@ -117,7 +119,7 @@ describe('Controller#error', function() {
     var controller = new Controller();
     controller.causeTypeError = function() {
       this.lol.wat;
-    }
+    };
     
     var req, res, error;
     
@@ -146,7 +148,7 @@ describe('Controller#error', function() {
     var controller = new Controller();
     controller.causeTypeError = function() {
       this.lol.wat;
-    }
+    };
     controller.after('index', function(next) {
       return next();
     });

@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
@@ -82,7 +84,7 @@ describe('Controller', function() {
       var app = new MockApplication();
       var controller = new Controller();
       controller.show = function() {
-        throw new Error('something was thrown')
+        throw new Error('something was thrown');
       };
     
       var req, res, error;

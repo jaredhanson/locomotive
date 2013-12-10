@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
@@ -32,7 +34,7 @@ describe('Controller#before', function() {
       this.song = 'Mr. Jones';
       this._private = 'Untitled';
       this.render();
-    }
+    };
     
     var req, res;
     
@@ -79,7 +81,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Mr. Jones';
       this.render();
-    }
+    };
     controller.before('show', function(next) {
       this.order.push(1);
       this.band = 'Counting Crows';
@@ -146,7 +148,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.address = 'Berkeley, CA';
       this.render();
-    }
+    };
     proto.before(['theDoors', 'strangeDays'], function(next) {
       this.order.push(1);
       this.band = 'The Doors';
@@ -156,12 +158,12 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Break On Through (To the Other Side)';
       this.render();
-    }
+    };
     proto.strangeDays = function() {
       this.order.push('a');
       this.song = 'Love Me Two Times';
       this.render();
-    }
+    };
     
     describe('invoking first action', function() {
       var controller = Object.create(proto);
@@ -283,12 +285,12 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Break On Through (To the Other Side)';
       this.render();
-    }
+    };
     proto.strangeDays = function() {
       this.order.push('a');
       this.song = 'Love Me Two Times';
       this.render();
-    }
+    };
     proto.before(['theDoors', 'strangeDays'], function(next) {
       this.order.push(1);
       this.band = 'The Doors';
@@ -298,7 +300,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.address = 'Berkeley, CA';
       this.render();
-    }
+    };
     proto.before('index', function(next) {
       this.order.push('x');
       this.store = 'Amoeba Music';
@@ -431,7 +433,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.address = 'Berkeley, CA';
       this.render();
-    }
+    };
     proto.before('*', function(next) {
       this.order.push(1);
       this.band = 'The Doors';
@@ -441,12 +443,12 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Break On Through (To the Other Side)';
       this.render();
-    }
+    };
     proto.strangeDays = function() {
       this.order.push('a');
       this.song = 'Love Me Two Times';
       this.render();
-    }
+    };
     
     describe('invoking first action', function() {
       var controller = Object.create(proto);
@@ -570,12 +572,12 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Break On Through (To the Other Side)';
       this.render();
-    }
+    };
     proto.strangeDays = function() {
       this.order.push('a');
       this.song = 'Love Me Two Times';
       this.render();
-    }
+    };
     proto.before('*', function(next) {
       this.order.push(1);
       this.band = 'The Doors';
@@ -585,7 +587,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.address = 'Berkeley, CA';
       this.render();
-    }
+    };
     proto.before('index', function(next) {
       this.order.push('x');
       this.store = 'Amoeba Music';
@@ -726,7 +728,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Mr. Jones';
       this.render();
-    }
+    };
     
     var req, res, error;
     
@@ -784,7 +786,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Mr. Jones';
       this.render();
-    }
+    };
     
     var req, res, error;
     
@@ -839,7 +841,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Mr. Jones';
       this.render();
-    }
+    };
     
     var req, res;
     
@@ -900,7 +902,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Mr. Jones';
       this.render();
-    }
+    };
     
     var req, res, error;
     
@@ -964,7 +966,7 @@ describe('Controller#before', function() {
       this.order.push('a');
       this.song = 'Mr. Jones';
       this.render();
-    }
+    };
     
     var req, res, error;
     
