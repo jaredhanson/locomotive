@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
@@ -12,7 +14,7 @@ describe('Controller#render', function() {
     var controller = new Controller();
     controller.renderWithoutArguments = function() {
       this.render();
-    }
+    };
     
     var req, res;
     
@@ -52,7 +54,7 @@ describe('Controller#render', function() {
       this.title = 'On The Road';
       this.author = 'Jack Kerouac';
       this.render();
-    }
+    };
     
     var req, res;
     
@@ -91,7 +93,7 @@ describe('Controller#render', function() {
     var controller = new Controller();
     controller.renderWithFormat = function() {
       this.render({ format: 'xml' });
-    }
+    };
     
     var req, res;
     
@@ -128,7 +130,7 @@ describe('Controller#render', function() {
     var controller = new Controller();
     controller.renderWithFormat = function() {
       this.render({ format: 'application/atom+xml' });
-    }
+    };
     
     var req, res;
     
@@ -165,7 +167,7 @@ describe('Controller#render', function() {
     var controller = new Controller();
     controller.renderWithEngine = function() {
       this.render({ engine: 'haml' });
-    }
+    };
     
     var req, res;
     
@@ -202,7 +204,7 @@ describe('Controller#render', function() {
     var controller = new Controller();
     controller.renderWithFormatAndEngine = function() {
       this.render({ format: 'xml', engine: 'xmlb' });
-    }
+    };
     
     var req, res;
     
@@ -239,7 +241,7 @@ describe('Controller#render', function() {
     var controller = new Controller();
     controller.renderTemplate = function() {
       this.render('show');
-    }
+    };
     
     var req, res;
     
@@ -276,7 +278,7 @@ describe('Controller#render', function() {
     var controller = new Controller();
     controller.renderTemplateWithFormat = function() {
       this.render('show', { format: 'json' });
-    }
+    };
     
     var req, res;
     
@@ -313,7 +315,7 @@ describe('Controller#render', function() {
     var controller = new Controller();
     controller.renderTemplatePath = function() {
       this.render('other/show');
-    }
+    };
     
     var req, res;
     
@@ -355,7 +357,7 @@ describe('Controller#render', function() {
         this.render(function() {
           return done();
         });
-      }
+      };
       
       req = new MockRequest();
       res = new MockResponse(function() {
@@ -396,7 +398,7 @@ describe('Controller#render', function() {
         this.render('show', function() {
           return done();
         });
-      }
+      };
       
       req = new MockRequest();
       res = new MockResponse(function() {
@@ -437,7 +439,7 @@ describe('Controller#render', function() {
         this.render('show', { layout: 'email' }, function() {
           return done();
         });
-      }
+      };
       
       req = new MockRequest();
       res = new MockResponse(function() {

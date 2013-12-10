@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
@@ -16,7 +18,7 @@ describe('Controller#render', function() {
       var controller = new Controller();
       controller.renderDefaults = function() {
         this.render();
-      }
+      };
     
       var req, res;
     
@@ -53,7 +55,7 @@ describe('Controller#render', function() {
       var controller = new Controller();
       controller.renderWithEngineOverride = function() {
         this.render({ engine: 'dust' });
-      }
+      };
     
       var req, res;
     
@@ -90,7 +92,7 @@ describe('Controller#render', function() {
       var controller = new Controller();
       controller.renderWithExtensionOverride = function() {
         this.render({ extension: 'stache' });
-      }
+      };
     
       var req, res;
     
@@ -127,7 +129,7 @@ describe('Controller#render', function() {
       var controller = new Controller();
       controller.renderUnconfiguredFormat = function() {
         this.render({ format: 'xml' });
-      }
+      };
     
       var req, res;
     
@@ -170,7 +172,7 @@ describe('Controller#render', function() {
       var controller = new Controller();
       controller.renderDefaults = function() {
         this.render('feed', { format: 'xml' });
-      }
+      };
     
       var req, res;
     
@@ -206,7 +208,7 @@ describe('Controller#render', function() {
       var controller = new Controller();
       controller.renderWithEngineOverride = function() {
         this.render('feed', { format: 'xml', engine: 'ltxb' });
-      }
+      };
     
       var req, res;
     
@@ -242,7 +244,7 @@ describe('Controller#render', function() {
       var controller = new Controller();
       controller.renderWithEngineOverride = function() {
         this.render('feed', { format: 'xml', extension: 'builder' });
-      }
+      };
     
       var req, res;
     
@@ -278,7 +280,7 @@ describe('Controller#render', function() {
       var controller = new Controller();
       controller.renderWithEngineOverride = function() {
         this.render('feed', { format: 'xml', extension: '.xbuilder' });
-      }
+      };
     
       var req, res;
     
@@ -321,7 +323,7 @@ describe('Controller#render', function() {
       var controller = new Controller();
       controller.renderDefaults = function() {
         this.render({ format: 'foo' });
-      }
+      };
     
       var req, res;
     
