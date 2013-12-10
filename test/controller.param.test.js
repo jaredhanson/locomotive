@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
@@ -18,7 +20,7 @@ describe('Controller#param', function() {
       this.id = this.param('id');
       this.fullText = this.param('full_text', 'true');
       this.render();
-    }
+    };
     
     var req, res;
     

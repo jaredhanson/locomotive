@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
@@ -12,7 +14,7 @@ describe('Controller#redirect', function() {
     var controller = new Controller();
     controller.redirectWithUrl = function() {
       this.redirect('/home');
-    }
+    };
     
     var req, res;
     
@@ -42,7 +44,7 @@ describe('Controller#redirect', function() {
     var controller = new Controller();
     controller.redirectWithUrlAndStatusCode = function() {
       this.redirect('/home', 303);
-    }
+    };
     
     var req, res;
     
@@ -72,7 +74,7 @@ describe('Controller#redirect', function() {
     var controller = new Controller();
     controller.redirectWithUrlAndStatusCode = function() {
       this.redirect(303, '/home');
-    }
+    };
     
     var req, res;
     

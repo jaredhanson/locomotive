@@ -1,3 +1,5 @@
+/* global describe, it, before, expect */
+
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockController = require('./mocks/controller')
@@ -16,7 +18,7 @@ describe('Controller#invoke', function() {
     var controller = new Controller();
     controller.withShorthandNotation = function() {
       this.invoke('lorem#ipsum');
-    }
+    };
     
     var req, res;
     
@@ -51,7 +53,7 @@ describe('Controller#invoke', function() {
     var controller = new Controller();
     controller.withAction = function() {
       this.invoke('show');
-    }
+    };
     
     var req, res;
     
@@ -86,7 +88,7 @@ describe('Controller#invoke', function() {
     var controller = new Controller();
     controller.withControllerAndAction = function() {
       this.invoke('other', 'show');
-    }
+    };
     
     var req, res;
     
@@ -121,7 +123,7 @@ describe('Controller#invoke', function() {
     var controller = new Controller();
     controller.withNamespacedControllerAndAction = function() {
       this.invoke('admin/other', 'show');
-    }
+    };
     
     var req, res;
     
@@ -156,7 +158,7 @@ describe('Controller#invoke', function() {
     var controller = new Controller();
     controller.withNamespacedControllerAndActionUsingSnakeCaseStyle = function() {
       this.invoke('fulano_sutano/foo_bar', 'show');
-    }
+    };
     
     var req, res;
     
@@ -191,7 +193,7 @@ describe('Controller#invoke', function() {
     var controller = new Controller();
     controller.withNamespacedControllerAndActionUsingSnakeCaseControllerStyle = function() {
       this.invoke('fulano_sutano/foo_bar_controller', 'show');
-    }
+    };
     
     var req, res;
     
@@ -226,7 +228,7 @@ describe('Controller#invoke', function() {
     var controller = new Controller();
     controller.withNamespacedControllerAndActionUsingRubyStyle = function() {
       this.invoke('FulanoSutano::FooBar', 'show_something');
-    }
+    };
     
     var req, res;
     
@@ -261,7 +263,7 @@ describe('Controller#invoke', function() {
     var controller = new Controller();
     controller.withNamespacedControllerAndActionUsingRubyControllerStyle = function() {
       this.invoke('FulanoSutano::FooBarController', 'show_something');
-    }
+    };
     
     var req, res;
     
@@ -298,7 +300,7 @@ describe('Controller#invoke', function() {
     
     controller.withControllerAndAction = function() {
       this.invoke('other', 'show');
-    }
+    };
     controller.after('withControllerAndAction', function(next) {
       this.order.push(1);
       next();
