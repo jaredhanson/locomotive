@@ -1,5 +1,7 @@
-var locomotive = require('..')
-  , Application = require('../lib/application')
+/* global describe, it, expect */
+
+var Application = require('../lib/application');
+
 
 describe('Application', function() {
   
