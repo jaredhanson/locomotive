@@ -11,7 +11,6 @@ describe('Controller#before', function() {
   describe('filters declared above action, that use data arguments', function() {
     var app = new MockApplication();
     var controller = new Controller();
-    var err;
     controller.order = [];
 
     controller.before('index', function(next) {
@@ -19,19 +18,19 @@ describe('Controller#before', function() {
         store: 'Amoeba Music'
       };
       this.order.push('x');
-      next(err, data);
+      next(null, data);
     });
     controller.before('show', function(next) {
       var data = {
         band: 'Counting Crows'
       };
       this.order.push(1);
-      next(err, data);
+      next(null, data);
     });
     controller.before('show', function(data, next) {
       data.album = 'August and Everything After';
       this.order.push(2);
-      next(err, data);
+      next(null, data);
     });
     controller.show = function(data) {
       this.order.push('a');
@@ -81,12 +80,10 @@ describe('Controller#before', function() {
   describe('filters declared below action, that use data arguments', function() {
     var app = new MockApplication();
     var controller = new Controller();
-    var err;
     controller.order = [];
 
     controller.show = function(data) {
       this.order.push('a');
-
       this.song = 'Mr. Jones';
       this.band = data.band;
       this.album = data.album;
@@ -98,21 +95,19 @@ describe('Controller#before', function() {
         band: 'Counting Crows'
       };
       this.order.push(1);
-
-      next(err, data);
+      next(null, data);
     });
     controller.before('show', function(data, next) {
       data.album = 'August and Everything After';
       this.order.push(2);
-      next(err, data);
+      next(null, data);
     });
     controller.before('index', function(next) {
       var data = {
         store: 'Amoeba Music'
       };
       this.order.push('x');
-
-      next(err, data);
+      next(null, data);
     });
 
     var req, res;
@@ -148,25 +143,23 @@ describe('Controller#before', function() {
       expect(res.locals.band).to.equal('Counting Crows');
       expect(res.locals.album).to.equal('August and Everything After');
       expect(res.locals.song).to.equal('Mr. Jones');
-      expect(res.locals.store).to.be.an('undefined');
+      expect(res.locals.store).to.be.undefined;
     });
   });
   
   describe('filters for multiple actions, declared above action, that use data arguments', function() {
     var app = new MockApplication();
     var proto = new Controller();
-    var err;
 
     proto.before('index', function(next) {
       var data = {
         store: 'Amoeba Music'
       };
       this.order.push('x');
-      next(err, data);
+      next(null, data);
     });
     proto.index = function(data) {
       this.order.push('a');
-
       this.store = data.store;
       this.address = 'Berkeley, CA';
       this.render();
@@ -176,18 +169,16 @@ describe('Controller#before', function() {
         band: 'The Doors'
       };
       this.order.push(1);
-      next(err, data);
+      next(null, data);
     });
     proto.theDoors = function(data) {
       this.order.push('a');
-
       this.band = data.band;
       this.song = 'Break On Through (To the Other Side)';
       this.render();
     }
     proto.strangeDays = function(data) {
       this.order.push('a');
-
       this.band = data.band;
       this.song = 'Love Me Two Times';
       this.render();
@@ -308,7 +299,6 @@ describe('Controller#before', function() {
   describe('filters for multiple actions, declared below action, that use data arguments', function() {
     var app = new MockApplication();
     var proto = new Controller();
-    var err;
 
     proto.theDoors = function(data) {
       this.order.push('a');
@@ -327,7 +317,7 @@ describe('Controller#before', function() {
         band: 'The Doors'
       };
       this.order.push(1);
-      next(err, data);
+      next(null, data);
     });
     proto.index = function(data) {
       this.order.push('a');
@@ -340,7 +330,7 @@ describe('Controller#before', function() {
         store: 'Amoeba Music'
       };
       this.order.push('x');
-      next(err, data);
+      next(null, data);
     });
 
     describe('invoking first action', function() {
@@ -458,18 +448,15 @@ describe('Controller#before', function() {
   describe('filters for all actions declared above action, that use data arguments', function() {
     var app = new MockApplication();
     var proto = new Controller();
-    var err;
 
-    proto.before('index', function(next) {
-      var data = {
-        store: 'Amoeba Music'
-      };
+    proto.before('index', function(data, next) {
+      data = data || {};
       this.order.push('x');
-      next(err, data);
+      data.store = 'Amoeba Music';
+      next(null, data);
     });
     proto.index = function(data) {
       this.order.push('a');
-
       this.address = 'Berkeley, CA';
       this.store = data.store;
       this.band = data.band;
@@ -478,20 +465,17 @@ describe('Controller#before', function() {
     proto.before('*', function(data, next) {
       data = data || {};
       data.band = 'The Doors';
-
       this.order.push(1);
-      next(err, data);
+      next(null, data);
     });
     proto.theDoors = function(data) {
       this.order.push('a');
-
       this.song = 'Break On Through (To the Other Side)';
       this.band = data.band;
       this.render();
     }
     proto.strangeDays = function(data) {
       this.order.push('a');
-
       this.song = 'Love Me Two Times';
       this.band = data.band;
       this.render();
@@ -614,32 +598,27 @@ describe('Controller#before', function() {
   describe('filters for all actions, declared below action, that use data arguments', function() {
     var app = new MockApplication();
     var proto = new Controller();
-    var err;
 
     proto.theDoors = function(data) {
       this.order.push('a');
-
       this.song = 'Break On Through (To the Other Side)';
       this.band = data.band;
       this.render();
     }
     proto.strangeDays = function(data) {
       this.order.push('a');
-
       this.song = 'Love Me Two Times';
       this.band = data.band;
       this.render();
     }
     proto.before('*', function(data, next) {
       data = data || {};
-
       this.order.push(1);
       data.band = 'The Doors';
-      next(err, data);
+      next(null, data);
     });
     proto.index = function(data) {
       this.order.push('a');
-
       this.address = 'Berkeley, CA';
       this.store = data.store;
       this.band = data.band;
@@ -647,10 +626,9 @@ describe('Controller#before', function() {
     }
     proto.before('index', function(data, next) {
       data = data || {};
-
       this.order.push('x');
       data.store = 'Amoeba Music';
-      next(err, data);
+      next(null, data);
     });
 
     describe('invoking first action', function() {
@@ -777,18 +755,15 @@ describe('Controller#before', function() {
       var data = {
         band: 'Counting Crows'
       }
-
       next(new Error('something went wrong'), data);
     });
     controller.before('show', function(data, next) {
       this.order.push(2);
       data.album = 'August and Everything After';
-
-      next(undefined, data);
+      next(null, data);
     });
     controller.show = function(data) {
       this.order.push('a');
-
       this.song = 'Mr. Jones';
       this.album = data.album;
       this.band = data.band;
@@ -835,7 +810,6 @@ describe('Controller#before', function() {
   describe('filter chain with data arguments that halts due to exception', function() {
     var app = new MockApplication();
     var controller = new Controller();
-    var err;
     controller.order = [];
 
     controller.before('show', function(next) {
@@ -843,17 +817,15 @@ describe('Controller#before', function() {
       var data = {
         band: 'Counting Crows'
       };
-
       throw new Error('something was thrown');
     });
     controller.before('show', function(data, next) {
       this.order.push(2);
       data.album = 'August and Everything After';
-      next(err, data);
+      next(null, data);
     });
     controller.show = function(data) {
       this.order.push('a');
-
       this.song = 'Mr. Jones';
       this.album = data.album;
       this.band = data.band;
