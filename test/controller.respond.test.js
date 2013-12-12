@@ -1598,8 +1598,8 @@ describe('Controller#respond', function() {
       expect(types[2]).to.equal('application/vnd.acme.foo');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/json');
     });
     
     it('should set vary header', function() {
