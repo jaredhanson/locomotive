@@ -335,8 +335,8 @@ describe('Controller#respond', function() {
       expect(types[1]).to.equal('application/xml');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should set vary header', function() {
@@ -449,8 +449,8 @@ describe('Controller#respond', function() {
       expect(types[1]).to.equal('application/xml');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/json');
     });
     
     it('should set vary header', function() {
@@ -505,8 +505,8 @@ describe('Controller#respond', function() {
       expect(types).to.be.undefined;
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/xml');
     });
     
     it('should set vary header', function() {
@@ -848,7 +848,7 @@ describe('Controller#respond', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should set vary header', function() {
@@ -1308,8 +1308,8 @@ describe('Controller#respond', function() {
       expect(types[2]).to.equal('application/vnd.acme.foo');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should set vary header', function() {
@@ -1366,8 +1366,8 @@ describe('Controller#respond', function() {
       expect(types[2]).to.equal('application/vnd.acme.foo');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should set vary header', function() {
@@ -1483,8 +1483,8 @@ describe('Controller#respond', function() {
       expect(types[2]).to.equal('application/vnd.acme.foo');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should set vary header', function() {
@@ -1945,8 +1945,8 @@ describe('Controller#respond', function() {
       expect(types[2]).to.equal('foo');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should set vary header', function() {
@@ -2003,8 +2003,8 @@ describe('Controller#respond', function() {
       expect(types[2]).to.equal('foo');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should set vary header', function() {

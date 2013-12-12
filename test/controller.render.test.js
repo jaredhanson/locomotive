@@ -30,9 +30,8 @@ describe('Controller#render', function() {
       controller._invoke('renderWithoutArguments');
     });
     
-    // TODO: Figure out strategy for setting content-type, and apply it to all test cases
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
@@ -70,8 +69,8 @@ describe('Controller#render', function() {
       controller._invoke('renderWithLocals');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
@@ -183,8 +182,8 @@ describe('Controller#render', function() {
       controller._invoke('renderWithEngine');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
@@ -257,8 +256,8 @@ describe('Controller#render', function() {
       controller._invoke('renderTemplate');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
@@ -331,8 +330,8 @@ describe('Controller#render', function() {
       controller._invoke('renderTemplatePath');
     });
     
-    it.skip('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html');
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
