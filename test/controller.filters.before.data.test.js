@@ -39,7 +39,7 @@ describe('Controller#before', function() {
       this.band = data.band;
       this.album = data.album;
       this.render();
-    }
+    };
 
     var req, res;
 
@@ -89,7 +89,7 @@ describe('Controller#before', function() {
       this.album = data.album;
       this.store = data.store; //undefined
       this.render();
-    }
+    };
     controller.before('show', function(next) {
       var data = {
         band: 'Counting Crows'
@@ -163,7 +163,7 @@ describe('Controller#before', function() {
       this.store = data.store;
       this.address = 'Berkeley, CA';
       this.render();
-    }
+    };
     proto.before(['theDoors', 'strangeDays'], function(next) {
       var data = {
         band: 'The Doors'
@@ -176,13 +176,13 @@ describe('Controller#before', function() {
       this.band = data.band;
       this.song = 'Break On Through (To the Other Side)';
       this.render();
-    }
+    };
     proto.strangeDays = function(data) {
       this.order.push('a');
       this.band = data.band;
       this.song = 'Love Me Two Times';
       this.render();
-    }
+    };
 
     describe('invoking first action', function() {
       var controller = Object.create(proto);
@@ -305,13 +305,13 @@ describe('Controller#before', function() {
       this.band = data.band;
       this.song = 'Break On Through (To the Other Side)';
       this.render();
-    }
+    };
     proto.strangeDays = function(data) {
       this.order.push('a');
       this.band = data.band;
       this.song = 'Love Me Two Times';
       this.render();
-    }
+    };
     proto.before(['theDoors', 'strangeDays'], function(next) {
       var data = {
         band: 'The Doors'
@@ -324,7 +324,7 @@ describe('Controller#before', function() {
       this.store = data.store;
       this.address = 'Berkeley, CA';
       this.render();
-    }
+    };
     proto.before('index', function(next) {
       var data = {
         store: 'Amoeba Music'
@@ -461,7 +461,7 @@ describe('Controller#before', function() {
       this.store = data.store;
       this.band = data.band;
       this.render();
-    }
+    };
     proto.before('*', function(data, next) {
       data = data || {};
       data.band = 'The Doors';
@@ -473,13 +473,13 @@ describe('Controller#before', function() {
       this.song = 'Break On Through (To the Other Side)';
       this.band = data.band;
       this.render();
-    }
+    };
     proto.strangeDays = function(data) {
       this.order.push('a');
       this.song = 'Love Me Two Times';
       this.band = data.band;
       this.render();
-    }
+    };
 
     describe('invoking first action', function() {
       var controller = Object.create(proto);
@@ -604,13 +604,13 @@ describe('Controller#before', function() {
       this.song = 'Break On Through (To the Other Side)';
       this.band = data.band;
       this.render();
-    }
+    };
     proto.strangeDays = function(data) {
       this.order.push('a');
       this.song = 'Love Me Two Times';
       this.band = data.band;
       this.render();
-    }
+    };
     proto.before('*', function(data, next) {
       data = data || {};
       this.order.push(1);
@@ -623,7 +623,7 @@ describe('Controller#before', function() {
       this.store = data.store;
       this.band = data.band;
       this.render();
-    }
+    };
     proto.before('index', function(data, next) {
       data = data || {};
       this.order.push('x');
@@ -754,7 +754,7 @@ describe('Controller#before', function() {
       this.order.push(1);
       var data = {
         band: 'Counting Crows'
-      }
+      };
       next(new Error('something went wrong'), data);
     });
     controller.before('show', function(data, next) {
@@ -768,7 +768,7 @@ describe('Controller#before', function() {
       this.album = data.album;
       this.band = data.band;
       this.render();
-    }
+    };
 
     var req, res, error;
 
@@ -830,7 +830,7 @@ describe('Controller#before', function() {
       this.album = data.album;
       this.band = data.band;
       this.render();
-    }
+    };
 
     var req, res, error;
 
