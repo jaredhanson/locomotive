@@ -8,7 +8,7 @@ var Controller = require('../lib/controller')
 
 describe('Controller#before', function() {
 
-  describe('filters declared above action, that use data arguments', function() {
+  describe('filters that pass data declared above action', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.order = [];
@@ -77,7 +77,7 @@ describe('Controller#before', function() {
     });
   });
   
-  describe('filters declared below action, that use data arguments', function() {
+  describe('filters that pass data declared below action', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.order = [];
@@ -147,7 +147,7 @@ describe('Controller#before', function() {
     });
   });
   
-  describe('filters for multiple actions, declared above action, that use data arguments', function() {
+  describe('filters that pass data, for multiple actions, declared above action', function() {
     var app = new MockApplication();
     var proto = new Controller();
 
@@ -296,7 +296,7 @@ describe('Controller#before', function() {
     });
   });
   
-  describe('filters for multiple actions, declared below action, that use data arguments', function() {
+  describe('filters that pass data, for multiple actions, declared below action', function() {
     var app = new MockApplication();
     var proto = new Controller();
 
@@ -445,7 +445,7 @@ describe('Controller#before', function() {
     });
   });
   
-  describe('filters for all actions declared above action, that use data arguments', function() {
+  describe('filters that pass data, for all actions, declared above action', function() {
     var app = new MockApplication();
     var proto = new Controller();
 
@@ -595,7 +595,7 @@ describe('Controller#before', function() {
     });
   });
   
-  describe('filters for all actions, declared below action, that use data arguments', function() {
+  describe('filters that pass data, for all actions, declared below action', function() {
     var app = new MockApplication();
     var proto = new Controller();
 
@@ -745,7 +745,7 @@ describe('Controller#before', function() {
     });
   });
   
-  describe('filter chain with data arguments that halts due to error', function() {
+  describe('filter chain passing data that halts due to error', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.order = [];
@@ -807,7 +807,7 @@ describe('Controller#before', function() {
     });
   });
   
-  describe('filter chain with data arguments that halts due to exception', function() {
+  describe('filter chain passing data that halts due to exception', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.order = [];
