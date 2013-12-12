@@ -46,13 +46,11 @@ describe('Controller#render', function() {
     });
   });
   
-  describe('without arguments after assigning locals', function() {
+  describe('without arguments using mime option', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.renderWithLocals = function() {
-      this.title = 'On The Road';
-      this.author = 'Jack Kerouac';
-      this.render();
+      this.render({ mime: 'application/html' });
     };
     
     var req, res;
@@ -70,7 +68,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
+      expect(res.getHeader('Content-Type')).to.equal('application/html');
     });
     
     it('should render view without options', function() {
@@ -79,11 +77,46 @@ describe('Controller#render', function() {
       expect(Object.keys(res._options)).to.have.length(0);
     });
     
-    it('should assign locals', function() {
+    it('should not assign locals', function() {
       expect(res.locals).to.be.an('object');
-      expect(Object.keys(res.locals)).to.have.length(2);
-      expect(res.locals.title).to.equal('On The Road');
-      expect(res.locals.author).to.equal('Jack Kerouac');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  describe('without arguments using charset option', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.renderWithLocals = function() {
+      this.render({ charset: 'US-ASCII' });
+    };
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderWithLocals');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=US-ASCII');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/render_with_locals.html.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
     });
   });
   
@@ -122,6 +155,47 @@ describe('Controller#render', function() {
     it('should not assign locals', function() {
       expect(res.locals).to.be.an('object');
       expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  describe('without arguments after assigning locals', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.renderWithLocals = function() {
+      this.title = 'On The Road';
+      this.author = 'Jack Kerouac';
+      this.render();
+    };
+    
+    var req, res;
+    
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('renderWithLocals');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/render_with_locals.html.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(2);
+      expect(res.locals.title).to.equal('On The Road');
+      expect(res.locals.author).to.equal('Jack Kerouac');
     });
   });
   
