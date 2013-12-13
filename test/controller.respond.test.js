@@ -2308,6 +2308,219 @@ describe('Controller#respond', function() {
   });
   
   
+  /* defaults as array of MIME types */
+  
+  describe('to request that accepts JSON based on MIME type using defaults in array form', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondUsingDefaultsKeyedByMimeType = function() {
+      this.respond([ 'application/json', 'application/xml' ]);
+    };
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'application/json';
+      };
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondUsingDefaultsKeyedByMimeType');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/json');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/respond_using_defaults_keyed_by_mime_type.json.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  describe('to request that accepts XML based on MIME type using defaults', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondUsingDefaultsKeyedByMimeType = function() {
+      this.respond([ 'application/json', 'application/xml' ]);
+    };
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'application/xml';
+      };
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondUsingDefaultsKeyedByMimeType');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/xml');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/respond_using_defaults_keyed_by_mime_type.xml.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  /* defaults as array of extensions */
+  
+  describe('to request that accepts JSON based on extension using defaults', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondUsingDefaultsKeyedByExtension = function() {
+      this.respond([ 'json', 'xml' ]);
+    };
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'json';
+      };
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondUsingDefaultsKeyedByExtension');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('json');
+      expect(types[1]).to.equal('xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/json');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/respond_using_defaults_keyed_by_extension.json.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  describe('to request that accepts XML based on extension using defaults', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondUsingDefaultsKeyedByExtension = function() {
+      this.respond([ 'json', 'xml' ]);
+    };
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'xml';
+      };
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondUsingDefaultsKeyedByExtension');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('json');
+      expect(types[1]).to.equal('xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/xml');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+    
+    it('should render view without options', function() {
+      expect(res._view).to.equal('test/respond_using_defaults_keyed_by_extension.xml.ejs');
+      expect(res._options).to.be.an('object');
+      expect(Object.keys(res._options)).to.have.length(0);
+    });
+    
+    it('should not assign locals', function() {
+      expect(res.locals).to.be.an('object');
+      expect(Object.keys(res.locals)).to.have.length(0);
+    });
+  });
+  
+  
   /* Vary Header */
   
   describe('to request that accepts JSON based after setting vary field to accept', function() {
