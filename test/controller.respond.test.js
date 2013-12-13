@@ -2307,4 +2307,145 @@ describe('Controller#respond', function() {
     });
   });
   
+  
+  /* Vary Header */
+  
+  describe('to request that accepts JSON based after setting vary field to accept', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondWithVary = function() {
+      var self = this;
+      this.res.setHeader('Vary', 'Accept');
+      this.respond({
+        'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+        'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+      });
+    };
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'application/json';
+      };
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondWithVary');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/json');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept');
+    });
+  });
+  
+  describe('to request that accepts JSON based after setting vary field to accept-encoding', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondWithVary = function() {
+      var self = this;
+      this.res.setHeader('Vary', 'Accept-Encoding');
+      this.respond({
+        'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+        'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+      });
+    };
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'application/json';
+      };
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondWithVary');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/json');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept-Encoding, Accept');
+    });
+  });
+  
+  describe('to request that accepts JSON based after setting vary field to accept and accept-encoding', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.respondWithVary = function() {
+      var self = this;
+      this.res.setHeader('Vary', 'Accept, Accept-Encoding');
+      this.respond({
+        'application/json': function() { self.render({ format: 'json', engine: 'jsonb' }); },
+        'application/xml': function() { self.render({ format: 'xml', engine: 'xmlb' }); }
+      });
+    };
+    
+    var req, res, types;
+    
+    before(function(done) {
+      req = new MockRequest();
+      req.accepts = function(type) {
+        types = type;
+        return 'application/json';
+      };
+      res = new MockResponse(done);
+      
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        if (err) { return done(err); }
+        return done(new Error('should not call next'));
+      });
+      controller._invoke('respondWithVary');
+    });
+    
+    it('should negotiate content type', function() {
+      expect(types).to.be.an('array');
+      expect(types).to.have.lengthOf(2);
+      expect(types[0]).to.equal('application/json');
+      expect(types[1]).to.equal('application/xml');
+    });
+    
+    it('should set content-type header', function() {
+      expect(res.getHeader('Content-Type')).to.equal('application/json');
+    });
+    
+    it('should set vary header', function() {
+      expect(res.getHeader('Vary')).to.equal('Accept, Accept-Encoding');
+    });
+  });
+  
 });
