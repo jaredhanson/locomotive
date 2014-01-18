@@ -869,7 +869,7 @@ describe('Controller#before', function() {
     });
   });
 
-  describe('filte declaration using chaining syntax', function() {
+  describe('filter declaration using chaining syntax that pass data', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.order = [];

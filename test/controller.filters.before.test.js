@@ -1061,7 +1061,6 @@ describe('Controller#before', function() {
   });
 
   describe('filter declaration using chaining syntax', function() {
-
     var app = new MockApplication();
     var controller = new Controller();
     controller.order = [];
