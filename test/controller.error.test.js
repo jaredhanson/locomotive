@@ -143,6 +143,41 @@ describe('Controller#error', function() {
     });
   });
   
+  describe('implicitly due to rejected promise', function() {
+    var app = new MockApplication();
+    var controller = new Controller();
+    controller.returnRejectedPromise = function() {
+      var promise = {};
+      promise.then = function (fulfilled, rejected) {
+        if (typeof rejected === "function") {
+          return rejected(new Error("mock error"));
+        }
+      };
+      return promise;
+    };
+
+    var req, res, error;
+
+    before(function(done) {
+      req = new MockRequest();
+      res = new MockResponse(function() {
+        return done(new Error('should not call res#end'));
+      });
+
+      controller._init(app, 'test');
+      controller._prepare(req, res, function(err) {
+        error = err;
+        return done();
+      });
+      controller._invoke('returnRejectedPromise');
+    });
+
+    it('should next with error', function() {
+      expect(error).to.be.an.instanceOf(Error);
+      expect(error.message).to.eql('mock error');
+    });
+  });
+
   describe('implicitly due to exception with non-matching after filter', function() {
     var app = new MockApplication();
     var controller = new Controller();
