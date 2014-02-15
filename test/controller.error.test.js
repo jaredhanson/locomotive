@@ -3,7 +3,8 @@
 var Controller = require('../lib/controller')
   , MockApplication = require('./mocks/application')
   , MockRequest = require('./mocks/request')
-  , MockResponse = require('./mocks/response');
+  , MockResponse = require('./mocks/response')
+  , Promise = require('promise');
 
 
 
@@ -146,13 +147,12 @@ describe('Controller#error', function() {
   describe('implicitly due to rejected promise', function() {
     var app = new MockApplication();
     var controller = new Controller();
-    controller.returnRejectedPromise = function() {
-      var promise = {};
-      promise.then = function (fulfilled, rejected) {
-        if (typeof rejected === "function") {
-          return rejected(new Error("mock error"));
-        }
-      };
+    controller.rejectedPromise = function() {
+      var promise = new Promise(function(resolve, reject) {
+        process.nextTick(function() {
+          return reject(new Error('promise was rejected'));
+        });
+      });
       return promise;
     };
 
@@ -169,12 +169,12 @@ describe('Controller#error', function() {
         error = err;
         return done();
       });
-      controller._invoke('returnRejectedPromise');
+      controller._invoke('rejectedPromise');
     });
 
     it('should next with error', function() {
       expect(error).to.be.an.instanceOf(Error);
-      expect(error.message).to.eql('mock error');
+      expect(error.message).to.equal('promise was rejected');
     });
   });
 

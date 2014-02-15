@@ -50,7 +50,8 @@
     "mocha": "1.x.x",
     "chai": "1.x.x",
     "chai-connect-middleware": "0.3.x",
-    "chai-locomotive-helpers": "0.1.x"
+    "chai-locomotive-helpers": "0.1.x",
+    "promise": "4.x.x"
   },
   "engines": {
     "node": ">= 0.6.0"
