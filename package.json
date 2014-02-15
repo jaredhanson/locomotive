@@ -40,6 +40,7 @@
     "actionrouter": "0.1.x",
     "bootable": "0.2.x",
     "bootable-environment": "0.2.x",
+    "parent-require": "1.x.x",
     "mkdirp": "0.3.x",
     "scripts": "0.1.x",
     "utils-flatten": "1.x.x",
