@@ -26,6 +26,9 @@ describe('locomotive', function() {
     expect(locomotive.boot.routes).to.be.a('function');
     expect(locomotive.boot.httpServer).to.be.a('function');
     expect(locomotive.boot.httpServerCluster).to.be.a('function');
+    
+    expect(locomotive.boot.di).to.be.an('object');
+    expect(locomotive.boot.di.routes).to.be.a('function');
   });
   
 });
