@@ -61,11 +61,9 @@ program.command('server')
 program.command('help')
   .description('-> display possible commands')
   .action(function(){
-    process.outputHelp()
+    program.help();
   });
 
-if (!program.args) {
-  process.outputHelp()
-}
-
 program.parse(process.argv);
+
+if (!program.args.length) program.help();
