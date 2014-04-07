@@ -27,9 +27,9 @@ program.command('server')
     options.address = options.address || '0.0.0.0';
     options.port = options.port || process.env.PORT || 3000;
     options.env = options.env || process.env.NODE_ENV || 'development';
-
+    
     // TODO: Implement daemon and cluster mode
-
+    
     locomotive.cli.server(options.app || process.cwd(), options.address, options.port, options.env, options);
   }).on('--help', function(options) {
     if (program.rawArgs && program.rawArgs.indexOf('--more') != -1) {
