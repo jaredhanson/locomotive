@@ -46,7 +46,7 @@
     "utils-flatten": "1.x.x",
     "syntax-error": "0.1.x",
     "debug": "0.8.x",
-    "send": "0.2.x"
+    "mime": "1.2.x"
   },
   "devDependencies": {
     "mocha": "1.x.x",
