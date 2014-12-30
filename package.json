@@ -1,6 +1,6 @@
 {
   "name": "locomotive",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Powerful MVC web framework for Node.js.",
   "keywords": [
     "express",
