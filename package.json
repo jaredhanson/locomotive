@@ -1,6 +1,6 @@
 {
   "name": "maglev",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Powerful MVC web framework for Node.js.",
   "keywords": [
     "express",
@@ -51,7 +51,7 @@
     "mocha": "1.x.x",
     "chai": "1.x.x",
     "chai-connect-middleware": "0.3.x",
-    "chai-locomotive-helpers": "0.1.x",
+    "chai-maglev-helpers": "git+ssh://git@github.com:viadeo/chai-maglev-helpers.git#0.2.0",
     "promise": "4.x.x"
   },
   "engines": {
