@@ -13,7 +13,7 @@ describe('helpers/url', function() {
       var linkTo;
       
       before(function(done) {
-        chai.locomotive.helper(helpers.linkTo, 'test', 'show')
+        chai.maglev.helper(helpers.linkTo, 'test', 'show')
           .app(function(app) {
             app.route('/profile', 'profile', 'show');
             app.route('/animals/:id', 'animals', 'show');

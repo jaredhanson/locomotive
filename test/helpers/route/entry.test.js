@@ -13,7 +13,7 @@ describe('helpers/route/entry', function() {
       var pathHelper;
     
       before(function(done) {
-        chai.locomotive.helper(routeHelper('songs', 'index', [], true), 'test', 'show')
+        chai.maglev.helper(routeHelper('songs', 'index', [], true), 'test', 'show')
           .app(function(app) {
             app.route('/songs', 'songs', 'index');
             app.dynamicHelper('urlFor', dynamicHelpers.urlFor);
@@ -37,7 +37,7 @@ describe('helpers/route/entry', function() {
       var pathHelper;
     
       before(function(done) {
-        chai.locomotive.helper(routeHelper('songs', 'show', [ 'id' ], true), 'test', 'show')
+        chai.maglev.helper(routeHelper('songs', 'show', [ 'id' ], true), 'test', 'show')
           .app(function(app) {
             app.route('/songs/:id', 'songs', 'show');
             app.dynamicHelper('urlFor', dynamicHelpers.urlFor);
@@ -74,7 +74,7 @@ describe('helpers/route/entry', function() {
       var pathHelper;
     
       before(function(done) {
-        chai.locomotive.helper(routeHelper('albums', 'show', [ 'band_id', 'id' ], true), 'test', 'show')
+        chai.maglev.helper(routeHelper('albums', 'show', [ 'band_id', 'id' ], true), 'test', 'show')
           .app(function(app) {
             app.route('/bands/:band_id/albums/:id', 'albums', 'show');
             app.dynamicHelper('urlFor', dynamicHelpers.urlFor);
@@ -119,7 +119,7 @@ describe('helpers/route/entry', function() {
       var urlHelper;
     
       before(function(done) {
-        chai.locomotive.helper(routeHelper('songs', 'index', []), 'test', 'show')
+        chai.maglev.helper(routeHelper('songs', 'index', []), 'test', 'show')
           .app(function(app) {
             app.route('/songs', 'songs', 'index');
             app.dynamicHelper('urlFor', dynamicHelpers.urlFor);
@@ -143,7 +143,7 @@ describe('helpers/route/entry', function() {
       var urlHelper;
     
       before(function(done) {
-        chai.locomotive.helper(routeHelper('songs', 'show', [ 'id' ]), 'test', 'show')
+        chai.maglev.helper(routeHelper('songs', 'show', [ 'id' ]), 'test', 'show')
           .app(function(app) {
             app.route('/songs/:id', 'songs', 'show');
             app.dynamicHelper('urlFor', dynamicHelpers.urlFor);
@@ -180,7 +180,7 @@ describe('helpers/route/entry', function() {
       var urlHelper;
     
       before(function(done) {
-        chai.locomotive.helper(routeHelper('albums', 'show', [ 'band_id', 'id' ]), 'test', 'show')
+        chai.maglev.helper(routeHelper('albums', 'show', [ 'band_id', 'id' ]), 'test', 'show')
           .app(function(app) {
             app.route('/bands/:band_id/albums/:id', 'albums', 'show');
             app.dynamicHelper('urlFor', dynamicHelpers.urlFor);

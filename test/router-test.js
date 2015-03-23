@@ -1,14 +1,14 @@
 var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
-//var Router = require('locomotive/router');
-//var Route = require('locomotive/route');
-var dynamicHelpers = require('locomotive/helpers/dynamic');
+//var Router = require('maglev/router');
+//var Route = require('maglev/route');
+var dynamicHelpers = require('maglev/helpers/dynamic');
 
 
-/* MockLocomotive */
+/* MockMaglev */
 
-function MockLocomotive() {
+function MockMaglev() {
   var self = this;
   this._routes = {};
   this._routes.find = function(controller, action) {
@@ -20,8 +20,8 @@ function MockLocomotive() {
   this._dynamicHelpers = {};
 }
 
-MockLocomotive.prototype.helper = 
-MockLocomotive.prototype.helpers = function(obj, fn) {
+MockMaglev.prototype.helper = 
+MockMaglev.prototype.helpers = function(obj, fn) {
   if (fn) {
     var name = obj;
     obj = {};
@@ -33,8 +33,8 @@ MockLocomotive.prototype.helpers = function(obj, fn) {
   }
 }
 
-MockLocomotive.prototype.dynamicHelper = 
-MockLocomotive.prototype.dynamicHelpers = function(obj, fn) {
+MockMaglev.prototype.dynamicHelper = 
+MockMaglev.prototype.dynamicHelpers = function(obj, fn) {
   if (fn) {
     var name = obj;
     obj = {};
@@ -80,7 +80,7 @@ function MockResponse() {
 
 
 function intializedRouter() {
-  var app = new MockLocomotive();
+  var app = new MockMaglev();
   var router = new Router(app);
   var http = new MockExpress();
   function handle(controller, action) {
@@ -338,7 +338,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.path, '/lyrics');
       assert.equal(route.fn.name, 'middleware1');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -361,7 +361,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.path, '/lyrics');
       assert.equal(route.fn.name, 'middleware1');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -384,7 +384,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.path, '/lyrics');
       assert.equal(route.fn.name, 'middleware1');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -411,7 +411,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.path, '/lyrics');
       assert.equal(route.fn.name, 'middleware1');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -437,7 +437,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -463,7 +463,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -489,7 +489,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -521,7 +521,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -547,7 +547,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -573,7 +573,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -700,7 +700,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.path, '/lyrics');
       assert.equal(route.fn.name, 'middleware1');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -726,7 +726,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -752,7 +752,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -863,7 +863,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.path, '/lyrics');
       assert.equal(route.fn.name, 'middleware1');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -889,7 +889,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -915,7 +915,7 @@ vows.describe('Router').addBatch({
       assert.equal(route.fn[0].name, 'middleware1');
       assert.equal(route.fn[1].name, 'middleware2');
     },
-    'should not mount locomotive routes': function (router) {
+    'should not mount maglev routes': function (router) {
       assert.lengthOf(Object.keys(router._app._routes), 1);
       assert.isFunction(router._app._routes.find);
     },
@@ -2476,12 +2476,12 @@ vows.describe('Router').addBatch({
     
     'should generate correct paths': function (router) {
       // setup app and urlFor helper
-      var app = new MockLocomotive();
+      var app = new MockMaglev();
       app._routes['SongsController#index'] = new Route('get', '/songs');
       var req = new MockRequest();
       req.headers = { 'host': 'www.example.com' };
-      req._locomotive = {};
-      req._locomotive.app = app;
+      req._maglev = {};
+      req._maglev.app = app;
       var res = new MockResponse();
       
       var context = {};
@@ -2511,12 +2511,12 @@ vows.describe('Router').addBatch({
     
     'should generate correct paths': function (router) {
       // setup app and urlFor helper
-      var app = new MockLocomotive();
+      var app = new MockMaglev();
       app._routes['SongsController#show'] = new Route('get', '/songs/:id');
       var req = new MockRequest();
       req.headers = { 'host': 'www.example.com' };
-      req._locomotive = {};
-      req._locomotive.app = app;
+      req._maglev = {};
+      req._maglev.app = app;
       var res = new MockResponse();
       
       var context = {};
@@ -2552,12 +2552,12 @@ vows.describe('Router').addBatch({
     
     'should generate correct paths': function (router) {
       // setup app and urlFor helper
-      var app = new MockLocomotive();
+      var app = new MockMaglev();
       app._routes['AlbumsController#show'] = new Route('get', '/bands/:band_id/albums/:id');
       var req = new MockRequest();
       req.headers = { 'host': 'www.example.com' };
-      req._locomotive = {};
-      req._locomotive.app = app;
+      req._maglev = {};
+      req._maglev.app = app;
       var res = new MockResponse();
       
       var context = {};

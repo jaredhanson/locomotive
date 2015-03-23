@@ -12,7 +12,7 @@ describe('helpers/route/pattern', function() {
       var pathHelper;
     
       before(function(done) {
-        chai.locomotive.helper(patternHelper.path('/songs'), 'test', 'show')
+        chai.maglev.helper(patternHelper.path('/songs'), 'test', 'show')
           .req(function(req) {
             req.headers.host = 'www.example.com';
           })
@@ -32,7 +32,7 @@ describe('helpers/route/pattern', function() {
       var pathHelper;
     
       before(function(done) {
-        chai.locomotive.helper(patternHelper.path('/songs/:id'), 'test', 'show')
+        chai.maglev.helper(patternHelper.path('/songs/:id'), 'test', 'show')
           .req(function(req) {
             req.headers.host = 'www.example.com';
           })
@@ -65,7 +65,7 @@ describe('helpers/route/pattern', function() {
       var pathHelper;
     
       before(function(done) {
-        chai.locomotive.helper(patternHelper.path('/songs/:id.:format?'), 'test', 'show')
+        chai.maglev.helper(patternHelper.path('/songs/:id.:format?'), 'test', 'show')
           .req(function(req) {
             req.headers.host = 'www.example.com';
           })
@@ -85,7 +85,7 @@ describe('helpers/route/pattern', function() {
       var pathHelper;
     
       before(function(done) {
-        chai.locomotive.helper(patternHelper.path('/bands/:band_id/albums/:id'), 'test', 'show')
+        chai.maglev.helper(patternHelper.path('/bands/:band_id/albums/:id'), 'test', 'show')
           .req(function(req) {
             req.headers.host = 'www.example.com';
           })
@@ -127,7 +127,7 @@ describe('helpers/route/pattern', function() {
       var urlHelper;
     
       before(function(done) {
-        chai.locomotive.dynamicHelper(patternHelper.url('/songs', 'songs'), 'test', 'show')
+        chai.maglev.dynamicHelper(patternHelper.url('/songs', 'songs'), 'test', 'show')
           .app(function(app) {
             app.helper('songsPath', patternHelper.path('/songs'));
           }).req(function(req) {
@@ -149,7 +149,7 @@ describe('helpers/route/pattern', function() {
       var urlHelper;
     
       before(function(done) {
-        chai.locomotive.dynamicHelper(patternHelper.url('/songs/:id', 'song'), 'test', 'show')
+        chai.maglev.dynamicHelper(patternHelper.url('/songs/:id', 'song'), 'test', 'show')
           .app(function(app) {
             app.helper('songPath', patternHelper.path('/songs/:id'));
           }).req(function(req) {
@@ -184,7 +184,7 @@ describe('helpers/route/pattern', function() {
       var urlHelper;
     
       before(function(done) {
-        chai.locomotive.dynamicHelper(patternHelper.url('/bands/:band_id/albums/:id', 'bandAlbum'), 'test', 'show')
+        chai.maglev.dynamicHelper(patternHelper.url('/bands/:band_id/albums/:id', 'bandAlbum'), 'test', 'show')
           .app(function(app) {
             app.helper('bandAlbumPath', patternHelper.path('/bands/:band_id/albums/:id'));
           }).req(function(req) {

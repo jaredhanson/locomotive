@@ -12,7 +12,7 @@ describe('helpers/dynamic/url', function() {
       var urlFor;
     
       before(function(done) {
-        chai.locomotive.dynamicHelper(helpers.urlFor, 'test', 'show')
+        chai.maglev.dynamicHelper(helpers.urlFor, 'test', 'show')
           .app(function(app) {
             app.route('/test', 'test', 'index');
             app.route('/animals/:id', 'animals', 'show');
@@ -96,7 +96,7 @@ describe('helpers/dynamic/url', function() {
       var urlFor;
     
       before(function(done) {
-        chai.locomotive.dynamicHelper(helpers.urlFor, 'test', 'show')
+        chai.maglev.dynamicHelper(helpers.urlFor, 'test', 'show')
           .app(function(app) {
             app.route('/test', 'test', 'index');
             app.route('/animals/:id', 'animals', 'show');
@@ -134,7 +134,7 @@ describe('helpers/dynamic/url', function() {
       var urlFor;
     
       before(function(done) {
-        chai.locomotive.dynamicHelper(helpers.urlFor, 'test', 'show')
+        chai.maglev.dynamicHelper(helpers.urlFor, 'test', 'show')
           .app(function(app) {
             app.route('/test', 'test', 'index');
             app.route('/animals/:id', 'animals', 'show');
