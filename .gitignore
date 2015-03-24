@@ -7,3 +7,8 @@ npm-debug.log
 
 # Mac OS X
 .DS_Store
+
+# Editors
+.idea/
+*.sublime-project
+*.sublime-workspace
