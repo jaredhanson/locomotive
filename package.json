@@ -1,26 +1,24 @@
 {
   "name": "maglev",
   "version": "0.4.6",
-  "description": "Powerful MVC web framework for Node.js.",
+  "description": "Fast and frictionless MVC web framework for Node.js.",
   "keywords": [
     "express",
     "connect",
     "web",
-    "mvc",
-    "rails"
+    "mvc"
   ],
   "author": {
     "name": "Jared Hanson",
     "email": "jaredhanson@gmail.com",
     "url": "http://www.jaredhanson.net/"
   },
-  "homepage": "http://locomotivejs.org/",
   "repository": {
     "type": "git",
-    "url": "git://github.com/jaredhanson/locomotive.git"
+    "url": "git://github.com/viadeo/maglev.git"
   },
   "bugs": {
-    "url": "http://github.com/jaredhanson/locomotive/issues"
+    "url": "http://github.com/viadeo/maglev/issues"
   },
   "licenses": [
     {
