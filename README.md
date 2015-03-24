@@ -1,9 +1,9 @@
 # Maglev
 
-[![Build](https://travis-ci.org/jaredhanson/locomotive.png)](https://travis-ci.org/jaredhanson/locomotive)
+[![Build Status](https://circleci.com/gh/viadeo/maglev.svg?style=shield)](https://circleci.com/gh/viadeo/maglev)
 [![Coverage](https://coveralls.io/repos/jaredhanson/locomotive/badge.png)](https://coveralls.io/r/jaredhanson/locomotive)
 [![Quality](https://codeclimate.com/github/jaredhanson/locomotive.png)](https://codeclimate.com/github/jaredhanson/locomotive)
-[![Dependencies](https://david-dm.org/viadeo/maglev.png)](https://david-dm.org/viadeo/maglev)
+[![Dependencies](https://david-dm.org/viadeo/maglev.svg)](https://david-dm.org/viadeo/maglev)
 
 Maglev is a framework that brings structure and MVC patterns to web
 applications using [Node](http://nodejs.org) and [Express](http://expressjs.com/).
