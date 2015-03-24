@@ -53,7 +53,7 @@ program.command('server')
       console.log("    Verbose log messages will be written to the console when `maglev` is set");
       console.log("    in the DEBUG environment variable.");
       console.log();
-      console.log("        $ DEBUG=maglev lcm server");
+      console.log("        $ DEBUG=maglev maglev server");
       console.log();
     }
   });

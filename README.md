@@ -16,27 +16,27 @@ This repository is a GitHub fork of [jaredhanson/locomotive](https://github.com/
 
 ## Quick Start
 
-`lcm`, the command line interface to Locomotive, can be used to generate a
-starter application.  To use it, install Locomotive globally.
+`maglev`, the command line interface to Maglev, can be used to generate a
+starter application. To use it, install Maglev globally.
 
     $ npm install locomotive -g
     
 Next, create an application and install dependencies.
 
-    $ lcm create hello
+    $ maglev create hello
     $ cd hello
     $ npm install
     
 Start the server.
 
-    $ lcm server
+    $ maglev server
 
 The application is available at [localhost:3000](http://localhost:3000).
 
 Start the server with node debug mode
 
-	$ lcm server --debug (node --debug mode)
-	$ lcm server --debug-brk (node --debug-brk mode)
+	$ maglev server --debug (node --debug mode)
+	$ maglev server --debug-brk (node --debug-brk mode)
 
 Then you can use debug tools like [node-inspector](https://github.com/dannycoates/node-inspector) to debug your application as usual.
 
