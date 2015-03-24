@@ -1394,7 +1394,7 @@ describe('Controller#respond', function() {
         'application/json': { engine: 'jsonb' },
         'application/xml': { template: 'feed', engine: 'xmlb' },
         'application/vnd.acme.foo': { format: 'foo', engine: 'foob' },
-        default: { format: 'yaml', engine: 'yamlb' }
+        default: { format: 'bogus', engine: 'bogusb' }
       });
     };
     
@@ -1433,7 +1433,7 @@ describe('Controller#respond', function() {
     });
     
     it('should render view without options', function() {
-      expect(res._view).to.equal('test/respond_using_options_keyed_by_mime_type_with_default.yaml.yamlb');
+      expect(res._view).to.equal('test/respond_using_options_keyed_by_mime_type_with_default.bogus.bogusb');
       expect(res._options).to.be.an('object');
       expect(Object.keys(res._options)).to.have.length(0);
     });
