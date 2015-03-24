@@ -42,8 +42,8 @@
     "mkdirp": "0.3.x",
     "scripts": "0.1.x",
     "utils-flatten": "1.x.x",
-    "syntax-error": "0.0.1",
-    "debug": "0.7.x"
+    "syntax-error": "1.x.x",
+    "debug": "2.x.x"
   },
   "devDependencies": {
     "mocha": "1.x.x",
