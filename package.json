@@ -27,7 +27,7 @@
     }
   ],
   "bin" : {
-    "lcm" : "./bin/lcm.js"
+    "maglev" : "./bin/maglev.js"
   },
   "main": "./lib",
   "dependencies": {
