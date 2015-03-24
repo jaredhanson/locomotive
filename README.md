@@ -8,7 +8,7 @@
 Maglev is a framework that brings structure and MVC patterns to web
 applications using [Node](http://nodejs.org) and [Express](http://expressjs.com/).
 
-This repository is a GitHub fork of [jaredhanson/locomotive]((https://github.com/jaredhanson/locomotive).
+This repository is a GitHub fork of [jaredhanson/locomotive](https://github.com/jaredhanson/locomotive).
 
 ## Installation
 
