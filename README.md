@@ -1,8 +1,8 @@
 # Maglev
 
-[![Build Status](https://circleci.com/gh/viadeo/maglev.svg?style=shield)](https://circleci.com/gh/viadeo/maglev)
-[![Coverage](https://coveralls.io/repos/jaredhanson/locomotive/badge.png)](https://coveralls.io/r/jaredhanson/locomotive)
-[![Quality](https://codeclimate.com/github/jaredhanson/locomotive.png)](https://codeclimate.com/github/jaredhanson/locomotive)
+[![Build](https://circleci.com/gh/viadeo/maglev.svg?style=shield)](https://circleci.com/gh/viadeo/maglev)
+[![Coverage](https://coveralls.io/repos/viadeo/maglev/badge.svg)](https://coveralls.io/r/viadeo/maglev)
+[![Code Climate](https://codeclimate.com/github/viadeo/maglev/badges/gpa.svg)](https://codeclimate.com/github/viadeo/maglev)
 [![Dependencies](https://david-dm.org/viadeo/maglev.svg)](https://david-dm.org/viadeo/maglev)
 
 Maglev is a framework that brings structure and MVC patterns to web
