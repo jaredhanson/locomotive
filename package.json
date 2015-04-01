@@ -46,14 +46,14 @@
     "debug": "2.x.x"
   },
   "devDependencies": {
-    "mocha": "1.x.x",
-    "chai": "1.x.x",
+    "mocha": "2.x.x",
+    "chai": "2.x.x",
     "chai-connect-middleware": "0.3.x",
     "chai-maglev-helpers": "git+ssh://git@github.com:viadeo/chai-maglev-helpers.git#0.2.0",
-    "promise": "4.x.x"
+    "promise": "6.x.x"
   },
   "engines": {
-    "node": ">= 0.6.0"
+    "node": ">= 0.10.0"
   },
   "scripts": {
     "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js"
