@@ -1,18 +1,9 @@
 SOURCES ?= lib/*.js lib/**/*.js lib/cli/**/*.js lib/helpers/**/*.js lib/resolvers/**/*.js
 TESTS ?= test/*.test.js test/**/*.test.js test/helpers/**/*.test.js
 
-test: test-mocha
-test-cov: test-istanbul-mocha
 view-cov: view-istanbul-report
 lint: lint-jshint
 lint-tests: lint-tests-jshint
-
-
-# ==============================================================================
-# Node.js
-# ==============================================================================
-include support/mk/node.mk
-include support/mk/mocha.mk
 
 # ==============================================================================
 # Analysis
@@ -30,9 +21,6 @@ include support/mk/coveralls.mk
 # ==============================================================================
 submit-cov-to-coveralls: submit-istanbul-lcov-to-coveralls
 
-# Travis CI
-ci-travis: test test-cov
-
 # ==============================================================================
 # Clean
 # ==============================================================================
@@ -40,7 +28,4 @@ clean:
 	rm -rf build
 	rm -rf reports
 
-clobber: clean clobber-node
-
-
-.PHONY: test test-cov view-cov lint lint-tests submit-cov-to-coveralls ci-travis clean clobber
+.PHONY: lint lint-tests submit-cov-to-coveralls
