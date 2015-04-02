@@ -61,6 +61,7 @@
   "scripts": {
     "test": "mocha --require test/bootstrap/node 'test/**/*.test.js'",
     "coverage": "DEBUG= istanbul cover --dir ./reports/coverage _mocha -- --reporter dot --require ./test/bootstrap/node 'test/**/*.test.js'",
-    "view-coverage": "open coverage/lcov-report/index.html"
+    "view-coverage": "open coverage/lcov-report/index.html",
+    "clean": "rm -rf build; rm -rf reports; rm -rf node_modules"
   }
 }

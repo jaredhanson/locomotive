@@ -21,11 +21,4 @@ include support/mk/coveralls.mk
 # ==============================================================================
 submit-cov-to-coveralls: submit-istanbul-lcov-to-coveralls
 
-# ==============================================================================
-# Clean
-# ==============================================================================
-clean:
-	rm -rf build
-	rm -rf reports
-
 .PHONY: lint lint-tests submit-cov-to-coveralls
