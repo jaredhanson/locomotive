@@ -8,11 +8,13 @@
     "web",
     "mvc"
   ],
-  "author": {
+  "contributors": [{
+    "name": "Viadeo Team"
+  }, {
     "name": "Jared Hanson",
     "email": "jaredhanson@gmail.com",
     "url": "http://www.jaredhanson.net/"
-  },
+  }],
   "repository": {
     "type": "git",
     "url": "git://github.com/viadeo/maglev.git"
