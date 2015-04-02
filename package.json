@@ -59,7 +59,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js",
+    "test": "mocha --require test/bootstrap/node 'test/**/*.test.js'",
     "coverage": "DEBUG= istanbul cover --dir ./reports/coverage _mocha -- --reporter dot --require ./test/bootstrap/node 'test/**/*.test.js'",
     "view-coverage": "open coverage/lcov-report/index.html"
   }
