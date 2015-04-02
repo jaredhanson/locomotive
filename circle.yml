@@ -3,3 +3,8 @@ machine:
     Europe/Paris
   node:
     version: v0.10.35
+
+test:
+  post:
+    - npm run coverage
+    - npm run send-coverage
