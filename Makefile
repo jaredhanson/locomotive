@@ -13,7 +13,6 @@ lint-tests: lint-tests-jshint
 # ==============================================================================
 include support/mk/node.mk
 include support/mk/mocha.mk
-include support/mk/istanbul.mk
 
 # ==============================================================================
 # Analysis

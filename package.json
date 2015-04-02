@@ -26,8 +26,8 @@
       "url": "http://www.opensource.org/licenses/MIT"
     }
   ],
-  "bin" : {
-    "maglev" : "./bin/maglev.js"
+  "bin": {
+    "maglev": "./bin/maglev.js"
   },
   "main": "./lib",
   "dependencies": {
@@ -46,16 +46,19 @@
     "debug": "2.1.3"
   },
   "devDependencies": {
-    "mocha": "2.x.x",
     "chai": "2.x.x",
     "chai-connect-middleware": "0.3.x",
     "chai-maglev-helpers": "git+ssh://git@github.com:viadeo/chai-maglev-helpers.git#0.2.0",
+    "istanbul": "0.3.x",
+    "mocha": "2.x.x",
     "promise": "6.x.x"
   },
   "engines": {
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js"
+    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js test/helpers/**/*.test.js",
+    "coverage": "DEBUG= istanbul cover --dir ./reports/coverage _mocha -- --reporter dot --require ./test/bootstrap/node 'test/**/*.test.js'",
+    "view-coverage": "open coverage/lcov-report/index.html"
   }
 }
