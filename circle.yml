@@ -10,3 +10,7 @@ test:
   post:
     - npm run coverage
     - npm run send-coverage
+
+general:
+  artifacts:
+    - "reports"
