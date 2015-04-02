@@ -1,10 +1,5 @@
-Makefile
 README.md
-build/
-docs/
-examples/
 reports/
-support/
 test/
 
 # Node.js
@@ -20,4 +15,4 @@ npm-debug.log
 
 # Utilities
 .jshintrc
-.travis.yml
+circle.yml
