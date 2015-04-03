@@ -1,6 +1,6 @@
 {
   "name": "maglev",
-  "version": "0.4.7",
+  "version": "0.5.0",
   "description": "Fast and frictionless MVC web framework for Node.js.",
   "keywords": [
     "express",
