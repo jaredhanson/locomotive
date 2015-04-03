@@ -54,6 +54,7 @@
     "chai": "2.x.x",
     "chai-connect-middleware": "0.3.x",
     "chai-maglev-helpers": "git+ssh://git@github.com:viadeo/chai-maglev-helpers.git#0.2.0",
+    "codeclimate-test-reporter": "0.0.4",
     "coveralls": "2.x.x",
     "istanbul": "0.3.x",
     "jshint": "2.6.x",
@@ -69,7 +70,7 @@
     "lint-tests": "jshint test/",
     "coverage": "DEBUG= istanbul cover --dir ./reports/coverage _mocha -- --reporter dot --require ./test/bootstrap/node 'test/**/*.test.js'",
     "view-coverage": "open coverage/lcov-report/index.html",
-    "send-coverage": "cat ./reports/coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "send-coverage": "cat ./reports/coverage/lcov.info | ./node_modules/.bin/codeclimate",
     "clean": "rm -rf build; rm -rf reports; rm -rf node_modules"
   }
 }
