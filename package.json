@@ -55,7 +55,6 @@
     "chai-connect-middleware": "0.3.x",
     "chai-maglev-helpers": "git+ssh://git@github.com:viadeo/chai-maglev-helpers.git#0.2.0",
     "codeclimate-test-reporter": "0.0.4",
-    "coveralls": "2.x.x",
     "istanbul": "0.3.x",
     "jshint": "2.6.x",
     "mocha": "2.x.x",
