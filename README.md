@@ -1,7 +1,7 @@
 # Maglev
 
 [![Build](https://circleci.com/gh/viadeo/maglev.svg?style=shield)](https://circleci.com/gh/viadeo/maglev)
-[![Coverage](https://coveralls.io/repos/viadeo/maglev/badge.svg)](https://coveralls.io/r/viadeo/maglev)
+[![Coverage](https://codeclimate.com/github/viadeo/maglev/badges/coverage.svg)](https://codeclimate.com/github/viadeo/maglev)
 [![Code Climate](https://codeclimate.com/github/viadeo/maglev/badges/gpa.svg)](https://codeclimate.com/github/viadeo/maglev)
 [![Dependencies](https://david-dm.org/viadeo/maglev.svg)](https://david-dm.org/viadeo/maglev)
 
@@ -20,13 +20,13 @@ This repository is a GitHub fork of [jaredhanson/locomotive](https://github.com/
 starter application. To use it, install Maglev globally.
 
     $ npm install locomotive -g
-    
+
 Next, create an application and install dependencies.
 
     $ maglev create hello
     $ cd hello
     $ npm install
-    
+
 Start the server.
 
     $ maglev server
