@@ -6,7 +6,7 @@ var ds = require('../../lib/datastores/object');
 describe('datastores/object', function() {
   
   it('should return Object for instances of Object', function() {
-    var obj = new Object();
+    var obj = {};
     expect(ds.recordOf(obj)).to.equal('Object');
   });
   
