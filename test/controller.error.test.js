@@ -1,3 +1,4 @@
+/* jshint unused: false */
 /* global describe, it, before, expect */
 
 var Controller = require('../lib/controller')

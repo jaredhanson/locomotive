@@ -80,7 +80,7 @@ describe('Application', function() {
       helpers.loremIpsum = function() { return 'lorem'; };
       helpers.dolorSit = function() { return 'dolor'; };
       helpers.dynamic = {};
-      helpers.dynamic.latinPhrases = function(req, res) { return 'dynLatin'; };
+      helpers.dynamic.latinPhrases = function () { return 'dynLatin'; };
       app.helpers(helpers);
       
       expect(Object.keys(app._helpers)).to.have.length(2);
@@ -103,8 +103,8 @@ describe('Application', function() {
     
     it('should register by name', function() {
       var app = new Application();
-      app.dynamicHelper('loremIpsum', function(req, res) { return 'dynLorem'; });
-      
+      app.dynamicHelper('loremIpsum', function () { return 'dynLorem'; });
+
       expect(Object.keys(app._dynamicHelpers)).to.have.length(1);
       expect(app._dynamicHelpers.loremIpsum).to.be.an('function');
       expect(app._dynamicHelpers.loremIpsum()).to.equal('dynLorem');
@@ -115,8 +115,8 @@ describe('Application', function() {
     it('should register by object', function() {
       var app = new Application();
       var helpers = {};
-      helpers.loremIpsum = function(req, res) { return 'dynLorem'; };
-      helpers.dolorSit = function(req, res) { return 'dynDolor'; };
+      helpers.loremIpsum = function () { return 'dynLorem'; };
+      helpers.dolorSit = function () { return 'dynDolor'; };
       app.dynamicHelpers(helpers);
       
       expect(Object.keys(app._dynamicHelpers)).to.have.length(2);

@@ -812,11 +812,8 @@ describe('Controller#before', function() {
     var controller = new Controller();
     controller.order = [];
 
-    controller.before('show', function(next) {
+    controller.before('show', function () {
       this.order.push(1);
-      var data = {
-        band: 'Counting Crows'
-      };
       throw new Error('something was thrown');
     });
     controller.before('show', function(data, next) {

@@ -27,8 +27,8 @@ describe('Controller#done', function() {
     before(function(done) {
       req = new MockRequest();
       res = new MockResponse();
-      
-      controller.after('show', function(next) {
+
+      controller.after('show', function () {
         return done();
       });
       
@@ -53,7 +53,7 @@ describe('Controller#done', function() {
     controller.show = function() {
       this.done();
     };
-    controller.after('show', function(next) {
+    controller.after('show', function () {
       this.order.push(1);
       res.end();
     });

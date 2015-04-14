@@ -36,7 +36,7 @@ MockResponse.prototype.redirect = function(url, status) {
 };
 
 
-MockResponse.prototype.end = function(data, encoding) {
+MockResponse.prototype.end = function(data) {
   if (data) { this._data += data; }
   if (this._data.length) { this.body = this._data; }
   if (this._cb) { this._cb(); }

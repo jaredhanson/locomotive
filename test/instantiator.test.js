@@ -47,7 +47,7 @@ describe('Instantiator', function() {
     
     describe('that throws an exception', function() {
       var instantiator = new Instantiator();
-      instantiator.use(function(mod) {
+      instantiator.use(function () {
         throw new Error('something went horribly wrong');
       });
     
@@ -127,7 +127,7 @@ describe('Instantiator', function() {
     
     describe('that throws an excpetion', function() {
       var instantiator = new Instantiator();
-      instantiator.use(function(mod, done) {
+      instantiator.use(function () {
         throw new Error('something went horribly wrong');
       });
     
@@ -155,7 +155,7 @@ describe('Instantiator', function() {
     
     describe('the second of which instantiates, first is sync', function() {
       var instantiator = new Instantiator();
-      instantiator.use(function(mod) {
+      instantiator.use(function () {
         return;
       });
       instantiator.use(function(mod, done) {

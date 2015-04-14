@@ -41,7 +41,7 @@ describe('Resolver', function() {
   
   describe('with two mechanisms, the second of which resolves', function() {
     var resolver = new Resolver();
-    resolver.use(function(id) {
+    resolver.use(function () {
       return;
     });
     resolver.use(function(id) {

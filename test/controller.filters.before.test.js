@@ -1,3 +1,4 @@
+/* jshint unused: false */
 /* global describe, it, before, expect */
 
 var Controller = require('../lib/controller')
@@ -771,8 +772,8 @@ describe('Controller#before', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.order = [];
-    
-    controller.before('show', function(next) {
+
+    controller.before('show', function() {
       this.order.push(1);
       this.band = 'Counting Crows';
       throw new Error('something was thrown');
@@ -951,7 +952,7 @@ describe('Controller#before', function() {
       this.band = 'Counting Crows';
       next();
     });
-    controller.before('show', function(req, res, next) {
+    controller.before('show', function () {
       this.order.push(2);
       this.album = 'August and Everything After';
       throw new Error('something was thrown');

@@ -1,3 +1,4 @@
+/* jshint unused: false */
 /* global describe, it, before, expect */
 
 var Controller = require('../lib/controller')
@@ -41,8 +42,8 @@ describe('Controller#after', function() {
     before(function(done) {
       req = new MockRequest();
       res = new MockResponse();
-      
-      controller.after('show', function(next) {
+
+      controller.after('show', function () {
         return done();
       });
       
@@ -105,8 +106,8 @@ describe('Controller#after', function() {
     before(function(done) {
       req = new MockRequest();
       res = new MockResponse();
-      
-      controller.after('show', function(next) {
+
+      controller.after('show', function () {
         return done();
       });
       
@@ -177,8 +178,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('theDoors', function(next) {
+
+        controller.after('theDoors', function () {
           return done();
         });
       
@@ -217,8 +218,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('strangeDays', function(next) {
+
+        controller.after('strangeDays', function () {
           return done();
         });
       
@@ -257,8 +258,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('index', function(next) {
+
+        controller.after('index', function () {
           return done();
         });
       
@@ -328,8 +329,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('theDoors', function(next) {
+
+        controller.after('theDoors', function () {
           return done();
         });
       
@@ -368,8 +369,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('strangeDays', function(next) {
+
+        controller.after('strangeDays', function () {
           return done();
         });
       
@@ -408,8 +409,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('index', function(next) {
+
+        controller.after('index', function () {
           return done();
         });
       
@@ -480,8 +481,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('theDoors', function(next) {
+
+        controller.after('theDoors', function () {
           return done();
         });
       
@@ -520,8 +521,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('strangeDays', function(next) {
+
+        controller.after('strangeDays', function () {
           return done();
         });
       
@@ -560,8 +561,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('index', function(next) {
+
+        controller.after('index', function () {
           return done();
         });
       
@@ -632,8 +633,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('theDoors', function(next) {
+
+        controller.after('theDoors', function () {
           return done();
         });
       
@@ -672,8 +673,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('strangeDays', function(next) {
+
+        controller.after('strangeDays', function () {
           return done();
         });
       
@@ -712,8 +713,8 @@ describe('Controller#after', function() {
       before(function(done) {
         req = new MockRequest();
         res = new MockResponse();
-      
-        controller.after('index', function(next) {
+
+        controller.after('index', function () {
           return done();
         });
       
@@ -819,7 +820,7 @@ describe('Controller#after', function() {
       this.song = 'Mr. Jones';
       this.render();
     };
-    controller.after('show', function(next) {
+    controller.after('show', function () {
       this.order.push(1);
       throw new Error('something was thrown');
     });
@@ -881,7 +882,7 @@ describe('Controller#after', function() {
       this.order.push('a');
       this.error(new Error('something went wrong'));
     };
-    controller.after('show', function(next) {
+    controller.after('show', function () {
       this.order.push(1);
     });
     controller.after('show', function(next) {
@@ -933,7 +934,7 @@ describe('Controller#after', function() {
       this.order.push('a');
       throw new Error('something was thrown');
     };
-    controller.after('show', function(next) {
+    controller.after('show', function () {
       this.order.push(1);
     });
     controller.after('show', function(next) {
@@ -1003,8 +1004,8 @@ describe('Controller#after', function() {
     before(function(done) {
       req = new MockRequest();
       res = new MockResponse();
-      
-      controller.after('show', function(next) {
+
+      controller.after('show', function () {
         return done();
       });
       
@@ -1059,8 +1060,8 @@ describe('Controller#after', function() {
     before(function(done) {
       req = new MockRequest();
       res = new MockResponse();
-      
-      controller.after('show', function(next) {
+
+      controller.after('show', function () {
         return done();
       });
       
@@ -1177,7 +1178,7 @@ describe('Controller#after', function() {
       this.order.push(1);
       next();
     });
-    controller.after('show', function(req, res, next) {
+    controller.after('show', function () {
       this.order.push(2);
       throw new Error('something was thrown');
     });
@@ -1254,8 +1255,8 @@ describe('Controller#after', function() {
     before(function(done) {
       req = new MockRequest();
       res = new MockResponse();
-      
-      controller.after('show', function(next) {
+
+      controller.after('show', function () {
         return done();
       });
       
@@ -1311,7 +1312,7 @@ describe('Controller#after', function() {
       req = new MockRequest();
       res = new MockResponse();
 
-      controller.after('show', function(next) {
+      controller.after('show', function () {
         return done();
       });
 

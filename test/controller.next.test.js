@@ -1,3 +1,4 @@
+/* jshint unused: false */
 /* global describe, it, before, expect */
 
 var Controller = require('../lib/controller')
@@ -83,7 +84,7 @@ describe('Controller#next', function() {
     controller.redirectWithUrl = function() {
       this.next();
     };
-    controller.after('redirectWithUrl', function(next) {
+    controller.after('redirectWithUrl', function () {
       this.order.push(1);
       res.end();
     });

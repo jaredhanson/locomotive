@@ -49,7 +49,7 @@ NextController.prototype._prepare = function(req, res, next) {
   this.next = next;
 };
 
-NextController.prototype._invoke = function(action) {
+NextController.prototype._invoke = function () {
   this.next();
 };
 
@@ -67,7 +67,7 @@ ErrorController.prototype._prepare = function(req, res, next) {
   this.next = next;
 };
 
-ErrorController.prototype._invoke = function(action) {
+ErrorController.prototype._invoke = function () {
   this.next(new Error('something went horribly wrong'));
 };
 

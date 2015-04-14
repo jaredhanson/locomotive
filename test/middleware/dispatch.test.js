@@ -50,7 +50,7 @@ NextController.prototype._prepare = function(req, res, next) {
   this.next = next;
 };
 
-NextController.prototype._invoke = function(action) {
+NextController.prototype._invoke = function () {
   this.next();
 };
 
