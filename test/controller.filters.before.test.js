@@ -1019,7 +1019,6 @@ describe('Controller#before', function() {
     controller.before('show', function(a, b, c, d) {  // unsupported arity
       this.order.push(2);
       this.album = 'August and Everything After';
-      next();
     });
     controller.show = function() {
       this.order.push('a');
