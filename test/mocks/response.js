@@ -27,7 +27,7 @@ MockResponse.prototype.render = function(view, options, fn) {
   this._options = options;
   if (fn) { return fn(); }
   this.end();
-}
+};
 
 MockResponse.prototype.redirect = function(url, status) {
   this.statusCode = status || 302;

@@ -14,8 +14,8 @@ function MockMaglev() {
   this._routes.find = function(controller, action) {
     var key = controller + '#' + action;
     return self._routes[key];
-  }
-  
+  };
+
   this._helpers = {};
   this._dynamicHelpers = {};
 }
@@ -31,7 +31,7 @@ MockMaglev.prototype.helpers = function(obj, fn) {
   for (var method in obj) {
     this._helpers[method] = obj[method];
   }
-}
+};
 
 MockMaglev.prototype.dynamicHelper = 
 MockMaglev.prototype.dynamicHelpers = function(obj, fn) {
@@ -44,7 +44,7 @@ MockMaglev.prototype.dynamicHelpers = function(obj, fn) {
   for (var method in obj) {
     this._dynamicHelpers[method] = obj[method];
   }
-}
+};
 
 /* MockExpress */
 
@@ -54,19 +54,19 @@ function MockExpress() {
 
 MockExpress.prototype.get = function(path, fn) {
   this._routes.push({ method: 'GET', path: path, fn: fn });
-}
+};
 
 MockExpress.prototype.post = function(path, fn) {
   this._routes.push({ method: 'POST', path: path, fn: fn });
-}
+};
 
 MockExpress.prototype.put = function(path, fn) {
   this._routes.push({ method: 'PUT', path: path, fn: fn });
-}
+};
 
 MockExpress.prototype.del = function(path, fn) {
   this._routes.push({ method: 'DELETE', path: path, fn: fn });
-}
+};
 
 /* MockRequest */
 

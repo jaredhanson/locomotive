@@ -10,7 +10,7 @@ function MockApplication() {
 
 MockApplication.prototype.format = function(fmt, options) {
   this._formats[fmt] = options;
-}
+};
 
 MockApplication.prototype._controller = function(id, cb) {
   var ctrl = this._controllers[id];
@@ -18,7 +18,7 @@ MockApplication.prototype._controller = function(id, cb) {
     return cb(new Error('Unable to create controller "' + id + '"'));
   }
   return cb(null, ctrl);
-}
+};
 
 
 module.exports = MockApplication;
