@@ -9,11 +9,11 @@ function MockApplication() {
 }
 
 MockApplication.prototype._controller = function(id, cb) {
-  var ctrl = this._controllers[id];
-  if (!ctrl) {
+  var Ctrl = this._controllers[id];
+  if (!Ctrl) {
     return cb(new Error('Unable to create controller "' + id + '"'));
   }
-  return cb(null, new ctrl());
+  return cb(null, new Ctrl());
 };
 
 
