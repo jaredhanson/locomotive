@@ -13,7 +13,7 @@ describe('Application', function() {
       expect(Object.keys(app._formats)).to.have.length(1);
       expect(app._formats.json).to.be.an('object');
       expect(app._formats.json.engine).to.equal('jsonb');
-      expect(app._formats.json.extension).to.be.undefined;
+      expect(app._formats.json.extension).to.be.an('undefined');
     });
     
     it('should register format to engine as option', function() {
@@ -21,7 +21,7 @@ describe('Application', function() {
       expect(Object.keys(app._formats)).to.have.length(2);
       expect(app._formats.xml).to.be.an('object');
       expect(app._formats.xml.engine).to.equal('xmlb');
-      expect(app._formats.xml.extension).to.be.undefined;
+      expect(app._formats.xml.extension).to.be.an('undefined');
     });
     
     it('should register format to explicit extension as option', function() {
@@ -29,7 +29,7 @@ describe('Application', function() {
       expect(Object.keys(app._formats)).to.have.length(3);
       expect(app._formats.html).to.be.an('object');
       expect(app._formats.html.extension).to.equal('.jade');
-      expect(app._formats.html.engine).to.be.undefined;
+      expect(app._formats.html.engine).to.be.an('undefined');
     });
     
     it('should register type to engine as option', function() {
@@ -37,7 +37,7 @@ describe('Application', function() {
       expect(Object.keys(app._formats)).to.have.length(4);
       expect(app._formats.txt).to.be.an('object');
       expect(app._formats.txt.engine).to.equal('txtb');
-      expect(app._formats.txt.extension).to.be.undefined;
+      expect(app._formats.txt.extension).to.be.an('undefined');
     });
   });
   

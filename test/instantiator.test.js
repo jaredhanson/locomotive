@@ -66,7 +66,7 @@ describe('Instantiator', function() {
         expect(error.message).to.equal('something went horribly wrong');
       });
       it('should not instantiate', function() {
-        expect(instance).to.be.undefined;
+        expect(instance).to.be.an('undefined');
       });
     });
   });
@@ -121,7 +121,7 @@ describe('Instantiator', function() {
         expect(error.message).to.equal('something went wrong');
       });
       it('should not instantiate', function() {
-        expect(instance).to.be.undefined;
+        expect(instance).to.be.an('undefined');
       });
     });
     
@@ -146,7 +146,7 @@ describe('Instantiator', function() {
         expect(error.message).to.equal('something went horribly wrong');
       });
       it('should not instantiate', function() {
-        expect(instance).to.be.undefined;
+        expect(instance).to.be.an('undefined');
       });
     });
   });
@@ -245,7 +245,7 @@ describe('Instantiator', function() {
         expect(error.message).to.equal('something went wrong');
       });
       it('should instantiate', function() {
-        expect(instance).to.be.undefined;
+        expect(instance).to.be.an('undefined');
       });
     });
   });

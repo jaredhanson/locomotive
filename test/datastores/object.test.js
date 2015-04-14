@@ -17,11 +17,11 @@ describe('datastores/object', function() {
   });
   
   it('should return undefined for number primitives', function() {
-    expect(ds.recordOf(1234)).to.be.undefined;
+    expect(ds.recordOf(1234)).to.be.an('undefined');
   });
   
   it('should return undefined for string primitives', function() {
-    expect(ds.recordOf('string')).to.be.undefined;
+    expect(ds.recordOf('string')).to.be.an('undefined');
   });
     
 });

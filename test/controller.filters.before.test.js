@@ -758,8 +758,8 @@ describe('Controller#before', function() {
     });
     
     it('should not render view', function() {
-      expect(res._view).to.be.undefined;
-      expect(res._options).to.be.undefined;
+      expect(res._view).to.be.an('undefined');
+      expect(res._options).to.be.an('undefined');
     });
     
     it('should not assign locals', function() {
@@ -816,8 +816,8 @@ describe('Controller#before', function() {
     });
     
     it('should not render view', function() {
-      expect(res._view).to.be.undefined;
-      expect(res._options).to.be.undefined;
+      expect(res._view).to.be.an('undefined');
+      expect(res._options).to.be.an('undefined');
     });
     
     it('should not assign locals', function() {
@@ -932,8 +932,8 @@ describe('Controller#before', function() {
     });
     
     it('should not render view', function() {
-      expect(res._view).to.be.undefined;
-      expect(res._options).to.be.undefined;
+      expect(res._view).to.be.an('undefined');
+      expect(res._options).to.be.an('undefined');
     });
     
     it('should not assign locals', function() {
@@ -996,8 +996,8 @@ describe('Controller#before', function() {
     });
     
     it('should not render view', function() {
-      expect(res._view).to.be.undefined;
-      expect(res._options).to.be.undefined;
+      expect(res._view).to.be.an('undefined');
+      expect(res._options).to.be.an('undefined');
     });
     
     it('should not assign locals', function() {

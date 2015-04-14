@@ -116,7 +116,7 @@ describe('middleware/dispatch', function() {
     });
     
     it('should call next without error', function() {
-      expect(error).to.be.undefined;
+      expect(error).to.be.an('undefined');
     });
   });
   

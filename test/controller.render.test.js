@@ -521,7 +521,7 @@ describe('Controller#render', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.undefined;
+      expect(res.getHeader('Content-Type')).to.be.an('undefined');
     });
     
     it('should render view without options', function() {
@@ -562,7 +562,7 @@ describe('Controller#render', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.undefined;
+      expect(res.getHeader('Content-Type')).to.be.an('undefined');
     });
     
     it('should render view without options', function() {
@@ -603,7 +603,7 @@ describe('Controller#render', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.undefined;
+      expect(res.getHeader('Content-Type')).to.be.an('undefined');
     });
     
     it('should render view with options', function() {

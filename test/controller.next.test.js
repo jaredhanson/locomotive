@@ -34,7 +34,7 @@ describe('Controller#next', function() {
     });
     
     it('should next without error', function() {
-      expect(error).to.be.undefined;
+      expect(error).to.be.an('undefined');
     });
   });
   
@@ -68,7 +68,7 @@ describe('Controller#next', function() {
     });
     
     it('should next without error', function() {
-      expect(error).to.be.undefined;
+      expect(error).to.be.an('undefined');
     });
     it('should apply after filters', function() {
       expect(controller.order).to.have.length(1);

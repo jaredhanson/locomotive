@@ -160,7 +160,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not negotiate content type', function() {
-      expect(types).to.be.undefined;
+      expect(types).to.be.an('undefined');
     });
     
     it('should set content-type header', function() {
@@ -222,7 +222,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.undefined;
+      expect(res.getHeader('Content-Type')).to.be.an('undefined');
     });
     
     it('should set vary header', function() {
@@ -389,7 +389,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not negotiate content type', function() {
-      expect(types).to.be.undefined;
+      expect(types).to.be.an('undefined');
     });
     
     it('should set content-type header', function() {
@@ -502,7 +502,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not negotiate content type', function() {
-      expect(types).to.be.undefined;
+      expect(types).to.be.an('undefined');
     });
     
     it('should set content-type header', function() {
@@ -672,7 +672,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not negotiate content type', function() {
-      expect(types).to.be.undefined;
+      expect(types).to.be.an('undefined');
     });
     
     it('should set content-type header', function() {
@@ -734,7 +734,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.undefined;
+      expect(res.getHeader('Content-Type')).to.be.an('undefined');
     });
     
     it('should set vary header', function() {
@@ -901,7 +901,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not negotiate content type', function() {
-      expect(types).to.be.undefined;
+      expect(types).to.be.an('undefined');
     });
     
     it('should set content-type header', function() {
@@ -1014,7 +1014,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not negotiate content type', function() {
-      expect(types).to.be.undefined;
+      expect(types).to.be.an('undefined');
     });
     
     it('should set content-type header', function() {
@@ -1251,7 +1251,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.undefined;
+      expect(res.getHeader('Content-Type')).to.be.an('undefined');
     });
     
     it('should set vary header', function() {
@@ -1595,7 +1595,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not negotiate content type', function() {
-      expect(types).to.be.undefined;
+      expect(types).to.be.an('undefined');
     });
     
     it('should set content-type header', function() {
@@ -1709,7 +1709,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not negotiate content type', function() {
-      expect(types).to.be.undefined;
+      expect(types).to.be.an('undefined');
     });
     
     it('should set content-type header', function() {
@@ -1946,7 +1946,7 @@ describe('Controller#respond', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.undefined;
+      expect(res.getHeader('Content-Type')).to.be.an('undefined');
     });
     
     it('should set vary header', function() {

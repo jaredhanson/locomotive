@@ -143,7 +143,7 @@ describe('Controller#before', function() {
       expect(res.locals.band).to.equal('Counting Crows');
       expect(res.locals.album).to.equal('August and Everything After');
       expect(res.locals.song).to.equal('Mr. Jones');
-      expect(res.locals.store).to.be.undefined;
+      expect(res.locals.store).to.be.an('undefined');
     });
   });
   
@@ -797,8 +797,8 @@ describe('Controller#before', function() {
     });
 
     it('should not render view', function() {
-      expect(res._view).to.be.undefined;
-      expect(res._options).to.be.undefined;
+      expect(res._view).to.be.an('undefined');
+      expect(res._options).to.be.an('undefined');
     });
 
     it('should not assign locals', function() {
@@ -856,8 +856,8 @@ describe('Controller#before', function() {
     });
 
     it('should not render view', function() {
-      expect(res._view).to.be.undefined;
-      expect(res._options).to.be.undefined;
+      expect(res._view).to.be.an('undefined');
+      expect(res._options).to.be.an('undefined');
     });
 
     it('should not assign locals', function() {

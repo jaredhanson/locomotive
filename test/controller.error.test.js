@@ -120,7 +120,7 @@ describe('Controller#error', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.causeTypeError = function() {
-      this.lol.wat;
+      this.lol.wat();
     };
     
     var req, res, error;
@@ -183,7 +183,7 @@ describe('Controller#error', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.causeTypeError = function() {
-      this.lol.wat;
+      this.lol.wat();
     };
     controller.after('index', function(next) {
       return next();
