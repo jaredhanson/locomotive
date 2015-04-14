@@ -13,8 +13,8 @@ describe('Controller#invoke', function() {
   describe('with shorthand notation', function() {
     var app = new MockApplication();
     var otherController = new MockController();
-    app._controllers['lorem'] = otherController;
-    
+    app._controllers.lorem = otherController;
+
     var controller = new Controller();
     controller.withShorthandNotation = function() {
       this.invoke('lorem#ipsum');
@@ -48,8 +48,8 @@ describe('Controller#invoke', function() {
   describe('with action', function() {
     var app = new MockApplication();
     var otherController = new MockController();
-    app._controllers['test'] = otherController;
-    
+    app._controllers.test = otherController;
+
     var controller = new Controller();
     controller.withAction = function() {
       this.invoke('show');
@@ -83,8 +83,8 @@ describe('Controller#invoke', function() {
   describe('with controller and action', function() {
     var app = new MockApplication();
     var otherController = new MockController();
-    app._controllers['other'] = otherController;
-    
+    app._controllers.other = otherController;
+
     var controller = new Controller();
     controller.withControllerAndAction = function() {
       this.invoke('other', 'show');
@@ -293,8 +293,8 @@ describe('Controller#invoke', function() {
   describe('with controller and action from controller that has after filter', function() {
     var app = new MockApplication();
     var otherController = new MockController();
-    app._controllers['other'] = otherController;
-    
+    app._controllers.other = otherController;
+
     var controller = new Controller();
     controller.order = [];
     

@@ -68,7 +68,7 @@ describe('middleware/dispatch', function() {
     
     var app = new MockApplication()
       , controller = new ReqResController();
-    app._controllers['robots'] = controller;
+    app._controllers.robots = controller;
 
     before(function(done) {
       chai.connect.use(dispatch(app, 'robots', 'beepBoop'))
@@ -99,7 +99,7 @@ describe('middleware/dispatch', function() {
     
     var app = new MockApplication()
       , controller = new NextController();
-    app._controllers['robots'] = controller;
+    app._controllers.robots = controller;
 
     before(function(done) {
       chai.connect.use(dispatch(app, 'robots', 'beepBoop'))

@@ -11,33 +11,33 @@ describe('Application', function() {
     it('should register format to engine as string argument', function() {
       app.format('json', 'jsonb');
       expect(Object.keys(app._formats)).to.have.length(1);
-      expect(app._formats['json']).to.be.an('object');
-      expect(app._formats['json'].engine).to.equal('jsonb');
-      expect(app._formats['json'].extension).to.be.undefined;
+      expect(app._formats.json).to.be.an('object');
+      expect(app._formats.json.engine).to.equal('jsonb');
+      expect(app._formats.json.extension).to.be.undefined;
     });
     
     it('should register format to engine as option', function() {
       app.format('xml', { engine: 'xmlb' });
       expect(Object.keys(app._formats)).to.have.length(2);
-      expect(app._formats['xml']).to.be.an('object');
-      expect(app._formats['xml'].engine).to.equal('xmlb');
-      expect(app._formats['xml'].extension).to.be.undefined;
+      expect(app._formats.xml).to.be.an('object');
+      expect(app._formats.xml.engine).to.equal('xmlb');
+      expect(app._formats.xml.extension).to.be.undefined;
     });
     
     it('should register format to explicit extension as option', function() {
       app.format('html', { extension: '.jade' });
       expect(Object.keys(app._formats)).to.have.length(3);
-      expect(app._formats['html']).to.be.an('object');
-      expect(app._formats['html'].extension).to.equal('.jade');
-      expect(app._formats['html'].engine).to.be.undefined;
+      expect(app._formats.html).to.be.an('object');
+      expect(app._formats.html.extension).to.equal('.jade');
+      expect(app._formats.html.engine).to.be.undefined;
     });
     
     it('should register type to engine as option', function() {
       app.format('text/plain', { engine: 'txtb' });
       expect(Object.keys(app._formats)).to.have.length(4);
-      expect(app._formats['txt']).to.be.an('object');
-      expect(app._formats['txt'].engine).to.equal('txtb');
-      expect(app._formats['txt'].extension).to.be.undefined;
+      expect(app._formats.txt).to.be.an('object');
+      expect(app._formats.txt.engine).to.equal('txtb');
+      expect(app._formats.txt.extension).to.be.undefined;
     });
   });
   

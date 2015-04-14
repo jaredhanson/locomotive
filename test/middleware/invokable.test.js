@@ -83,7 +83,7 @@ describe('middleware/invokable', function() {
     var test, request, response;
     
     var app = new MockApplication();
-    app._controllers['robots'] = ReqResController;
+    app._controllers.robots = ReqResController;
 
     before(function(done) {
       test = chai.connect.use(invokable(app));
@@ -175,7 +175,7 @@ describe('middleware/invokable', function() {
     var test, request, response;
     
     var app = new MockApplication();
-    app._controllers['lorem'] = ReqResController;
+    app._controllers.lorem = ReqResController;
 
     before(function(done) {
       test = chai.connect.use(invokable(app));
@@ -221,7 +221,7 @@ describe('middleware/invokable', function() {
     var test, request, response;
     
     var app = new MockApplication();
-    app._controllers['lorem'] = NextController;
+    app._controllers.lorem = NextController;
 
     before(function(done) {
       test = chai.connect.use(invokable(app));
@@ -262,7 +262,7 @@ describe('middleware/invokable', function() {
     var test, request, response;
     
     var app = new MockApplication();
-    app._controllers['lorem'] = ErrorController;
+    app._controllers.lorem = ErrorController;
 
     before(function(done) {
       test = chai.connect.use(invokable(app));
@@ -305,7 +305,7 @@ describe('middleware/invokable', function() {
     var test, request, response;
     
     var app = new MockApplication();
-    app._controllers['lorem'] = ErrorController;
+    app._controllers.lorem = ErrorController;
 
     before(function(done) {
       test = chai.connect.use(invokable(app));
