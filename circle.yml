@@ -5,8 +5,11 @@ machine:
     version: v0.10.35
 
 test:
-  post:
+  pre:
+    - npm run lint-tests
+  override:
     - npm run coverage
+  post:
     - npm run send-coverage
 
 general:

@@ -67,7 +67,7 @@
     "test": "mocha --require test/bootstrap/node 'test/**/*.test.js'",
     "lint": "jshint lib/",
     "lint-tests": "jshint test/",
-    "coverage": "DEBUG= istanbul cover --dir ./reports/coverage _mocha -- --reporter dot --require ./test/bootstrap/node 'test/**/*.test.js'",
+    "coverage": "DEBUG= istanbul cover --dir ./reports/coverage _mocha -- --require ./test/bootstrap/node 'test/**/*.test.js'",
     "view-coverage": "open coverage/lcov-report/index.html",
     "send-coverage": "cat ./reports/coverage/lcov.info | ./node_modules/.bin/codeclimate",
     "clean": "rm -rf build; rm -rf reports; rm -rf node_modules"
