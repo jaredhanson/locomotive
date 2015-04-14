@@ -11,7 +11,7 @@ function MockApplication() {
 MockApplication.prototype._controller = function(id, cb) {
   var ctrl = this._controllers[id];
   if (!ctrl) {
-    return cb(new Error("Unable to create controller '" + id + "'"));
+    return cb(new Error('Unable to create controller "' + id + '"'));
   }
   return cb(null, new ctrl());
 };

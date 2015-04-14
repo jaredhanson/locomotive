@@ -11,7 +11,7 @@ function MockApplication() {
 MockApplication.prototype._controller = function(id, cb) {
   var ctrl = this._controllers[id];
   if (!ctrl) {
-    return cb(new Error("Unable to create controller '" + id + "'"));
+    return cb(new Error('Unable to create controller "' + id + '"'));
   }
   return cb(null, ctrl);
 };
@@ -137,7 +137,7 @@ describe('middleware/dispatch', function() {
     it('should error', function() {
       expect(error).to.be.an.instanceOf(Error);
       expect(error.constructor.name).to.equal('Error');
-      expect(error.message).to.equal("Unable to create controller 'invalid'");
+      expect(error.message).to.equal('Unable to create controller "invalid"');
     });
   });
   

@@ -17,7 +17,7 @@ describe('Instantiator', function() {
     
     it('should error', function() {
       expect(error).to.be.an.instanceOf(Error);
-      expect(error.message).to.equal("Unable to instantiate 'foo'");
+      expect(error.message).to.equal('Unable to instantiate "foo"');
     });
   });
   

@@ -75,7 +75,7 @@ describe('helpers/dynamic/url', function() {
       it('should throw if unknown controller action specified', function() {
         expect(function() {
           urlFor({ controller: 'unknown', action: 'unknown' });
-        }).to.throw("No route to 'unknown#unknown'");
+        }).to.throw('No route to "unknown#unknown"');
       });
       it('should throw if routing helper unavailable for object', function() {
         expect(function() {
@@ -83,12 +83,12 @@ describe('helpers/dynamic/url', function() {
           var dog = new Dog();
         
           urlFor(dog);
-        }).to.throw("No routing helper named 'dogURL'");
+        }).to.throw('No routing helper named "dogURL"');
       });
       it('should throw if unable to determine type of record', function() {
         expect(function() {
           urlFor('unknown-record');
-        }).to.throw("Unable to determine record type of 'String'");
+        }).to.throw('Unable to determine record type of "String"');
       });
     });
     

@@ -10,7 +10,7 @@ describe('Resolver', function() {
     it('should throw when resolving', function() {
       expect(function() {
         resolver.resolve('foo');
-      }).to.throw("Unable to resolve 'foo'");
+      }).to.throw('Unable to resolve "foo"');
     });
   });
   

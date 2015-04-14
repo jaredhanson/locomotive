@@ -57,7 +57,7 @@ describe('helpers/route/pattern', function() {
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
           pathHelper();
-        }).to.throw("Incorrect number of arguments passed to route helper for /songs/:id");
+        }).to.throw('Incorrect number of arguments passed to route helper for /songs/:id');
       });
     });
     
@@ -114,7 +114,7 @@ describe('helpers/route/pattern', function() {
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
           pathHelper(7);
-        }).to.throw("Incorrect number of arguments passed to route helper for /bands/:band_id/albums/:id");
+        }).to.throw('Incorrect number of arguments passed to route helper for /bands/:band_id/albums/:id');
       });
     });
     
@@ -176,7 +176,7 @@ describe('helpers/route/pattern', function() {
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
           urlHelper();
-        }).to.throw("Incorrect number of arguments passed to route helper for /songs/:id");
+        }).to.throw('Incorrect number of arguments passed to route helper for /songs/:id');
       });
     });
     
@@ -215,7 +215,7 @@ describe('helpers/route/pattern', function() {
       it('should throw if incorrect number of arguments', function() {
         expect(function() {
           urlHelper(7);
-        }).to.throw("Incorrect number of arguments passed to route helper for /bands/:band_id/albums/:id");
+        }).to.throw('Incorrect number of arguments passed to route helper for /bands/:band_id/albums/:id');
       });
     });
     
