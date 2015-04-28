@@ -39,7 +39,7 @@
     "pkginfo": "0.3.0",
     "commander": "2.7.1",
     "co-prompt": "1.0.0",
-    "express": "3.20.2",
+    "express": "4.12.3",
     "actionrouter": "0.1.0",
     "bootable": "0.2.4",
     "bootable-environment": "0.2.0",
