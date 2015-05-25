@@ -6,7 +6,7 @@
 [![Dependencies](https://david-dm.org/viadeo/maglev.svg)](https://david-dm.org/viadeo/maglev)
 
 Maglev is a framework that brings structure and MVC patterns to web
-applications using [Node](http://nodejs.org) and [Express](http://expressjs.com/).
+applications using [Node.js](http://nodejs.org) and [Express](http://expressjs.com/).
 
 This repository is a GitHub fork of [jaredhanson/locomotive](https://github.com/jaredhanson/locomotive).
 
@@ -42,34 +42,30 @@ Then you can use debug tools like [node-inspector](https://github.com/dannycoate
 
 ## Guide
 
-The [Locomotive Guide](http://locomotivejs.org/guide/) is the official source
-for documentation, and is a handy reference to have available when developing
-web applications powered by Locomotive.
+The [Locomotive Guide](http://locomotivejs.org/guide/) remains for the time being
+the best source for documentation.
 
 ## Datastore Adapters
 
-<table>
-  <thead>
-    <tr><th>Adapter</th><th>Description</th><th>Developer</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><a href="https://github.com/jaredhanson/locomotive-mongoose">Mongoose</a></td><td>Mongoose ODM adapter.</td><td></td></tr>
-  </tbody>
-</table>
+| Adapter                                                       | Description          |
+| ------------------------------------------------------------- |:--------------------:|
+| [Mongoose](https://github.com/jaredhanson/locomotive-mongoose)| Mongoose ODM adapter |
 
 ## Tests
 
     $ npm install
-    $ make test
+    $ npm test
 
 ## Credits
 
-  - [Jared Hanson](http://github.com/jaredhanson)
+  - [Jared Hanson](http://github.com/jaredhanson) for the original [Locomotive](http://locomotivejs.org/) project
+  - [Viadeo Team](http://github.com/viadeo) for the fork named Maglev
 
 ## License
 
 (The MIT License)
 
+Copyright (c) 2015 Viadeo Team
 Copyright (c) 2011 Jared Hanson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
