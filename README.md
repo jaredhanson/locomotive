@@ -12,14 +12,14 @@ This repository is a GitHub fork of [jaredhanson/locomotive](https://github.com/
 
 ## Installation
 
-    $ npm install locomotive
+    $ npm install --save viadeo/maglev
 
 ## Quick Start
 
 `maglev`, the command line interface to Maglev, can be used to generate a
 starter application. To use it, install Maglev globally.
 
-    $ npm install locomotive -g
+    $ npm install -g viadeo/maglev
 
 Next, create an application and install dependencies.
 
@@ -66,6 +66,7 @@ the best source for documentation.
 (The MIT License)
 
 Copyright (c) 2015 Viadeo Team
+
 Copyright (c) 2011 Jared Hanson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
