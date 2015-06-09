@@ -2,7 +2,7 @@ machine:
   timezone:
     Europe/Paris
   node:
-    version: v0.10.35
+    version: v0.12.0
 
 test:
   pre:
