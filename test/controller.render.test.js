@@ -31,7 +31,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
+      expect(res.get('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
@@ -68,7 +68,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('application/html');
+      expect(res.get('Content-Type')).to.equal('application/html');
     });
     
     it('should render view without options', function() {
@@ -105,7 +105,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=US-ASCII');
+      expect(res.get('Content-Type')).to.equal('text/html; charset=US-ASCII');
     });
     
     it('should render view without options', function() {
@@ -124,7 +124,7 @@ describe('Controller#render', function() {
     var app = new MockApplication();
     var controller = new Controller();
     controller.renderWithLocals = function() {
-      this.res.setHeader('Content-Type', 'application/xhtml+xml');
+      this.res.set('Content-Type', 'application/xhtml+xml');
       this.render();
     };
     
@@ -143,7 +143,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('application/xhtml+xml');
+      expect(res.get('Content-Type')).to.equal('application/xhtml+xml');
     });
     
     it('should render view without options', function() {
@@ -182,7 +182,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
+      expect(res.get('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
@@ -221,7 +221,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('application/xml');
+      expect(res.get('Content-Type')).to.equal('application/xml');
     });
     
     it('should render view without options', function() {
@@ -258,7 +258,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('application/atom+xml');
+      expect(res.get('Content-Type')).to.equal('application/atom+xml');
     });
     
     it('should render view without options', function() {
@@ -295,7 +295,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
+      expect(res.get('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
@@ -332,7 +332,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('application/xml');
+      expect(res.get('Content-Type')).to.equal('application/xml');
     });
     
     it('should render view without options', function() {
@@ -369,7 +369,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
+      expect(res.get('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
@@ -406,7 +406,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('application/json');
+      expect(res.get('Content-Type')).to.equal('application/json');
     });
     
     it('should render view without options', function() {
@@ -443,7 +443,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('application/xml');
+      expect(res.get('Content-Type')).to.equal('application/xml');
     });
     
     it('should render view without options', function() {
@@ -480,7 +480,7 @@ describe('Controller#render', function() {
     });
     
     it('should set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.equal('text/html; charset=UTF-8');
+      expect(res.get('Content-Type')).to.equal('text/html; charset=UTF-8');
     });
     
     it('should render view without options', function() {
@@ -521,7 +521,7 @@ describe('Controller#render', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.an('undefined');
+      expect(res.get('Content-Type')).to.be.an('undefined');
     });
     
     it('should render view without options', function() {
@@ -562,7 +562,7 @@ describe('Controller#render', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.an('undefined');
+      expect(res.get('Content-Type')).to.be.an('undefined');
     });
     
     it('should render view without options', function() {
@@ -603,7 +603,7 @@ describe('Controller#render', function() {
     });
     
     it('should not set content-type header', function() {
-      expect(res.getHeader('Content-Type')).to.be.an('undefined');
+      expect(res.get('Content-Type')).to.be.an('undefined');
     });
     
     it('should render view with options', function() {

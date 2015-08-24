@@ -35,7 +35,7 @@ describe('Controller#redirect', function() {
     });
     
     it('should set location header', function() {
-      expect(res.getHeader('Location')).to.equal('/home');
+      expect(res.get('Location')).to.equal('/home');
     });
   });
   
@@ -65,7 +65,7 @@ describe('Controller#redirect', function() {
     });
     
     it('should set location header', function() {
-      expect(res.getHeader('Location')).to.equal('/home');
+      expect(res.get('Location')).to.equal('/home');
     });
   });
   
@@ -95,7 +95,7 @@ describe('Controller#redirect', function() {
     });
     
     it('should set location header', function() {
-      expect(res.getHeader('Location')).to.equal('/home');
+      expect(res.get('Location')).to.equal('/home');
     });
   });
   

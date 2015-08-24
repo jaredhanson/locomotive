@@ -14,11 +14,12 @@ function MockResponse(cb) {
 
 util.inherits(MockResponse, events.EventEmitter);
 
-MockResponse.prototype.getHeader = function(name) {
+MockResponse.prototype.get = function(name) {
   return this._headers[name];
 };
 
-MockResponse.prototype.setHeader = function(name, value) {
+MockResponse.prototype.set =
+MockResponse.prototype.header = function(name, value) {
   this._headers[name] = value;
 };
 
@@ -31,7 +32,7 @@ MockResponse.prototype.render = function(view, options, fn) {
 
 MockResponse.prototype.redirect = function(url, status) {
   this.statusCode = status || 302;
-  this.setHeader('Location', url);
+  this.set('Location', url);
   this.end();
 };
 
