@@ -4,13 +4,13 @@
 [![Coverage](https://coveralls.io/repos/jaredhanson/locomotive/badge.png)](https://coveralls.io/r/jaredhanson/locomotive)
 [![Quality](https://codeclimate.com/github/jaredhanson/locomotive.png)](https://codeclimate.com/github/jaredhanson/locomotive)
 [![Dependencies](https://david-dm.org/jaredhanson/locomotive.png)](https://david-dm.org/jaredhanson/locomotive)
-[![Tips](http://img.shields.io/gittip/jaredhanson.png)](https://www.gittip.com/jaredhanson/)
+[![Tips](https://img.shields.io/gittip/jaredhanson.png)](https://gratipay.com/~jaredhanson/)
 
 
 [http://locomotivejs.org](http://locomotivejs.org/)
 
 Locomotive is a framework that brings structure and MVC patterns to web
-applications using [Node](http://nodejs.org) and [Express](http://expressjs.com/).
+applications using [Node](https://nodejs.org/en/) and [Express](http://expressjs.com/).
 
 ## Installation
 
@@ -40,7 +40,7 @@ Start the server with node debug mode
 	$ lcm server --debug (node --debug mode)
 	$ lcm server --debug-brk (node --debug-brk mode)
 
-Then you can use debug tools like [node-inspector](https://github.com/dannycoates/node-inspector) to debug your application as usual.
+Then you can use debug tools like [node-inspector](https://github.com/node-inspector/node-inspector) to debug your application as usual.
 
 ## Guide
 
@@ -66,7 +66,7 @@ web applications powered by Locomotive.
 
 ## Credits
 
-  - [Jared Hanson](http://github.com/jaredhanson)
+  - [Jared Hanson](https://github.com/jaredhanson)
 
 ## License
 
