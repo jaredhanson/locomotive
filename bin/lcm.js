@@ -58,4 +58,12 @@ program.command('server')
     }
   });
 
+program.command('help')
+  .description('-> display possible commands')
+  .action(function(){
+    program.help();
+  });
+
 program.parse(process.argv);
+
+if (!program.args.length) program.help();
