@@ -11,3 +11,5 @@ npm-debug.log
 .idea/
 *.sublime-project
 *.sublime-workspace
+
+package-lock.json
