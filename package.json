@@ -60,12 +60,12 @@
     "node": "8.9.4"
   },
   "scripts": {
-    "test": "mocha --require test/bootstrap/node 'test/**/*.test.js'",
+    "test": "mocha --check-leaks --require test/bootstrap/node 'test/**/*.test.js'",
     "lint": "jshint lib/",
     "lint-tests": "jshint test/",
-    "coverage": "nyc cover --dir ./reports/coverage mocha --require ./test/bootstrap/node 'test/**/*.test.js'",
+    "coverage": "nyc -r lcov -r text mocha --check-leaks --require test/bootstrap/node 'test/**/*.test.js'",
     "view-coverage": "open coverage/lcov-report/index.html",
-    "send-coverage": "cat ./reports/coverage/lcov.info | ./node_modules/.bin/codeclimate",
-    "clean": "rm -rf build; rm -rf reports; rm -rf node_modules"
+    "send-coverage": "cat coverage/lcov.info | ./node_modules/.bin/codeclimate",
+    "clean": "rm -rf build; rm -rf coverage; rm -rf node_modules"
   }
 }
