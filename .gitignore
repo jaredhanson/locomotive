@@ -12,4 +12,6 @@ npm-debug.log
 *.sublime-project
 *.sublime-workspace
 
+coverage/
+.nyc_output/
 package-lock.json
